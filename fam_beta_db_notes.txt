@@ -1,0 +1,15 @@
+CREATE TABLE time_temp (
+	id INTEGER PRIMARY KEY, 
+	date TEXT, 
+	time_taken TEXT,
+	temp_f INTEGER, 
+	entry_created DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO time_temp (date, time_taken, temp_f) VALUES (
+	"2017/03/27", "8:00", 97.0
+);
+
+INSERT INTO time_temp (date, time_taken, temp_f) VALUES (
+	"2017/03/26", "8:15", 96.9
+)
