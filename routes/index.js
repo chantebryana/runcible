@@ -10,7 +10,9 @@ router.get('/', function(req, res) {
 	res.render('pages/index.ejs', {title: 'Home'});
 });
 
-
+router.get('/form', function(req, res) {
+	res.render('pages/form.ejs', {title: 'Form'});
+});
 /*
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
