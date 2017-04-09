@@ -13,3 +13,5 @@ INSERT INTO time_temp (date, time_taken, temp_f) VALUES (
 INSERT INTO time_temp (date, time_taken, temp_f) VALUES (
 	"2017/03/26", "8:15", 96.9
 )
+
+SELECT * FROM time_temp;
