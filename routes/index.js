@@ -5,15 +5,15 @@ var express = require('express');
 var app = express();
 var router = app;//express.Router();
 app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
-
+/*
 router.get('/', function(req, res) {
 	res.render('pages/index.ejs', {title: 'Home'});
 });
-
+*/
 router.get('/form', function(req, res) {
 	res.render('pages/form.ejs', {title: 'Form'});
 });
-/*
+
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
 	var sqlite3 = require('sqlite3').verbose();
@@ -24,7 +24,7 @@ router.get('/', function(req, res) {
 	});
 	db.close();
 });
-
+/*
 router.get('/form', function(req, res) {
 	res.render('pages/form', {title: 'Form'});
 });
