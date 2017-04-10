@@ -5,9 +5,6 @@ var express = require('express');
 var app = express();
 var router = app;//express.Router();
 app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
-var sqlite3 = require('sqlite3').verbose();
-var file = 'fam_beta.db';
-var db = new sqlite3.Database(file);
 /*
 router.get('/', function(req, res) {
 	res.render('pages/index.ejs', {title: 'Home'});
@@ -19,6 +16,9 @@ router.get('/form', function(req, res) {
 
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
+	var sqlite3 = require('sqlite3').verbose();
+	var file = 'fam_beta.db';
+	var db = new sqlite3.Database(file);
 	db.all('SELECT * FROM time_temp', function(err, rows) { 
 		res.render('pages', {title: 'Home', rows: rows});
 	});
