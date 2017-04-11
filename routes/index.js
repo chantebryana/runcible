@@ -28,7 +28,7 @@ router.get('/', function(req, res) {
 router.get('/form', function(req, res) {
 	res.render('pages/form', {title: 'Form'});
 });
-
+*/
 router.post('/formpost', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
@@ -38,7 +38,7 @@ router.post('/formpost', function(req, res) {
 	});
 	db.close();
 });
-*/
+
 app.listen(3000, function() {
 	console.log('Example app listening on port 3000!');
 });

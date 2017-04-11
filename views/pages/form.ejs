@@ -2,8 +2,21 @@
 <% include ../partials/metadata_template %>
 
 <main>
-	<h1>Form</h1>
-	<p>Fill out the forms!</p>
+	<div class="jumbotron">
+		<h1>Enter New Data</h1>
+		<% // https://www.w3schools.com/html/html_forms.asp %>
+		<form action='/formpost' method='post'>
+			Enter Date: <br>
+			<input type='text' name='date' autofocus><br>
+			Enter Time Taken: <br>
+			<input type='text' name='time_taken' autofocus><br>
+			Enter Temp (F): <br>
+			<input type='text' name='temp_f' autofocus><br>
+			<br>
+			<input type='submit' value='Submit'>
+		</form>
+
+	</div>
 </main>
 
 <% include ../partials/footer_template %>
