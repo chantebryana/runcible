@@ -2,7 +2,16 @@
 // https://scotch.io/tutorials/use-ejs-to-template-your-node-application
 
 var express = require('express');
+
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+
 var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+
 var router = app;//express.Router();
 app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
 /*
@@ -33,7 +42,7 @@ router.post('/formpost', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
-	db.all('INSERT INTO time_temp (date, time_taken, temp_f) VALUES(\'' + req.body['time_temp'] + '\')', function(err, rows) {
+	db.all('INSERT INTO time_temp (date, time_taken, temp_f) VALUES(\'' + req.body['date'] + '\', \'' + req.body['time_taken'] + '\', \'' + req.body['temp_f'] + '\')', function(err, rows) {
 		res.redirect('/');
 	});
 	db.close();
