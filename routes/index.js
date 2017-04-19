@@ -42,11 +42,26 @@ router.post('/formpost', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
-	db.all('INSERT INTO time_temp (date, time_taken, temp_f) VALUES(\'' + req.body['date'] + '\', \'' + req.body['time_taken'] + '\', \'' + req.body['temp_f'] + '\')', function(err, rows) {
+	db.all("INSERT INTO time_temp (date, time_taken, temp_f) VALUES( \" " + req.body["date"] + " \", \" " + req.body["time_taken"] + " \", \" " + req.body["temp_f"] + " \")", function(err, rows) {
 		res.redirect('/');
 	});
 	db.close();
 });
+
+
+router.post('/deletepost', function(req, res) {
+	var sqlite3 = require('sqlite3').verbose();
+	var file = 'fam_beta.db';
+	var db = new sqlite3.Database(file);
+	var query = "";
+	db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id"], function(err, rows) {
+		console.log("attempted to delete with ((" + query + "))");
+		res.redirect('/');
+	});
+
+	db.close();
+});
+
 
 app.listen(3000, function() {
 	console.log('Example app listening on port 3000!');

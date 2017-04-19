@@ -23,6 +23,12 @@
 					<td><%= row.time_taken %></td>
 					<td><%= row.temp_f %></td>
 					<td><%= row.entry_created %></td>
+					<td>
+						<form action='/deletepost' method='post'>
+							<input type="submit" value="Delete">
+							<input type="hidden" value= <%= "\"" + row.id + "\"" %> name="id">
+						</form>
+					</td>
 				</tr>
 			<% }); %>
 		</table>

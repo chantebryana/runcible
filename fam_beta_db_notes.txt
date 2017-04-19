@@ -15,3 +15,5 @@ INSERT INTO time_temp (date, time_taken, temp_f) VALUES (
 )
 
 SELECT * FROM time_temp;
+
+
