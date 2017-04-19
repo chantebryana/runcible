@@ -53,6 +53,11 @@ router.post('/deletepost', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
+	/*
+	function delete_verify() {
+		alert("Are you sure?");
+	};
+	*/
 	var query = "";
 	db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id"], function(err, rows) {
 		console.log("attempted to delete with ((" + query + "))");
