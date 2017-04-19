@@ -2,9 +2,11 @@
 <% include ../partials/metadata_template %>
 
 <main>
-<% function delete_verify() { %>
-<%		alert("Are you sure?"); %>
-<% }; %>
+<script> 
+function delete_verify() { 
+	alert("Are you sure?"); 
+};
+</script>
 
 <% //	<h1>Home</h1> %>
 <% //	<p>ET Phone Home!</p> %>
@@ -30,7 +32,7 @@
 					<td>
 						<form action='/deletepost' method='post'>
 							<input type="submit" value="Delete" onclick="delete_verify()">
-							<input type="hidden" value= <%= "\"" + row.id + "\"" %> name="id">
+							<input type="hidden" value= "<%= row.id %>" name="id">
 						</form>
 					</td>
 				</tr>
