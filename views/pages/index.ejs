@@ -4,7 +4,16 @@
 <main>
 <script> 
 function delete_verify() { 
-	alert("Are you sure?"); 
+	//alert("Are you sure?"); 
+	if (window.confirm("Are you sure?") ) {
+		//pass data to '/deletepost'
+		alert("You clicked OK");
+		return true;
+	} else {
+		//stay on '/' without making any changes
+		alert("Cancelled!");
+		return false;
+	};
 };
 </script>
 
@@ -13,7 +22,11 @@ function delete_verify() {
 
 	<div class="jumbotron">
 		<h1>Database Query Results</h1>
-		<p><a href="/form">Add New Entry</a></p>
+		<% // <p><a href="/form">Add New Entry</a></p> %>
+		<form action="/form" method="get">
+			<button type="submit" value="Add New Entry">Add New Entry</button>
+		</form>
+		<br>
 		<table>
 			<tr>
 				<th>ID</th>
@@ -30,8 +43,8 @@ function delete_verify() {
 					<td><%= row.temp_f %></td>
 					<td><%= row.entry_created %></td>
 					<td>
-						<form action='/deletepost' method='post'>
-							<input type="submit" value="Delete" onclick="delete_verify()">
+						<form action='/deletepost' method='post' onsubmit="return delete_verify()" >
+							<input type="submit" value="Delete" >
 							<input type="hidden" value= "<%= row.id %>" name="id">
 						</form>
 					</td>
