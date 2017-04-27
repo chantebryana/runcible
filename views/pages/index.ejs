@@ -2,20 +2,6 @@
 <% include ../partials/metadata_template %>
 
 <main>
-<script> 
-function delete_verify() { 
-	//alert("Are you sure?"); 
-	if (window.confirm("Are you sure?") ) {
-		//pass data to '/deletepost'
-		alert("You clicked OK");
-		return true;
-	} else {
-		//stay on '/' without making any changes
-		alert("Cancelled!");
-		return false;
-	};
-};
-</script>
 
 <% //	<h1>Home</h1> %>
 <% //	<p>ET Phone Home!</p> %>
@@ -43,7 +29,7 @@ function delete_verify() {
 					<td><%= row.temp_f %></td>
 					<td><%= row.entry_created %></td>
 					<td>
-						<form action='/deletepost' method='post' onsubmit="return delete_verify()" >
+						<form action='/deletepost' method='post' onsubmit="return window.confirm('Are you sure?')" >
 							<input type="submit" value="Delete" >
 							<input type="hidden" value= "<%= row.id %>" name="id">
 						</form>
