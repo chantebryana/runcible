@@ -28,7 +28,7 @@ router.get('/', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
-	db.all('SELECT * FROM time_temp', function(err, rows) { 
+	db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows) { 
 		res.render('pages', {title: 'Home', rows: rows});
 	});
 	db.close();
