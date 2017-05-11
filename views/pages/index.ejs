@@ -37,7 +37,7 @@
 						</form>
 					</td>
 					<td>
-						<form action='/formpost' method='post' onsubmit="return window.confirm('Update row number <%= row.id %>?')">
+						<form action='/form' method='get' onsubmit="return window.confirm('Update row number <%= row.id %>?')">
 							<input type='submit' value='Update'>
 							<input type='hidden' value="<%= row.id %>" name='id'>
 							<input type='hidden' value="<%= row.date %>" name='date'>
