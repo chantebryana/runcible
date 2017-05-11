@@ -23,6 +23,10 @@ router.get('/form', function(req, res) {
 	res.render('pages/form.ejs', {title: 'Form'});
 });
 
+router.get('/form_update', function(req, res) {
+	res.render('pages/form_update.ejs', {title: 'Form Update'});
+});
+
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
 	var sqlite3 = require('sqlite3').verbose();
@@ -62,6 +66,18 @@ router.post('/deletepost', function(req, res) {
 	db.close();
 });
 
+router.post('/form_post_update', function(req, res) {
+	var sqlite3 = require('sqlite3').verbose();
+	var file = 'fam_beta.db';
+	var db = new sqlite3.Database(file);
+	var query = "";
+	db.all(query="UPDATE time_temp SET date=" + req.body["date"] + ", time_taken=" + req.body["time_taken"] + ", temp_f=" + req.body["temp_f"] + " WHERE id=" + req.body["id"], function(err, rows) {
+		console.log("attempted to update with ((" + query + "))");
+		res.redirect('/');
+	});
+
+	db.close();
+});
 
 app.listen(3000, function() {
 	console.log('Example app listening on port 3000!');
