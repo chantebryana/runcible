@@ -36,6 +36,15 @@
 							<input type="hidden" value= "<%= row.id %>" name="id">
 						</form>
 					</td>
+					<td>
+						<form action='/form' method='post' onsubmit="return window.confirm('Update row number <%= row.id %>?')">
+							<input type='submit' value='Update'>
+							<input type='hidden' value="<%= row.id %>" name='id'>
+							<input type='hidden' value="<%= row.date %>" name='date'>
+							<input type='hidden' value="<%= row.time_taken %>" name='time'>
+							<input type='hidden' value="<%= row.temp_f %>" name='temp(f)'>
+						</form>
+					</td>
 				</tr>
 			<% }); %>
 		</table>
