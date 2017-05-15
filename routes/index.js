@@ -24,7 +24,16 @@ router.get('/form', function(req, res) {
 });
 
 router.get('/form_update', function(req, res) {
-	res.render('pages/form_update.ejs', {title: 'Form Update'});
+	var sqlite3 = require('sqlite3').verbose();
+	var file = 'fam_beta.db';
+	var db = new sqlite3.Database(file);
+	db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows_from_db) { 
+		res.render('pages/form_update.ejs', {title: 'Form Update', rows_to_renderer: rows_from_db});
+	});
+	db.close();
+
+
+	//res.render('pages/form_update.ejs', {title: 'Form Update', rows: rows});
 });
 
 router.get('/', function(req, res) {
@@ -32,8 +41,8 @@ router.get('/', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
-	db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows) { 
-		res.render('pages', {title: 'Home', rows: rows});
+	db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows_from_db) { 
+		res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
 	});
 	db.close();
 });
@@ -78,6 +87,19 @@ router.post('/form_post_update', function(req, res) {
 
 	db.close();
 });
+
+/*
+router.get('/', function(req, res) {
+	// http://www.w3resource.com/node.js/nodejs-sqlite.php
+	var sqlite3 = require('sqlite3').verbose();
+	var file = 'fam_beta.db';
+	var db = new sqlite3.Database(file);
+	db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows) { 
+		res.render('pages', {title: 'Home', rows: rows});
+	});
+	db.close();
+});
+*/
 
 app.listen(3000, function() {
 	console.log('Example app listening on port 3000!');
