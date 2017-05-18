@@ -99,11 +99,20 @@ INSERT INTO time_temp(date, time_taken, temp_f, new_cycle) VALUES
 ;
 
 CREATE TABLE cycles (
-	id INT PRIMARY KEY, 
+	id INTEGER PRIMARY KEY, 
+	name TEXT, 
 	begin_date TEXT, 
 	end_date TEXT,
 	entry_created DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO cycles(name, begin_date, end_date) VALUES
+	("cycle_15", "2013-05-16", "2013-06-16"), 
+	("cycle_33", "2014-10-30", "2014-11-28")
+;
+
+ALTER TABLE time_temp ADD COLUMN cycle TEXT;
+UPDATE time_temp SET cycle="cycle_33" WHERE id > 28 AND id < 59;
 
 what do I put into "cycles" table that easily labels new cycles and also makes it possible to join with "time_temp" table into the time increments that I want?
 	if the time increments were simply month-long chunks, each chunk would be titled by the month (jan, feb, mar, etc), and ... still, I'm not entirely sure how to join the two...

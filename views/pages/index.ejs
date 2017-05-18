@@ -29,7 +29,7 @@
 					<td><%= row.time_taken %></td>
 					<td><%= row.temp_f %></td>
 					<td><%= row.entry_created %></td>
-					<td><%= row.new_cycle %></td>
+					<td><%= row.cycle %></td>
 					<td>
 						<form action='/deletepost' method='post' onsubmit="return window.confirm('Delete row number <%= row.id  %>?')" >
 							<input type="submit" value="Delete" >
@@ -37,7 +37,7 @@
 						</form>
 					</td>
 					<td>
-						<form action='/form_update' method='post' onsubmit="return window.confirm('Update row number <%= row.id %>?')">
+						<form action='/form_update' method='get' onsubmit="return window.confirm('Update row number <%= row.id %>?')">
 							<input type='submit' value='Update'>
 							<input type='hidden' value="<%= row.id %>" name='id'>
 							<!-- <input type='hidden' value="<%= row.date %>" name='date'>
