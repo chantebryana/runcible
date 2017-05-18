@@ -27,7 +27,7 @@ router.get('/form_update', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
-	db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows_from_db) { 
+	db.all('SELECT * FROM time_temp', function(err, rows_from_db) { 
 		res.render('pages/form_update.ejs', {title: 'Form Update', rows_to_renderer: rows_from_db});
 	});
 	db.close();
