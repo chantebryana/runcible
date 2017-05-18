@@ -37,12 +37,12 @@
 						</form>
 					</td>
 					<td>
-						<form action='/form_update' method='get' onsubmit="return window.confirm('Update row number <%= row.id %>?')">
+						<form action='/form_update' method='post' onsubmit="return window.confirm('Update row number <%= row.id %>?')">
 							<input type='submit' value='Update'>
 							<input type='hidden' value="<%= row.id %>" name='id'>
-							<input type='hidden' value="<%= row.date %>" name='date'>
+							<!-- <input type='hidden' value="<%= row.date %>" name='date'>
 							<input type='hidden' value="<%= row.time_taken %>" name='time_taken'>
-							<input type='hidden' value="<%= row.temp_f %>" name='temp_f'>
+							<input type='hidden' value="<%= row.temp_f %>" name='temp_f'> //-->
 						</form>
 					</td>
 				</tr>
