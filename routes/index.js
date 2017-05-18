@@ -27,7 +27,9 @@ router.get('/form_update', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
-	db.all('SELECT * FROM time_temp', function(err, rows_from_db) { 
+	var query = "";
+	db.all(query='SELECT * FROM time_temp WHERE id = ' + req.body["id"], function(err, rows_from_db) { 
+		console.log("attempted to query database with __" + query + "__");
 		res.render('pages/form_update.ejs', {title: 'Form Update', rows_to_renderer: rows_from_db});
 	});
 	db.close();
@@ -35,6 +37,21 @@ router.get('/form_update', function(req, res) {
 
 	//res.render('pages/form_update.ejs', {title: 'Form Update', rows: rows});
 });
+
+/*
+router.post('/deletepost', function(req, res) {
+	var sqlite3 = require('sqlite3').verbose();
+	var file = 'fam_beta.db';
+	var db = new sqlite3.Database(file);
+	var query = "";
+	db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id"], function(err, rows) {
+		console.log("attempted to delete with ((" + query + "))");
+		res.redirect('/');
+	});
+
+	db.close();
+});
+*/
 
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
@@ -87,19 +104,6 @@ router.post('/form_post_update', function(req, res) {
 
 	db.close();
 });
-
-/*
-router.get('/', function(req, res) {
-	// http://www.w3resource.com/node.js/nodejs-sqlite.php
-	var sqlite3 = require('sqlite3').verbose();
-	var file = 'fam_beta.db';
-	var db = new sqlite3.Database(file);
-	db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows) { 
-		res.render('pages', {title: 'Home', rows: rows});
-	});
-	db.close();
-});
-*/
 
 app.listen(3000, function() {
 	console.log('Example app listening on port 3000!');
