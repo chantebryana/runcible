@@ -28,9 +28,9 @@ router.get('/form_update', function(req, res) {
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
 	var query = "";
-	db.all(query='SELECT * FROM time_temp WHERE id = ' + req.body["id"], function(err, rows_from_db) { 
+	db.all(query='SELECT * FROM time_temp WHERE id = ' + req.query.id, function(err, rows_from_db) { 
 		console.log("attempted to query database with __" + query + "__");
-		res.render('pages/form_update.ejs', {title: 'Form Update', rows_to_renderer: rows_from_db});
+		res.render('pages/form_update.ejs', {title: 'Form Update', row_to_renderer: rows_from_db[0]});
 	});
 	db.close();
 	//res.render('pages/form_update.ejs', {title: 'Form Update', rows: rows});

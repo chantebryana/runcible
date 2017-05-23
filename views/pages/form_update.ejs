@@ -3,16 +3,16 @@
 
 <main>
 	<div class="jumbotron">
-		<h1>Enter New Data</h1>
+		<h1>Update Your Data!</h1>
 		<p>
-			<% // rows_to_renderer.forEach((row)=> { %>
+			<%= row_to_renderer.id %>
 				<% // = row.id %>
 			<% // }); %>
 		</p>
 		<% // https://www.w3schools.com/html/html_forms.asp %>
 		<form action='/form_post_update' method='post'>
 			Enter Date: <br>
-			<input type='text' name='date' placeholder='YYYY-MM-DD' autofocus><br>
+			<input type='text' name='date' value = "<%= row_to_renderer.date %>" placeholder='YYYY-MM-DD' autofocus><br>
 			Enter Time Taken: <br>
 			<input type='text' name='time_taken' placeholder='HH:MM'><br>
 			Enter Temp (F): <br>
