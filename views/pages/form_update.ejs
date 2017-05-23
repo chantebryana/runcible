@@ -4,21 +4,20 @@
 <main>
 	<div class="jumbotron">
 		<h1>Update Your Data!</h1>
-		<p>
+		<p> Updating row number 
 			<%= row_to_renderer.id %>
-				<% // = row.id %>
-			<% // }); %>
 		</p>
 		<% // https://www.w3schools.com/html/html_forms.asp %>
 		<form action='/form_post_update' method='post'>
 			Enter Date: <br>
 			<input type='text' name='date' value = "<%= row_to_renderer.date %>" placeholder='YYYY-MM-DD' autofocus><br>
 			Enter Time Taken: <br>
-			<input type='text' name='time_taken' placeholder='HH:MM'><br>
+			<input type='text' name='time_taken' value = "<%= row_to_renderer.time_taken %>" placeholder='HH:MM'><br>
 			Enter Temp (F): <br>
-			<input type='text' name='temp_f' placeholder='00.0'><br>
+			<input type='text' name='temp_f' value = "<%= row_to_renderer.temp_f %>" placeholder='00.0'><br>
 			<br>
 			<input type='submit' value='Submit'>
+			<input type="hidden" value= "<%= row_to_renderer.id %>" name="id">
 		</form>
 
 	</div>

@@ -76,7 +76,7 @@ router.post('/form_post_update', function(req, res) {
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
 	var query = "";
-	db.all(query="UPDATE time_temp SET date=" + req.body["date"] + ", time_taken=" + req.body["time_taken"] + ", temp_f=" + req.body["temp_f"] + " WHERE id=" + req.body["id"], function(err, rows) {
+	db.all(query="UPDATE time_temp SET date=\"" + req.body["date"] + "\", time_taken=\"" + req.body["time_taken"] + "\", temp_f=" + req.body["temp_f"] + " WHERE id=" + req.body["id"], function(err, rows) {
 		console.log("attempted to update with ((" + query + "))");
 		res.redirect('/');
 	});
