@@ -41,9 +41,15 @@ router.get('/', function(req, res) {
 	var sqlite3 = require('sqlite3').verbose();
 	var file = 'fam_beta.db';
 	var db = new sqlite3.Database(file);
-	db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows_from_db) { 
-		res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
-	});
+	if (req.query.cycle == "1") {
+		db.all('SELECT * FROM time_temp WHERE cycle = "cycle_33" ORDER BY date', function(err, rows_from_db) { 
+			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
+		});
+	} else {
+		db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows_from_db) { 
+			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
+		});
+	};
 	db.close();
 });
 

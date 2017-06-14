@@ -116,3 +116,17 @@ UPDATE time_temp SET cycle="cycle_33" WHERE id > 28 AND id < 59;
 
 what do I put into "cycles" table that easily labels new cycles and also makes it possible to join with "time_temp" table into the time increments that I want?
 	if the time increments were simply month-long chunks, each chunk would be titled by the month (jan, feb, mar, etc), and ... still, I'm not entirely sure how to join the two...
+
+
+INSERT INTO time_temp(date, time_taken, temp_f) VALUES 
+	(" 2017-05-22 ", " 20:36 ", " 12.3 ")
+;
+
+select * from time_temp, cycles where cycle = "cycle_15" and name = xx  ????
+
+I suppose one thing I could do is title the cycle as a raw integer.  Then, in my javascript code, I could create a variable that's a number (starting with 1), and then auto-increment by one in my query each time a page is selected.  But is there a 100% sql way to page through my data based on date time frames or cycle columns??
+
+select * from time_temp where date between date1 and date2 (save each date as separate variables, which are incremented elsewhere)??????
+
+
+
