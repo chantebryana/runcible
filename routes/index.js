@@ -42,19 +42,12 @@ var find_cycle_id = function(current_id, offset, callback) {
 
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
-	var current_cycle = 4;
+	var cycle_offset = 5; //find way to set up query to find out the highest number each time
 	if (req.query.cycle) {
-		current_cycle = current_cycle + Number(req.query.cycle);
-		/*
-		if (req.query.cycle == 1) {
-			current_cycle = 3;
-		} else if (req.query.cycle == -1) {
-			current_cycle = 5;
-		}
-		*/
+		var cycle_offset = cycle_offset + Number(req.query.cycle);
 	};
-	console.log("cycle from index.ejs hyperlink: " + current_cycle);
-	find_cycle_id(null, current_cycle, function(cycle_id) {
+	console.log("cycle from index.ejs hyperlink: " + cycle_offset);
+	find_cycle_id(null, cycle_offset, function(cycle_id) {
 		//console.log("rows from db " + cycle_id);
 		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
 			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
