@@ -44,11 +44,14 @@ router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
 	var current_cycle = 4;
 	if (req.query.cycle) {
+		current_cycle = current_cycle + Number(req.query.cycle);
+		/*
 		if (req.query.cycle == 1) {
 			current_cycle = 3;
 		} else if (req.query.cycle == -1) {
 			current_cycle = 5;
 		}
+		*/
 	};
 	console.log("cycle from index.ejs hyperlink: " + current_cycle);
 	find_cycle_id(null, current_cycle, function(cycle_id) {
