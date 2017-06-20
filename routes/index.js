@@ -35,6 +35,7 @@ router.get('/form_update', function(req, res) {
 var find_cycle_id = function(current_id, offset, callback) {
 	db.all('SELECT name AS id FROM cycles ORDER BY begin_date DESC LIMIT 1', function(err, rows_from_db) { 
 //		console.log("rows from db " + rows_from_db[0].id);
+		console.log(rows_from_db); //pretty print the actual data I'm working with on the terminal, so I can better understand what's going on
 		callback(rows_from_db[0].id);
 	});
 };
