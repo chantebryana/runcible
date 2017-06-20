@@ -40,11 +40,13 @@ var find_cycle_id = function(current_id, offset, callback) {
 	});
 };
 
+var current_cycle = 5;
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
-	var cycle_offset = 5; //find way to set up query to find out the highest number each time
+	var cycle_offset = current_cycle; //find way to set up query to find out the highest number each time
 	if (req.query.cycle) {
-		var cycle_offset = cycle_offset + Number(req.query.cycle);
+		cycle_offset = cycle_offset + Number(req.query.cycle);
+		current_cycle = cycle_offset;
 	};
 	console.log("cycle from index.ejs hyperlink: " + cycle_offset);
 	find_cycle_id(null, cycle_offset, function(cycle_id) {
