@@ -42,9 +42,12 @@ var find_cycle_id = function(current_id, offset, callback) {
 
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
-	var current_cycle = req.query.cycle;
-	console.log(current_cycle);
-	find_cycle_id(null, "cycle_17", function(cycle_id) {
+	var current_cycle = "cycle_17";
+	if (req.query.cycle) {
+		current_cycle = req.query.cycle;
+	};
+	console.log("cycle from index.ejs hyperlink: " + current_cycle);
+	find_cycle_id(null, current_cycle, function(cycle_id) {
 		//console.log("rows from db " + cycle_id);
 		db.all('SELECT * FROM time_temp WHERE cycle = "' + cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
 			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
