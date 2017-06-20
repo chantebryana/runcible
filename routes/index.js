@@ -35,8 +35,6 @@ router.get('/form_update', function(req, res) {
 var find_cycle_id = function(current_id, offset, callback) {
 	db.all('SELECT name AS id FROM cycles ORDER BY begin_date DESC LIMIT 1', function(err, rows_from_db) { 
 //		console.log("rows from db " + rows_from_db[0].id);
-		console.log("is rows_from_db an array? " + Array.isArray(rows_from_db));
-		console.log("is rows_from_db an array? " + rows_from_db instanceof Array);
 		callback(rows_from_db[0].id);
 	});
 };
