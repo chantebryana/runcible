@@ -33,7 +33,7 @@ router.get('/form_update', function(req, res) {
 });
 
 var find_cycle_id = function(current_id, offset, callback) {
-	db.all('SELECT name AS id FROM cycles WHERE name ="' + offset + '" ORDER BY begin_date DESC', function(err, rows_from_db) { 
+	db.all('SELECT id FROM cycles WHERE id =' + offset + ' ORDER BY begin_date DESC', function(err, rows_from_db) { 
 //		console.log("rows from db " + rows_from_db[0].id);
 		console.log(rows_from_db);
 		callback(rows_from_db[0].id);
@@ -42,18 +42,18 @@ var find_cycle_id = function(current_id, offset, callback) {
 
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
-	var current_cycle = "cycle_17";
+	var current_cycle = 4;
 	if (req.query.cycle) {
 		if (req.query.cycle == 1) {
-			current_cycle = "cycle_16";
+			current_cycle = 3;
 		} else if (req.query.cycle == -1) {
-			current_cycle = "cycle_18";
+			current_cycle = 5;
 		}
 	};
 	console.log("cycle from index.ejs hyperlink: " + current_cycle);
 	find_cycle_id(null, current_cycle, function(cycle_id) {
 		//console.log("rows from db " + cycle_id);
-		db.all('SELECT * FROM time_temp WHERE cycle = "' + cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
+		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
 			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
 		});
 	});
