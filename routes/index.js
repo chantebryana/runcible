@@ -33,16 +33,16 @@ router.get('/form_update', function(req, res) {
 });
 
 var find_cycle_id = function(current_id, offset, callback) {
-	db.all('SELECT name AS id FROM cycles ORDER BY begin_date DESC LIMIT 1', function(err, rows_from_db) { 
+	db.all('SELECT name AS id FROM cycles WHERE name ="' + offset + '" ORDER BY begin_date DESC', function(err, rows_from_db) { 
 //		console.log("rows from db " + rows_from_db[0].id);
-		console.log(rows_from_db); //pretty print the actual data I'm working with on the terminal, so I can better understand what's going on
+		console.log(rows_from_db);
 		callback(rows_from_db[0].id);
 	});
 };
 
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
-	find_cycle_id(null, null, function(cycle_id) {
+	find_cycle_id(null, "cycle_17", function(cycle_id) {
 		//console.log("rows from db " + cycle_id);
 		db.all('SELECT * FROM time_temp WHERE cycle = "' + cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
 			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});

@@ -98,6 +98,15 @@ INSERT INTO time_temp(date, time_taken, temp_f, new_cycle) VALUES
 	("05/20/2013", "08:00", 97.7, 0)
 ;
 
+INSERT INTO time_temp(date, time_taken, temp_f, cycle) VALUES 
+	("2013-06-17", "07:45", 98.2, "cycle_16"), 
+	("2013-07-02", "07:45", 98.2, "cycle_16"), 
+	("2013-07-16", "08:00", 97.8, "cycle_17"), 
+	("2013-07-30", "07:45", 98.2, "cycle_17"), 
+	("2013-08-19", "09:00", 98.2, "cycle_18"), 
+	("2013-09-14", "08:45", 98.9, "cycle_18") 
+;
+
 CREATE TABLE cycles (
 	id INTEGER PRIMARY KEY, 
 	name TEXT, 
@@ -109,6 +118,12 @@ CREATE TABLE cycles (
 INSERT INTO cycles(name, begin_date, end_date) VALUES
 	("cycle_15", "2013-05-16", "2013-06-16"), 
 	("cycle_33", "2014-10-30", "2014-11-28")
+;
+
+INSERT INTO cycles(name, begin_date, end_date) VALUES
+	("cycle_16", "2013-06-17", "2013-07-15"), 
+	("cycle_17", "2014-07-16", "2014-08-18"), 
+	("cycle_18", "2014-08-19", "2014-09-15")
 ;
 
 ALTER TABLE time_temp ADD COLUMN cycle TEXT;
