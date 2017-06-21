@@ -9,3 +9,12 @@ var fam_db = [
 
 console.log(Array.isArray(fam_db));
 console.log(fam_db); // also tried fam_db[0] and fam_db[0].date
+
+
+'SELECT id FROM cycles WHERE id = "' + offset '"
+
+
+//finds largest in cycles table, but I don't know how to incorporate that into code yet
+sqlite> SELECT id FROM cycles ORDER BY id DESC LIMIT 1;
+5
+

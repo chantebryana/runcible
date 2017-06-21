@@ -40,7 +40,7 @@ var find_cycle_id = function(current_id, offset, callback) {
 	});
 };
 
-
+/*
 var max_cycle = function() {
 	var callback = 0;
 	db.all('SELECT id FROM cycles ORDER BY id DESC LIMIT 1', function(err, rows_from_db) { 
@@ -54,7 +54,7 @@ console.log(max_cycle());
 //var number = max_cycle();
 //console.log("number: " + number);
 //var current_cycle = max_cycle();
-
+*/
 var current_cycle = 5;
 
 
@@ -69,7 +69,7 @@ router.get('/', function(req, res) {
 	find_cycle_id(null, cycle_offset, function(cycle_id) {
 		//console.log("rows from db " + cycle_id);
 		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
-			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
+			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db, cycle_id_to_renderer: cycle_id});
 		});
 	});
 /*

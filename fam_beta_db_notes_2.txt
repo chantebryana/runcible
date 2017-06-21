@@ -1,0 +1,26 @@
+// http://www.sqlitetutorial.net/sqlite-foreign-key/
+// https://sqlite.org/foreignkeys.html
+
+CREATE TABLE IF NOT EXISTS cycles (
+	cycles_id INTEGER PRIMARY KEY, 
+	cycles_name TEXT, 
+	cycles_begin_date TEXT, 
+	cycles_end_date TEXT, 
+	cycles_entry_created DATETIME DEFAULT CURRENT_TIMESTAMP(,)
+	(cycles_last_updated DATETIME DEFAULT CURRENT_TIMESTAMP)
+);
+
+CREATE TABLE IF NOT EXISTS time_temp (
+	tt_id INTEGER PRIMARY KEY, 
+	tt_date TEXT, 
+	tt_time_taken TEXT, 
+	tt_temp_f INTEGER, 
+	tt_entry_created DATETIME DEFAULT CURRENT_TIMESTAMP,
+	(cycles_last_updated DATETIME DEFAULT CURRENT_TIMESTAMP,)
+	tt_cycle_id INTEGER, 
+		FOREIGN KEY (tt_cycle_id) REFERENCES cycles(cycles_id) ON UPDATE CASCADE
+);
+
+- should I have ON UPDATE or ON DELETE special actions? (no action, restrict, set null, set default, cascade)
+- I know I want an ON UPDATE timestamp column, but I haven't set that up via db tables nor website form functionality yet.  Should I create that now or wait till I've set that up with tables? --> I suspect I can wait on fleshing out this functionality: all of my db tables are prototypes, so no single one of them needs to be perfect.  I can always recreate and repopulate!  Given that, though, I've found some interesting info on ON UPDATE triggers: http://www.sqlitetutorial.net/sqlite-trigger/
+- populating tables: try to keep data orderly and tidy (ie in order, no gaps, etc), or does a little messy help mimick real-life scenarios?
