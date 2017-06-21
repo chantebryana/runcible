@@ -40,7 +40,23 @@ var find_cycle_id = function(current_id, offset, callback) {
 	});
 };
 
-var current_cycle = 5;
+var max_cycle = function() {
+	db.all('SELECT id FROM cycles ORDER BY id DESC LIMIT 1', function(err, rows_from_db) { 
+		//console.log(rows_from_db[0].id);
+		return rows_from_db[0].id;
+	});
+};
+//console.log("max_cycle(): " + max_cycle());
+//max_cycle();
+var current_cycle = max_cycle();
+//var current_cycle = 5;
+/*
+var cycle_func = function(cycle_var) {
+	
+	return cycle_var;
+};
+*/
+
 router.get('/', function(req, res) {
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
 	var cycle_offset = current_cycle; //find way to set up query to find out the highest number each time
