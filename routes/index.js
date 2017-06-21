@@ -42,13 +42,14 @@ var find_cycle_id = function(current_id, offset, callback) {
 
 var max_cycle = function() {
 	db.all('SELECT id FROM cycles ORDER BY id DESC LIMIT 1', function(err, rows_from_db) { 
-		//console.log(rows_from_db[0].id);
-		return rows_from_db[0].id;
+		console.log(rows_from_db[0].id);
+		return Number(rows_from_db[0].id);
 	});
 };
 //console.log("max_cycle(): " + max_cycle());
-//max_cycle();
-var current_cycle = max_cycle();
+var number = max_cycle();
+console.log("number: " + number);
+//var current_cycle = max_cycle();
 //var current_cycle = 5;
 /*
 var cycle_func = function(cycle_var) {
