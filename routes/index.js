@@ -69,7 +69,7 @@ function cycle_brackets(current_cycle_id, callback){
 
 //var current_cycle = 5;
 router.get('/', function(req, res) {
-	var current_cycle = 5;
+	var current_cycle = req.query.cycle;
 	/*
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
 	var cycle_offset = current_cycle; //find way to set up query to find out the highest number each time
