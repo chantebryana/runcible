@@ -53,7 +53,7 @@ function cycle_brackets(current_cycle_id, callback){
 		console.log(cycle_id_array);
 
 		// var current_cycle_id_index equals array index of current_cycle_id (or if there's no current_cycle_id, then it's -1 which is outside the scope of the array), then use current_cycle_id_index to math out previous_cycle_id and next_cycle_id(the math is backwards because the array is in descending order):
-		var current_cycle_id_index = -1; 
+		var current_cycle_id_index = 0; // CE: fix this 
 		for (i = 0; i < cycles_length; i++) {
 			if (cycle_id_array[i] == current_cycle_id) { 
 				current_cycle_id_index = i;
@@ -80,17 +80,31 @@ router.get('/', function(req, res) {
 	console.log("cycle from index.ejs hyperlink: " + cycle_offset);
 	*/
 	cycle_brackets(current_cycle, function(previous_cycle, next_cycle) {
-		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + current_cycle + '" ORDER BY date', function(err, rows_from_db) { 
-			res.render('pages', {
-				title: 'Home', 
-				rows_to_renderer: rows_from_db, 
-				cycle_id_to_renderer: {
-					prev: previous_cycle, 
-					curr: current_cycle, 
-					next: next_cycle
-				}
+		if (req.query.cycle) {		
+			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + current_cycle + '" ORDER BY date', function(err, rows_from_db) { 
+				res.render('pages', {
+					title: 'Home', 
+					rows_to_renderer: rows_from_db, 
+					cycle_id_to_renderer: {
+						prev: previous_cycle, 
+						curr: current_cycle, 
+						next: next_cycle
+					}
+				});
 			});
-		});
+		} else {
+			db.all('SELECT * FROM time_temp WHERE cycle_id = "2" ORDER BY date', function(err, rows_from_db) { 
+				res.render('pages', {
+					title: 'Home', 
+					rows_to_renderer: rows_from_db, 
+					cycle_id_to_renderer: {
+						prev: previous_cycle, 
+						curr: current_cycle, 
+						next: next_cycle
+					}
+				});
+			});
+		};
 	});
 });
 
