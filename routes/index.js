@@ -83,6 +83,7 @@ router.get('/', function(req, res) {
 	console.log("cycle from index.ejs hyperlink: " + cycle_offset);
 	*/
 	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, cycle_id_array) {
+		// if req.query.cycle isn't false, null, or undefined, it populates the page based on that current_cycle value; if not, then it defaults to the most recent cycle. In both cases relevant info is passed onto index.ejs via res.render:
 		if (req.query.cycle) {		
 			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + current_cycle + '" ORDER BY date', function(err, rows_from_db) { 
 				res.render('pages', {
@@ -95,7 +96,7 @@ router.get('/', function(req, res) {
 					}
 				});
 			});
-		} else { // CE: fix "2" below to something dynamic:
+		} else { 
 			db.all('SELECT * FROM time_temp WHERE cycle_id = "'+ cycle_id_array[0] +'" ORDER BY date', function(err, rows_from_db) { 
 				res.render('pages', {
 					title: 'Home', 
