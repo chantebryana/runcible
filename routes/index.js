@@ -79,7 +79,7 @@ router.get('/', function(req, res) {
 	};
 	console.log("cycle from index.ejs hyperlink: " + cycle_offset);
 	*/
-		cycle_brackets(current_cycle, function(previous_cycle, next_cycle) {
+	cycle_brackets(current_cycle, function(previous_cycle, next_cycle) {
 		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + current_cycle + '" ORDER BY date', function(err, rows_from_db) { 
 			res.render('pages', {
 				title: 'Home', 

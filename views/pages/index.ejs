@@ -5,7 +5,7 @@
 	<div class="jumbotron">
 		<h1>DB Query Results</h1>
 
-		<p><a href="./?cycle=<%= cycle_id_to_renderer %>&offset=1">Previous Cycle</a> | <a href="./?cycle=1">Next Cycle</a></p>
+		<p><a href="./?cycle=<%= cycle_id_to_renderer.prev %>">Previous Cycle</a> | <a href="./?cycle=<%= cycle_id_to_renderer.next %>">Next Cycle</a></p>
 		<form action="/form" method="get">
 			<button type="submit" value="Add New Entry">Add New Entry</button>
 		</form>
