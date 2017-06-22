@@ -40,29 +40,37 @@ var find_cycle_id = function(current_id, offset, callback) {
 	});
 };
 
-db.all('SELECT id FROM cycles ORDER BY name DESC', function(err, rows_from_db) { 
-	var cycle_id_array = []; // empty array to hold the id's (in name-order) of "cycles" table
-	var cycles_length = Object.keys(rows_from_db).length; // finds the length of the array-object returned by the sql query, and pops that into the for loop length
-	for (i = 0; i < cycles_length; i++) {
-		cycle_id_array[i] = rows_from_db[i].id; // populate cycle_id_array with index values of sql query results
-	};
-	console.log(cycle_id_array);
-
-	// var placeholder equals array index of current_cycle_id or if there's no current_cycle_id, then it's -1 which is outside the scope of the array
-	var placeholder = -1; 
-	for (i = 0; i < cycles_length; i++) {
-		if (cycle_id_array[i] == 3) { // "3" should be replaced by "cycle_id" in actual function
-			placeholder = i;
+function cycle_brackets(current_cycle_id, callback){
+	db.all('SELECT id FROM cycles ORDER BY begin_date DESC', function(err, rows_from_db) { 
+		// empty array to hold the id's (in name-order) of "cycles" table:
+		var cycle_id_array = []; 
+		// finds the length of the array-object returned by the sql query, and pops that into the for loop length:
+		var cycles_length = Object.keys(rows_from_db).length; 
+		for (i = 0; i < cycles_length; i++) {
+			// populate cycle_id_array with index values of sql query results:
+			cycle_id_array[i] = rows_from_db[i].id; 
 		};
-	};
-	console.log("placeholder: " + placeholder);
-	var previous_cycle_id = cycle_id_array[placeholder+1];
-	var next_cycle_id = cycle_id_array[placeholder-1];
-	console.log("previous: " + previous_cycle_id + ", next: " + next_cycle_id);
-});
+		console.log(cycle_id_array);
 
-var current_cycle = 5;
+		// var current_cycle_id_index equals array index of current_cycle_id (or if there's no current_cycle_id, then it's -1 which is outside the scope of the array), then use current_cycle_id_index to math out previous_cycle_id and next_cycle_id(the math is backwards because the array is in descending order):
+		var current_cycle_id_index = -1; 
+		for (i = 0; i < cycles_length; i++) {
+			if (cycle_id_array[i] == current_cycle_id) { 
+				current_cycle_id_index = i;
+			};
+		};
+		console.log("current_cycle_id_index: " + current_cycle_id_index);
+		var previous_cycle_id = cycle_id_array[current_cycle_id_index+1];
+		var next_cycle_id = cycle_id_array[current_cycle_id_index-1];
+		console.log("previous: " + previous_cycle_id + ", next: " + next_cycle_id);
+		callback(previous_cycle_id, next_cycle_id);
+	});
+};
+
+//var current_cycle = 5;
 router.get('/', function(req, res) {
+	var current_cycle = 5;
+	/*
 	// http://www.w3resource.com/node.js/nodejs-sqlite.php
 	var cycle_offset = current_cycle; //find way to set up query to find out the highest number each time
 	if (req.query.cycle) {
@@ -70,23 +78,20 @@ router.get('/', function(req, res) {
 		current_cycle = cycle_offset;
 	};
 	console.log("cycle from index.ejs hyperlink: " + cycle_offset);
-	find_cycle_id(null, cycle_offset, function(cycle_id) {
-		//console.log("rows from db " + cycle_id);
-		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
-			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db, cycle_id_to_renderer: cycle_id});
+	*/
+		cycle_brackets(current_cycle, function(previous_cycle, next_cycle) {
+		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + current_cycle + '" ORDER BY date', function(err, rows_from_db) { 
+			res.render('pages', {
+				title: 'Home', 
+				rows_to_renderer: rows_from_db, 
+				cycle_id_to_renderer: {
+					prev: previous_cycle, 
+					curr: current_cycle, 
+					next: next_cycle
+				}
+			});
 		});
 	});
-/*
-	if (req.query.cycle == "1") {
-		db.all('SELECT * FROM time_temp WHERE cycle = "cycle_33" ORDER BY date', function(err, rows_from_db) { 
-			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
-		});
-	} else {
-		db.all('SELECT * FROM time_temp ORDER BY date', function(err, rows_from_db) { 
-			res.render('pages', {title: 'Home', rows_to_renderer: rows_from_db});
-		});
-	};
-*/
 });
 
 router.post('/formpost', function(req, res) {
