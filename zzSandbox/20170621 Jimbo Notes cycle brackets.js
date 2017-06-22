@@ -6,6 +6,13 @@
 function cycle_brackets(current_cycle_id, callback){
   ...
   // talk to the database, then get or pick out the relevant cycle IDs
+	// CE: convert cycle_id's that are in db into a simply array to iterate through later in function; I could make this into its own black box I suppose...
+	db.all('SELECT id FROM cycles ORDER BY name DESC', function(err, rows_from_db) { 
+		var cycle_id_array = [];
+		for (i = 0; i < 5; i++) {  // CE: find equivelant of cycles.length for "5"
+			cycle_id_array[i] = rows_from_db[i].id;
+		};
+	});
   ...
  
   callback(previous_cycle_id, next_cycle_id);

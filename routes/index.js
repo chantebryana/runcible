@@ -41,8 +41,10 @@ var find_cycle_id = function(current_id, offset, callback) {
 };
 
 db.all('SELECT id FROM cycles ORDER BY name DESC', function(err, rows_from_db) { 
+//	console.log("object length: " + Object.keys(rows_from_db).length);
 	var cycle_id_array = [];
-	for (i = 0; i < 5; i++) {
+	var cycles_length = Object.keys(rows_from_db).length;
+	for (i = 0; i < cycles_length; i++) {
 		cycle_id_array[i] = rows_from_db[i].id;
 //		console.log(rows_from_db[i].id);
 	};
