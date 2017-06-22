@@ -56,6 +56,9 @@ db.all('SELECT id FROM cycles ORDER BY name DESC', function(err, rows_from_db) {
 		};
 	};
 	console.log("placeholder: " + placeholder);
+	var previous_cycle_id = cycle_id_array[placeholder+1];
+	var next_cycle_id = cycle_id_array[placeholder-1];
+	console.log("previous: " + previous_cycle_id + ", next: " + next_cycle_id);
 });
 
 var current_cycle = 5;
