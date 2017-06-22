@@ -2,15 +2,10 @@
 <% include ../partials/metadata_template %>
 
 <main>
-
-<% //	<h1>Home</h1> %>
-<% //	<p>ET Phone Home!</p> %>
-
 	<div class="jumbotron">
 		<h1>DB Query Results</h1>
 
 		<p><a href="./?cycle=<%= cycle_id_to_renderer %>&offset=1">Previous Cycle</a> | <a href="./?cycle=1">Next Cycle</a></p>
-		<% // <p><a href="/form">Add New Entry</a></p> %>
 		<form action="/form" method="get">
 			<button type="submit" value="Add New Entry">Add New Entry</button>
 		</form>
