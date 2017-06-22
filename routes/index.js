@@ -41,12 +41,10 @@ var find_cycle_id = function(current_id, offset, callback) {
 };
 
 db.all('SELECT id FROM cycles ORDER BY name DESC', function(err, rows_from_db) { 
-//	console.log("object length: " + Object.keys(rows_from_db).length);
-	var cycle_id_array = [];
-	var cycles_length = Object.keys(rows_from_db).length;
+	var cycle_id_array = []; // empty array to hold the id's (in name-order) of "cycles" table
+	var cycles_length = Object.keys(rows_from_db).length; // finds the length of the array-object returned by the sql query, and pops that into the for loop length
 	for (i = 0; i < cycles_length; i++) {
-		cycle_id_array[i] = rows_from_db[i].id;
-//		console.log(rows_from_db[i].id);
+		cycle_id_array[i] = rows_from_db[i].id; // populate cycle_id_array with index values of sql query results
 	};
 	console.log(cycle_id_array);
 });
