@@ -47,6 +47,15 @@ db.all('SELECT id FROM cycles ORDER BY name DESC', function(err, rows_from_db) {
 		cycle_id_array[i] = rows_from_db[i].id; // populate cycle_id_array with index values of sql query results
 	};
 	console.log(cycle_id_array);
+
+	// var placeholder equals array index of current_cycle_id or if there's no current_cycle_id, then it's -1 which is outside the scope of the array
+	var placeholder = -1; 
+	for (i = 0; i < cycles_length; i++) {
+		if (cycle_id_array[i] == 3) { // "3" should be replaced by "cycle_id" in actual function
+			placeholder = i;
+		};
+	};
+	console.log("placeholder: " + placeholder);
 });
 
 var current_cycle = 5;
