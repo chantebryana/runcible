@@ -41,4 +41,10 @@ console.log(max_cycle());
 //var current_cycle = max_cycle();
 */
 
+<% if (cycle_id_to_renderer.prev) { %>
+	<a href="./?cycle=<%= cycle_id_to_renderer.prev %>">Previous Cycle</a>
+<% } else { %>
+	<a>Previous Cycle</a>
+<% }; %>
+
 

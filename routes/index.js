@@ -63,6 +63,7 @@ function cycle_brackets(current_cycle_id, callback){
 			};
 		};
 		console.log("current_cycle_id_index: " + current_cycle_id_index);
+		// CE: perhaps put the brains here: set limits to prev/next so that they're not undefined???
 		var previous_cycle_id = cycle_id_array[current_cycle_id_index + 1];
 		var next_cycle_id = cycle_id_array[current_cycle_id_index - 1];
 		console.log("previous: " + previous_cycle_id + ", next: " + next_cycle_id);
@@ -104,7 +105,8 @@ router.get('/', function(req, res) {
 					cycle_id_to_renderer: {
 						prev: previous_cycle, 
 						curr: current_cycle, 
-						next: next_cycle
+						//next: next_cycle
+						next: null
 					}
 				});
 			});
