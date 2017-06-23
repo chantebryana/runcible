@@ -4,21 +4,19 @@
 <main>
 	<div class="jumbotron">
 		<h1>DB Query Results</h1>
-	<% // hyperlinks to move forwards and backwards through cycles, with conditions to "deactivate" hyperlinks when they reach the beginning or end of the cycle range: %>
+	<% //hyperlinks to move forwards and backwards through cycles, with conditions to "deactivate" hyperlinks when they reach the beginning or end of the cycle range: %>
 	<p>
-		<a href="./?cycle=<%= cycle_id_to_renderer.first %>">First Cycle</a> | 
 		<% if (cycle_id_to_renderer.prev) { %>
-			<a href="./?cycle=<%= cycle_id_to_renderer.prev %>">Previous Cycle</a>
+			<a href="./?cycle=<%= cycle_id_to_renderer.first %>">First Cycle</a> | <a href="./?cycle=<%= cycle_id_to_renderer.prev %>">Previous Cycle</a>
 		<% } else { %>
-			Previous Cycle
+			First Cycle | Previous Cycle
 		<% }; %>
 		| 
 		<% if (cycle_id_to_renderer.next) { %>
-			<a href="./?cycle=<%= cycle_id_to_renderer.next %>">Next Cycle</a>
+			<a href="./?cycle=<%= cycle_id_to_renderer.next %>">Next Cycle</a> | <a href="./?cycle=<%= cycle_id_to_renderer.last %>">Last Cycle</a>
 		<% } else { %>
-			Next Cycle
+			Next Cycle | Last Cycle
 		<% }; %>
-		| <a href="./?cycle=<%= cycle_id_to_renderer.last %>">Last Cycle</a>
 	</p>
 
 		<form action="/form" method="get">
