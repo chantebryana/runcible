@@ -4,8 +4,9 @@
 <main>
 	<div class="jumbotron">
 		<h1>DB Query Results</h1>
-
+	<% // hyperlinks to move forwards and backwards through cycles, with conditions to "deactivate" hyperlinks when they reach the beginning or end of the cycle range: %>
 	<p>
+		<a href="./?cycle=<%= cycle_id_to_renderer.first %>">First Cycle</a> | 
 		<% if (cycle_id_to_renderer.prev) { %>
 			<a href="./?cycle=<%= cycle_id_to_renderer.prev %>">Previous Cycle</a>
 		<% } else { %>
@@ -17,6 +18,7 @@
 		<% } else { %>
 			Next Cycle
 		<% }; %>
+		| <a href="./?cycle=<%= cycle_id_to_renderer.last %>">Last Cycle</a>
 	</p>
 
 		<form action="/form" method="get">

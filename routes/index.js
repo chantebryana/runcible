@@ -63,11 +63,12 @@ function cycle_brackets(current_cycle_id, callback){
 			};
 		};
 		console.log("current_cycle_id_index: " + current_cycle_id_index);
-		// CE: perhaps put the brains here: set limits to prev/next so that they're not undefined???
+		var first_cycle_id = cycle_id_array[cycle_id_array.length-1];
 		var previous_cycle_id = cycle_id_array[current_cycle_id_index + 1];
 		var next_cycle_id = cycle_id_array[current_cycle_id_index - 1];
+		var last_cycle_id = cycle_id_array[0];
 		console.log("previous: " + previous_cycle_id + ", next: " + next_cycle_id);
-		callback(previous_cycle_id, next_cycle_id, cycle_id_array);
+		callback(previous_cycle_id, next_cycle_id, cycle_id_array, first_cycle_id, last_cycle_id);
 	});
 };
 
@@ -83,7 +84,7 @@ router.get('/', function(req, res) {
 	};
 	console.log("cycle from index.ejs hyperlink: " + cycle_offset);
 	*/
-	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, cycle_id_array) {
+	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, cycle_id_array, first_cycle, last_cycle) {
 		// if req.query.cycle isn't false, null, or undefined, it populates the page based on that current_cycle value; if not, then it defaults to the most recent cycle. In both cases relevant info is passed onto index.ejs via res.render:
 		if (req.query.cycle) {		
 			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + current_cycle + '" ORDER BY date', function(err, rows_from_db) { 
@@ -93,7 +94,9 @@ router.get('/', function(req, res) {
 					cycle_id_to_renderer: {
 						prev: previous_cycle, 
 						curr: current_cycle, 
-						next: next_cycle
+						next: next_cycle, 
+						first: first_cycle, 
+						last: last_cycle
 					}
 				});
 			});
@@ -106,7 +109,9 @@ router.get('/', function(req, res) {
 						prev: previous_cycle, 
 						curr: current_cycle, 
 						//next: next_cycle
-						next: null
+						next: null, 
+						first: first_cycle, 
+						last: last_cycle
 					}
 				});
 			});
