@@ -11,6 +11,12 @@
 		<% } else { %>
 			<a>Previous Cycle</a>
 		<% }; %>
+		| 
+		<% if (cycle_id_to_renderer.next) { %>
+			<a href="./?cycle=<%= cycle_id_to_renderer.next %>">Next Cycle</a>
+		<% } else { %>
+			<a>Next Cycle</a>
+		<% }; %>
 	</p>
 	<!--
 	<p><a href="./?cycle=<%= cycle_id_to_renderer.prev %>">Previous Cycle</a> | <a href="./?cycle=<%= cycle_id_to_renderer.next %>">Next Cycle</a></p>
