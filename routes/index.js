@@ -48,12 +48,12 @@ function cycle_brackets(current_cycle_id, callback){
 		// empty array to hold the id's (in descending-date-order) of "cycles" table:
 		var cycle_id_array = []; 
 		// finds the length of the array-object returned by the sql query, and pops that into the for loop length:
-		var cycles_length = Object.keys(rows_from_db).length; 
+		var cycles_length = rows_from_db.length; 
 		for (i = 0; i < cycles_length; i++) {
 			// populate cycle_id_array with index values of sql query results:
 			cycle_id_array[i] = rows_from_db[i].id; 
 		};
-		console.log(cycle_id_array);
+		console.log(cycle_id_array, rows_from_db.length);
 
 		// var current_cycle_id_index equals array index of current_cycle_id (or if there's no current_cycle_id, then it defaults to 0, or the most recent cycle at the beginning of the array), then use current_cycle_id_index to math out previous_cycle_id and next_cycle_id (the math is backwards because the array is in descending order):
 		var current_cycle_id_index = 0; 
@@ -68,7 +68,7 @@ function cycle_brackets(current_cycle_id, callback){
 		var next_cycle_id = cycle_id_array[current_cycle_id_index - 1];
 		var last_cycle_id = cycle_id_array[0];
 		console.log("previous: " + previous_cycle_id + ", next: " + next_cycle_id);
-		callback(previous_cycle_id, next_cycle_id, cycle_id_array, first_cycle_id, last_cycle_id);
+		callback(previous_cycle_id, next_cycle_id, first_cycle_id, last_cycle_id);
 	});
 };
 
@@ -84,7 +84,7 @@ router.get('/', function(req, res) {
 	};
 	console.log("cycle from index.ejs hyperlink: " + cycle_offset);
 	*/
-	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, cycle_id_array, first_cycle, last_cycle) {
+	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
 		// if req.query.cycle isn't false, null, or undefined, it populates the page based on that current_cycle value; if not, then it defaults to the most recent cycle. In both cases relevant info is passed onto index.ejs via res.render:
 		if (req.query.cycle) {		
 			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + current_cycle + '" ORDER BY date', function(err, rows_from_db) { 
@@ -101,7 +101,7 @@ router.get('/', function(req, res) {
 				});
 			});
 		} else { 
-			db.all('SELECT * FROM time_temp WHERE cycle_id = "'+ cycle_id_array[0] +'" ORDER BY date', function(err, rows_from_db) { 
+			db.all('SELECT * FROM time_temp WHERE cycle_id = "'+ last_cycle +'" ORDER BY date', function(err, rows_from_db) { 
 				res.render('pages', {
 					title: 'Home', 
 					rows_to_renderer: rows_from_db, 
