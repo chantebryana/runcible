@@ -104,7 +104,7 @@ router.get('/', function(req, res) {
 					rows_to_renderer: rows_from_db, 
 					cycle_id_to_renderer: {
 						prev: previous_cycle, 
-						curr: current_cycle, 
+						curr: last_cycle, // current_cycle = undefined, so nothing to pass to subsequent pages: hack in last_cycle to give future workflows something to work with, since in the case of [req.query.cycle = undefined] current_cycle == last_cycle.  
 						//next: next_cycle
 						next: null, 
 						first: first_cycle, 
