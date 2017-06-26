@@ -31,15 +31,7 @@ router.get('/form_update', function(req, res) {
 	});
 	//res.render('pages/form_update.ejs', {title: 'Form Update', rows: rows});
 });
-/*
-var find_cycle_id = function(current_id, offset, callback) {
-	db.all('SELECT id FROM cycles WHERE id =' + offset + ' ORDER BY begin_date DESC', function(err, rows_from_db) { 
-//		console.log("rows from db " + rows_from_db[0].id);
-		console.log(rows_from_db);
-		callback(rows_from_db[0].id);
-	});
-};
-*/
+
 
 // this function looks up the beginning and ending "brackets" of paging through each cycle: laying out all of the id's in cycle table, storing the data in a simple array, and then using the indeces of the array to look up the id of the current cycle, as well as the next and previous ones.  This is all used in res.render('/'...) to help with printing the correct cycle on the home page of my site:
 function cycle_brackets(current_cycle_id, callback){
@@ -120,7 +112,7 @@ router.post('/formpost', function(req, res) {
 
 router.post('/deletepost', function(req, res) {
 	var query = "";
-	db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id"], function(err, rows) {
+	db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id_home"], function(err, rows) {
 		console.log("attempted to delete with ((" + query + "))");
 		res.redirect('/');
 	});

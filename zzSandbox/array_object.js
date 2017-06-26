@@ -48,3 +48,17 @@ console.log(max_cycle());
 <% }; %>
 
 
+2017-06-26
+
+db.all("INSERT INTO cycles(begin_date) VALUES(\'" + req.body["date"] + "\')"
+
+);
+
+//trying to set end_date for the previous cycle, where end_date is set to "yesterday" relative to the current date being entered.  This may provide a reason to swap from text-based dates to some number-based date setup
+db.all("UPDATE cycles SET end_date=date(\'" + req.body["date"] + "\', '-1 day') WHERE id=last_id"
+
+);
+
+"UPDATE time_temp SET date=\"" + req.body["date"] + "\", time_taken=\"" + req.body["time_taken"] + "\", temp_f=" + req.body["temp_f"] + " WHERE id=" + req.body["id"],
+
+
