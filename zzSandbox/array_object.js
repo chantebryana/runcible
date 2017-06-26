@@ -55,7 +55,7 @@ db.all("INSERT INTO cycles(begin_date) VALUES(\'" + req.body["date"] + "\')"
 );
 
 //trying to set end_date for the previous cycle, where end_date is set to "yesterday" relative to the current date being entered.  This may provide a reason to swap from text-based dates to some number-based date setup
-db.all("UPDATE cycles SET end_date=date(\'" + req.body["date"] + "\', '-1 day') WHERE id=last_id"
+db.all("UPDATE cycles SET end_date=date(\'" + req.body["date"] + "\', '-1 day') WHERE id=" + req.body["last_cycle"] // using last_cycle assuming I've got access to cycle_brackets(); also, I wonder whether last_cycle will be confused by the new entry: should I find a way to do last_cycle-1?
 
 );
 

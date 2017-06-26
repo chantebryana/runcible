@@ -11,7 +11,7 @@
 		<% } else { %>
 			First Cycle | Previous Cycle
 		<% }; %>
-		| 
+		| | 
 		<% if (cycle_id_to_renderer.next) { %>
 			<a href="./?cycle=<%= cycle_id_to_renderer.next %>">Next Cycle</a> | <a href="./?cycle=<%= cycle_id_to_renderer.last %>">Last Cycle</a>
 		<% } else { %>
@@ -21,6 +21,8 @@
 
 		<form action="/form" method="get">
 			<button type="submit" value="Add New Entry">Add New Entry</button>
+			<% // pass current cycle_id to form page via value: %>
+			<input type='hidden' value="<%= cycle_id_to_renderer.curr %>" name='current_cycle_id'>
 		</form>
 		<br>
 		<table>
