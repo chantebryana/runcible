@@ -1,0 +1,33 @@
+// TRIGGERS 
+// http://www.sqlitetutorial.net/sqlite-trigger/
+// https://stackoverflow.com/questions/6578439/on-update-current-timestamp-with-sqlite
+
+CREATE TABLE word_table (
+	id INTEGER PRIMARY KEY, 
+	word TEXT,  
+	entry_created DATETIME DEFAULT CURRENT_TIMESTAMP, 
+	last_updated DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TRIGGER refresh_update3 AFTER UPDATE ON word_table
+WHEN NEW.word <> OLD.word
+BEGIN
+	INSERT INTO word_table(
+	word, 
+	last_updated
+	)
+VALUES (
+	new.word, 
+	DATETIME('NOW')
+	);
+END;
+
+INSERT INTO word_table(word) VALUES 
+	("hippopatumus"), 
+	("verity"), 
+	("malarky")
+;
+
+UPDATE word_table
+SET word = "blergblong" 
+WHERE id = 1;
