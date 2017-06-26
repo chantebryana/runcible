@@ -21,14 +21,17 @@ var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
 router.get('/form', function(req, res) {
-	db.all ('SELECT * FROM cycles WHERE id = \"' + req.query.current_cycle_id, function(err, last_cycle) {
+	var query = "";
+	db.all (query='SELECT id FROM cycles WHERE id = ' + req.query.current_cycle_id, function(err, last_cycle) {
+	console.log('attempted to query db with __ ' + query + ' __');
+	console.log(last_cycle);
 	// 2 temporary lines: 
 	//var last_cycle = 2;
 	//var cycle_id_to_renderer = {last: last_cycle};
 	res.render('pages/form.ejs', {title: 'Form', 
 		cycle_id_to_renderer: {
 			//curr: current_cycle
-			last: last_cycle
+			last: last_cycle[0].id
 		}
 	});
 	});
