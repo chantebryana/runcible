@@ -21,6 +21,9 @@ var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
 router.get('/form', function(req, res) {
+	// 2 temporary lines: 
+	var last_cycle = 2;
+	var cycle_id_to_renderer = {last: last_cycle};
 	res.render('pages/form.ejs', {title: 'Form', 
 		cycle_id_to_renderer: {
 			//curr: current_cycle
