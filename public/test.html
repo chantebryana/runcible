@@ -9,39 +9,41 @@
 		<script>
 		var ctx = document.getElementById("myChart").getContext('2d');
 		var myChart = new Chart(ctx, {
-				type: 'bar',
+				type: 'line',
 				data: {
-				    labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+				    labels: ["2017-06-01", "2017-06-02", "2017-06-03", "2017-06-04", "2017-06-05", "2017-06-06"],
 				    datasets: [{
-				        label: '# of Votes',
-				        data: [12, 19, 3, 5, 2, 3],
+				        label: 'basal body temp (f)',
+								//xAxisID: 'Date', 
+								//yAxisID: 'Basal Temp (F)',
+				        data: [97.0, 97.2, , 97.6, 97.9, 97.8],
 				        backgroundColor: [
-				            'rgba(255, 99, 132, 0.2)',
-				            'rgba(54, 162, 235, 0.2)',
-				            'rgba(255, 206, 86, 0.2)',
-				            'rgba(75, 192, 192, 0.2)',
-				            'rgba(153, 102, 255, 0.2)',
-				            'rgba(255, 159, 64, 0.2)'
+				            'rgba(0, 0, 0, 0)'
 				        ],
 				        borderColor: [
-				            'rgba(255,99,132,1)',
-				            'rgba(54, 162, 235, 1)',
-				            'rgba(255, 206, 86, 1)',
-				            'rgba(75, 192, 192, 1)',
-				            'rgba(153, 102, 255, 1)',
-				            'rgba(255, 159, 64, 1)'
+				            'rgba(255,99,132,1)'
 				        ],
-				        borderWidth: 1
+				        borderWidth: 3, 
+								pointBorderWidth: 7, 
+								pointHitRadius: 25, 
+								spanGaps: true
 				    }]
 				},
 				options: {
-				    scales: {
-				        yAxes: [{
-				            ticks: {
-				                beginAtZero:true
-				            }
-				        }]
-				    }
+						title: {
+								display: true, 
+								text: 'Basal Body Temperature (F) Over Time',
+								fontSize: 18, 
+								scales: {
+								    yAxes: [{
+								        ticks: {
+								            beginAtZero:false,
+														min: 96.5,
+														max: 98.0
+								        }
+								    }]
+								}
+						}
 				}
 		});
 </script>
