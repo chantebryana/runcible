@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+		<!-- link to files locally: -->
+		<link rel='stylesheet' href='javascripts/chartist.min.css'>
+		<script src='javascripts/chartist.min.js'></script>
+		<!-- link to files via relative cdn web links: -->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"> -->
+<!--    <script src="https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script> -->
+  </head>
+
+	<body>
+		<div class="ct-chart ct-perfect-fifth"></div>
+
+		<script>
+			var data = {
+				// A labels array that can contain any sort of values
+				labels: ['June 1', 'June 2', 'June 3', 'June 4', 'June 5'],
+				// Our series array that contains series objects or in this case series data arrays
+				series: [
+					[97.0, 96.9, 97.5, 97.4, 97.6]
+				]
+			};
+
+			var options = {
+//				divisor: 5, 
+//				ticks: [96.5, 97.0, 97.5, 98.0]
+				axisY: {
+					high: 98.0, 
+					low: 96.5, 
+					// I need both 'type' and 'ticks' to define the y-axis intervals displayed. 
+					// https://github.com/gionkunz/chartist-js/issues/693
+					type: Chartist.FixedScaleAxis,
+					ticks: [96.5, 96.6, 96.7, 96.8, 96.9, 97.0, 97.1, 97.2, 97.3, 97.4, 97.5, 97.6, 97.7, 97.8, 97.9, 98.0]
+					//scaleMinSpace: 70
+					//divisor: 5
+				}
+			};	
+
+			// Create a new line chart object where as first parameter we pass in a selector
+			// that is resolving to our chart container element. The Second parameter
+			// is the actual data object.
+			new Chartist.Line('.ct-chart', data, options);
+		</script>
+	</body>
+</html>
