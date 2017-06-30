@@ -3,12 +3,15 @@
 <div class="ct-chart ct-perfect-fifth"></div>
 
 		<script>
+			//var test_object = {labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5', 'test']};
 			var data = {
 				// A labels array that can contain any sort of values
-				labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5'],
+				labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5', 'test'],
+
+				//test_object, 
 				// Our series array that contains series objects or in this case series data arrays
 				series: [
-					[97.0, 96.9, 97.5, 97.4, 97.6]
+					[97.0, 96.9, 97.5, 97.4, 97.6, <%= data_var %>, 97.9, ]
 				]
 			};
 

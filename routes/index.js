@@ -102,6 +102,9 @@ router.get('/', function(req, res) {
 		} else { 
 			db.all('SELECT * FROM time_temp WHERE cycle_id = "'+ last_cycle +'" ORDER BY date', function(err, rows_from_db) { 
 				res.render('pages', {
+					data_var: 97.7,
+					//temp_array: [96.6, 96.9, 97.1, , 97.9, 97.2, 97.5];
+					//date_array: ['6-4', '6-5', '6-6', '6-7', '6-8', '6-9', '6-10'];
 					title: 'Home', 
 					rows_to_renderer: rows_from_db, 
 					cycle_id_to_renderer: {
