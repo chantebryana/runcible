@@ -79,6 +79,7 @@ function cycle_brackets(current_cycle_id, callback){
 	});
 };
 
+/*
 router.get('/', function(req, res) {
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle = req.query.cycle;
@@ -120,6 +121,40 @@ router.get('/', function(req, res) {
 					}
 				});
 			});
+		};
+	});
+});
+*/
+
+router.get('/', function(req, res) {
+	// defines cycle_id_var as integer, which will be used as a marker in determining which cycle to query later on
+	var cycle_id_var = 0;
+	// get current cycle from data in query string passed through URL from index.ejs:
+	var current_cycle = req.query.cycle;
+	// cycle_brackets() defined in function above
+	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
+		function db_query_func(cycle_id_marker) {
+			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + cycle_id_marker + '" ORDER BY date', function(err, rows_from_db) { 
+				res.render('pages', {
+					title: 'Home', 
+					rows_to_renderer: rows_from_db, 
+					cycle_id_to_renderer: {
+						prev: previous_cycle, 
+						curr: current_cycle, 
+						next: next_cycle, 
+						first: first_cycle, 
+						last: last_cycle
+					}
+				});
+			});
+		};
+		// if req.query.cycle isn't false, null, or undefined, it populates the page based on that current_cycle value; if not, then it defaults to the most recent cycle. In both cases relevant info is passed onto index.ejs via res.render in key:value pairs:
+		if (req.query.cycle) {		
+			cycle_id_var = current_cycle
+			db_query_func(cycle_id_var)
+		} else { 
+			cycle_id_var = last_cycle
+			db_query_func(cycle_id_var)
 		};
 	});
 });
