@@ -3,7 +3,17 @@
 <div class="ct-chart ct-perfect-fifth"></div>
 
 		<script>
+
+temp_array: [96.6, 96.9, 97.1, , 97.9, 97.2, 97.5];
+
+
 			var test_object = {labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5', 'test']};
+
+/*			var test_series = {series: [
+					[97.0, 96.9, 97.5, 97.4, 97.6, <%= data_var %>, 97.9, ]
+				]
+			};
+*/
 			var data = {
 				// A labels array that can contain any sort of values
 				//labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5', 'test'],
@@ -13,6 +23,8 @@
 				series: [
 					[97.0, 96.9, 97.5, 97.4, 97.6, <%= data_var %>, 97.9, ]
 				]
+				
+				//test_series
 			};
 
 			var options = {
