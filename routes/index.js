@@ -133,8 +133,8 @@ router.get('/', function(req, res) {
 	var current_cycle = req.query.cycle;
 	// cycle_brackets() defined in function above
 	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
-		function db_query_func(cycle_id_marker) {
-			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + cycle_id_marker + '" ORDER BY date', function(err, rows_from_db) { 
+//		function db_query_func(cycle_id_marker) {
+			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + (req.query.cycle ? current_cycle : last_cycle) + '" ORDER BY date', function(err, rows_from_db) { 
 				res.render('pages', {
 					title: 'Home', 
 					rows_to_renderer: rows_from_db, 
@@ -147,8 +147,9 @@ router.get('/', function(req, res) {
 					}
 				});
 			});
-		};
+//		};
 		// if req.query.cycle isn't false, null, or undefined, it populates the page based on that current_cycle value; if not, then it defaults to the most recent cycle. In both cases relevant info is passed onto index.ejs via res.render in key:value pairs:
+/*
 		if (req.query.cycle) {		
 			cycle_id_var = current_cycle
 			db_query_func(cycle_id_var)
@@ -156,6 +157,7 @@ router.get('/', function(req, res) {
 			cycle_id_var = last_cycle
 			db_query_func(cycle_id_var)
 		};
+*/
 	});
 });
 
