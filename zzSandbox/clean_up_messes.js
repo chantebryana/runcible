@@ -52,6 +52,15 @@ router.get('/', function(req, res) {
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle = req.query.cycle;
 	// cycle_brackets() defined in function above
+
+  the ternary/trinary operator? is that even its name?
+  var result = if_this ? then_this : otherwise_this;
+
+  var result = some_value_that_may_be_null ? some_value_that_may_be_null : some_fallback_value;
+	// this might be called ''OR' short-circuiting to select fallback value': 
+  || or OR
+  var result = some_value_that_may_be_null || some_fallback_value || this_one;
+
 	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
 		function db_query_func(cycle_id_marker) {
 			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + cycle_id_marker + '" ORDER BY date', function(err, rows_from_db) { 

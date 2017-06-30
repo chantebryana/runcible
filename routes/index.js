@@ -134,12 +134,14 @@ router.get('/', function(req, res) {
 	// cycle_brackets() defined in function above
 	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
 //		function db_query_func(cycle_id_marker) {
+/*
 			var which_cycle_id = last_cycle;
 			if(req.query.cycle){
 				which_cycle_id = current_cycle;
 			}
+*/
 //(req.query.cycle ? current_cycle : last_cycle)
-			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
+			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + (current_cycle || last_cycle) + '" ORDER BY date', function(err, rows_from_db) { 
 				res.render('pages', {
 					title: 'Home', 
 					rows_to_renderer: rows_from_db, 
