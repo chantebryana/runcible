@@ -101,12 +101,18 @@ router.get('/', function(req, res) {
 			});
 		} else { 
 			db.all('SELECT * FROM time_temp WHERE cycle_id = "'+ last_cycle +'" ORDER BY date', function(err, rows_from_db) { 
+				var temp_array = []
+				for (var i = 0; i < rows_from_db.length; i++){
+					temp_array[i] = rows_from_db[i].temp_f
+				}
+				//console.log(temp_array)
 				res.render('pages', {
 					data_var: [97.7, 98.0, 96.5, 97.0],
 					//temp_array: [96.6, 96.9, 97.1, , 97.9, 97.2, 97.5];
 					//date_array: ['6-4', '6-5', '6-6', '6-7', '6-8', '6-9', '6-10'];
 					title: 'Home', 
 					rows_to_renderer: rows_from_db, 
+					temp_array_to_renderer: temp_array,
 					cycle_id_to_renderer: {
 						prev: previous_cycle, 
 						curr: last_cycle, // current_cycle = undefined, so nothing to pass to subsequent pages: hack in last_cycle to give future workflows something to work with, since in the case of [req.query.cycle = undefined] current_cycle == last_cycle.  

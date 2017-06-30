@@ -64,4 +64,13 @@ db.all("UPDATE cycles SET end_date=date(\'" + req.body["date"] + "\', '-1 day') 
 
 var temp = [4, 5, 6];
 var data = {series: [ temp[0], temp[1], temp[2] ]}
+var data = {series: [
+	for (var i = 0; i < 3; i++){
+		series[i] = temp[i]
+	]
+	}
+}
+
+
+
 
