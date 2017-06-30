@@ -71,6 +71,28 @@ var data = {series: [
 	}
 }
 
+for (var i = 0; i < rows_from_db.length; i++){
+	var temp_array = []
+	temp_array[i] = rows_from_db[i].temp_f
+	console.log(temp_array)
+}
+
+
+function db_query_func(cycle_id_marker) {
+	db.all('SELECT * FROM time_temp WHERE cycle_id = "' + cycle_id_marker + '" ORDER BY date', function(err, rows_from_db) { 
+		res.render('pages', {
+			title: 'Home', 
+			rows_to_renderer: rows_from_db, 
+			cycle_id_to_renderer: {
+				prev: previous_cycle, 
+				curr: current_cycle, 
+				next: next_cycle, 
+				first: first_cycle, 
+				last: last_cycle
+			}
+		});
+	});
+};
 
 
 
