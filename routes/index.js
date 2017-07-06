@@ -128,32 +128,29 @@ router.get('/', function(req, res) {
 
 router.get('/', function(req, res) {
 	// defines cycle_id_var as integer, which will be used as a marker in determining which cycle to query later on
-	var cycle_id_var = 0;
+	//var cycle_id_var = 0;
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle = req.query.cycle;
 	// cycle_brackets() defined in function above
 	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
-//		function db_query_func(cycle_id_marker) {
-
-			var which_cycle_id = last_cycle;
-			if(req.query.cycle){
-				which_cycle_id = current_cycle;
-			}
-//(req.query.cycle ? current_cycle : last_cycle)
-			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
-				res.render('pages', {
-					title: 'Home', 
-					rows_to_renderer: rows_from_db, 
-					cycle_id_to_renderer: {
-						prev: previous_cycle, 
-						curr: current_cycle, 
-						next: next_cycle, 
-						first: first_cycle, 
-						last: last_cycle
-					}
-				});
+		// defines the cycle_id to include in db query: if req.query.cycle returns true (ie, if webpage query string passes a cycle variable), then the db query looks up the current_cycle, otherwise, the query defaults to the most recent cycle (last_cycle):
+		var which_cycle_id = last_cycle;
+		if(req.query.cycle){
+			which_cycle_id = current_cycle;
+		}
+		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
+			res.render('pages', {
+				title: 'Home', 
+				rows_to_renderer: rows_from_db, 
+				cycle_id_to_renderer: {
+					prev: previous_cycle, 
+					curr: current_cycle, 
+					next: next_cycle, 
+					first: first_cycle, 
+					last: last_cycle
+				}
 			});
-//		};
+		});
 		// if req.query.cycle isn't false, null, or undefined, it populates the page based on that current_cycle value; if not, then it defaults to the most recent cycle. In both cases relevant info is passed onto index.ejs via res.render in key:value pairs:
 /*
 		if (req.query.cycle) {		
