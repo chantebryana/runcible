@@ -79,53 +79,6 @@ function cycle_brackets(current_cycle_id, callback){
 	});
 };
 
-/*
-router.get('/', function(req, res) {
-	// get current cycle from data in query string passed through URL from index.ejs:
-	var current_cycle = req.query.cycle;
-	// cycle_brackets() defined in function above
-	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
-		// if req.query.cycle isn't false, null, or undefined, it populates the page based on that current_cycle value; if not, then it defaults to the most recent cycle. In both cases relevant info is passed onto index.ejs via res.render in key:value pairs:
-		if (req.query.cycle) {		
-			db.all('SELECT * FROM time_temp WHERE cycle_id = "' + current_cycle + '" ORDER BY date', function(err, rows_from_db) { 
-				res.render('pages', {
-					title: 'Home', 
-					rows_to_renderer: rows_from_db, 
-					cycle_id_to_renderer: {
-						prev: previous_cycle, 
-						curr: current_cycle, 
-						next: next_cycle, 
-						first: first_cycle, 
-						last: last_cycle
-					}
-				});
-			});
-		} else { 
-			db.all('SELECT * FROM time_temp WHERE cycle_id = "'+ last_cycle +'" ORDER BY date', function(err, rows_from_db) { 
-				var temp_array = []
-				for (var i = 0; i < rows_from_db.length; i++){
-					temp_array[i] = rows_from_db[i].temp_f
-				}
-				//console.log(temp_array)
-				res.render('pages', {
-					title: 'Home', 
-					rows_to_renderer: rows_from_db, 
-					temp_array_to_renderer: temp_array,
-					cycle_id_to_renderer: {
-						prev: previous_cycle, 
-						curr: last_cycle, // current_cycle = undefined, so nothing to pass to subsequent pages: hack in last_cycle to give future workflows something to work with, since in the case of [req.query.cycle = undefined] current_cycle == last_cycle.  
-						//next: next_cycle
-						next: null, 
-						first: first_cycle, 
-						last: last_cycle
-					}
-				});
-			});
-		};
-	});
-});
-*/
-
 router.get('/', function(req, res) {
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle = req.query.cycle;
@@ -141,10 +94,12 @@ router.get('/', function(req, res) {
 			var date_array = []
 			for (var i = 0; i < rows_from_db.length; i++){
 				temp_array[i] = rows_from_db[i].temp_f
+				date_array[i] = "\"" + rows_from_db[i].date + "\""
 			}
-			for (var i = 0; i < rows_from_db.length; i++) {
-				date_array[i] = rows_from_db[i].date
-			}
+//			for (var i = 0; i < rows_from_db.length; i++) {
+//				date_array[i] = rows_from_db[i].date
+//			}
+			console.log(date_array);
 			res.render('pages', {
 				title: 'Home', 
 				rows_to_renderer: rows_from_db, 
