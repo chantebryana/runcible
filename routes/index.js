@@ -138,14 +138,18 @@ router.get('/', function(req, res) {
 		}
 		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
 			var temp_array = []
+			var date_array = []
 			for (var i = 0; i < rows_from_db.length; i++){
 				temp_array[i] = rows_from_db[i].temp_f
 			}
-			//console.log(temp_array);
+			for (var i = 0; i < rows_from_db.length; i++) {
+				date_array[i] = rows_from_db[i].date
+			}
 			res.render('pages', {
 				title: 'Home', 
 				rows_to_renderer: rows_from_db, 
 				temp_array_to_renderer: temp_array,
+				date_array_to_renderer: date_array,
 				cycle_id_to_renderer: {
 					prev: previous_cycle, 
 					curr: current_cycle, 

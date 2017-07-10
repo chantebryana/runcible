@@ -5,22 +5,12 @@
 <script>
 	var data = {
 		// A labels array that can contain any sort of values
-		labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5'],
+		//labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5'],
+		labels: [<%= date_array_to_renderer %>], 
 		// Our series array that contains series objects or in this case series data arrays
-/*		series: [
-			[97.0, 96.9, 97.5, 97.4, 97.6]
-		]
-*/
-/*
-		series: [
-			[<%= temp_array_to_renderer[0] %>, <%= temp_array_to_renderer[1] %>, <%= temp_array_to_renderer[2] %>, <%= temp_array_to_renderer[3] %>, <%= temp_array_to_renderer[4] %>]
-		]
-*/
-
 		series: [
 			[<%= temp_array_to_renderer %>]
 		]
-
 	};
 
 	var options = {
