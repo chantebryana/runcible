@@ -2,34 +2,39 @@
 <script src='javascripts/chartist.min.js'></script>
 <div class="ct-chart ct-perfect-fifth"></div>
 
-		<script>
-			var data = {
-				// A labels array that can contain any sort of values
-				labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5'],
-				// Our series array that contains series objects or in this case series data arrays
-				series: [
-					[97.0, 96.9, 97.5, 97.4, 97.6]
-				]
-			};
+<script>
+	var data = {
+		// A labels array that can contain any sort of values
+		labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5'],
+		// Our series array that contains series objects or in this case series data arrays
+/*		series: [
+			[97.0, 96.9, 97.5, 97.4, 97.6]
+		]
+*/
+		series: [
+			[<%= temp_array_to_renderer[1] %>]
+		]
 
-			var options = {
-				axisX: {
-					offset: 40 // provides enough space for 3 lines of labels on X axis
-				},
-				axisY: {
-					// restrict the y-axis to only show values between 96.5 and 98.0, which should 
-					// pertain to >80% of entered temp values and make it easier to compare mo by mo:
-					high: 98.0, 
-					low: 96.5, 
-					// I need both 'type' and 'ticks' to define the y-axis intervals displayed. 
-					// https://github.com/gionkunz/chartist-js/issues/693
-					type: Chartist.FixedScaleAxis,
-					ticks: [96.5, 96.6, 96.7, 96.8, 96.9, 97.0, 97.1, 97.2, 97.3, 97.4, 97.5, 97.6, 97.7, 97.8, 97.9, 98.0]
-				}
-			};	
+	};
 
-			// Create a new line chart object where as first parameter we pass in a selector
-			// that is resolving to our chart container element. The Second parameter
-			// is the actual data object.
-			new Chartist.Line('.ct-chart', data, options);
-		</script>
+	var options = {
+		axisX: {
+			offset: 40 // provides enough space for 3 lines of labels on X axis
+		},
+		axisY: {
+			// restrict the y-axis to only show values between 96.5 and 98.0, which should 
+			// pertain to >80% of entered temp values and make it easier to compare mo by mo:
+			high: 98.5, 
+			low: 96.5, 
+			// I need both 'type' and 'ticks' to define the y-axis intervals displayed. 
+			// https://github.com/gionkunz/chartist-js/issues/693
+			type: Chartist.FixedScaleAxis,
+			ticks: [96.5, 96.6, 96.7, 96.8, 96.9, 97.0, 97.1, 97.2, 97.3, 97.4, 97.5, 97.6, 97.7, 97.8, 97.9, 98.0, 98.1, 98.2, 98.3, 98.4, 98.5]
+		}
+	};	
+
+	// Create a new line chart object where as first parameter we pass in a selector
+	// that is resolving to our chart container element. The Second parameter
+	// is the actual data object.
+	new Chartist.Line('.ct-chart', data, options);
+</script>
