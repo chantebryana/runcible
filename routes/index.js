@@ -89,17 +89,17 @@ router.get('/', function(req, res) {
 		if(req.query.cycle){
 			which_cycle_id = current_cycle;
 		}
-		db.all('SELECT * FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
+		db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { // CE: condition date in '*' to chop off year to make the chart x-axis less cluttered
 			var temp_array = []
 			var date_array = []
 			for (var i = 0; i < rows_from_db.length; i++){
 				temp_array[i] = rows_from_db[i].temp_f
-				date_array[i] = "\"" + rows_from_db[i].date + "\""
+				date_array[i] = "\"" + rows_from_db[i].month_day + "\""
 			}
 //			for (var i = 0; i < rows_from_db.length; i++) {
 //				date_array[i] = rows_from_db[i].date
 //			}
-			console.log(date_array);
+//			console.log(date_array);
 			res.render('pages', {
 				title: 'Home', 
 				rows_to_renderer: rows_from_db, 
