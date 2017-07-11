@@ -96,6 +96,7 @@ router.get('/', function(req, res) {
 				temp_array[i] = rows_from_db[i].temp_f
 				date_array[i] = "\"" + rows_from_db[i].month_day + "\""
 			}
+			// res.render sends various variables to index.ejs and its dependent pages:
 			res.render('pages', {
 				title: 'Home', 
 				rows_to_renderer: rows_from_db, 
