@@ -23,8 +23,12 @@ var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
 router.get('/form', function(req, res) {
+	var which_cycle_id = 2;
+	if (req.query.current_cycle) {
+		which_cycle_id = req.query.current_cycle;
+	}
 	var query = "";
-	db.all (query='SELECT id FROM cycles WHERE id = ' + req.query.current_cycle, function(err, current_cycle) {
+	db.all (query='SELECT id FROM cycles WHERE id = ' + which_cycle_id, function(err, current_cycle) {
 	console.log('attempted to query db with __ ' + query + ' __');
 	console.log(current_cycle);
 	// 2 temporary lines: 
