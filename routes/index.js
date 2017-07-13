@@ -23,7 +23,8 @@ var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
 router.get('/form', function(req, res) {
-	var which_cycle_id = 2;
+	// defines the cycle_id to include in db query: if req.query.cycle returns true (ie, if webpage query string passes a cycle variable), then the db query looks up the current_cycle [currently manually set to 2], otherwise, the query defaults to the most recent cycle (last_cycle):
+	var which_cycle_id = 2; // CE: change this to dynamic variable, not static number
 	if (req.query.current_cycle) {
 		which_cycle_id = req.query.current_cycle;
 	}
@@ -119,7 +120,7 @@ router.get('/', function(req, res) {
 });
 
 router.post('/formpost', function(req, res) {
-	db.all("INSERT INTO time_temp (date, time_taken, temp_f) VALUES( \" " + req.body["date"] + " \", \" " + req.body["time_taken"] + " \", \" " + req.body["temp_f"] + " \")", function(err, rows) {
+	db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \" " + req.body["date"] + " \", \" " + req.body["time_taken"] + " \", \" " + req.body["temp_f"] + " \", \" " + req.body["cycle_id"] + " \")", function(err, rows) {
 		res.redirect('/');
 	});
 });

@@ -9,8 +9,10 @@
 		</p>
 		<% // https://www.w3schools.com/html/html_forms.asp %>
 		<form action='/formpost' method='post'>
+			Which Cycle ID: <br>
+			<input type='text' name='cycle_id' value = '<%= cycle_id_to_renderer.curr %>' placeholder='00' autofocus><br>
 			Enter Date: <br>
-			<input type='text' name='date' placeholder='YYYY-MM-DD' autofocus><br>
+			<input type='text' name='date' placeholder='YYYY-MM-DD'><br>
 			Enter Time Taken: <br>
 			<input type='text' name='time_taken' placeholder='HH:MM'><br>
 			Enter Temp (F): <br>
