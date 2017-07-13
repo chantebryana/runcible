@@ -3,7 +3,9 @@
 
 <main>
 	<div class="jumbotron">
-		<h1>DB Query Results</h1>
+		<% //CE: eventually get page title to pull cycle and date data from 'cycles' table %>
+		<h1>Cycle <%= rows_to_renderer[0].cycle_id %> Results</h1>
+		<% //<h2>[date] through [date]</h2> %>
 	<% //hyperlinks to move forwards and backwards through cycles, with conditions to "deactivate" hyperlinks when they reach the beginning or end of the cycle range: %>
 	<p>
 		<% if (cycle_id_to_renderer.prev) { %>
@@ -18,13 +20,6 @@
 			Next Cycle | Last Cycle
 		<% }; %>
 	</p>
-	<script>
-		//var foxy_var = {data_var: [97.7, 98.0, 96.5, 97.0]},
-			//for (var i = 0; i < 4; i++){
-				//console.log(foxy_var.data_var[i]
-			//};
-	</script>
-
 		<form action="/form" method="get">
 			<button type="submit" value="Add New Entry">Add New Entry</button>
 			<% // pass current cycle_id to form page via value: %>
