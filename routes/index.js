@@ -121,10 +121,22 @@ router.get('/', function(req, res) {
 
 router.post('/formpost', function(req, res) {
 	db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \" " + req.body["date"] + " \", \" " + req.body["time_taken"] + " \", \" " + req.body["temp_f"] + " \", \" " + req.body["cycle_id"] + " \")", function(err, rows) {
+		//res.redirect('/cyclepost');
 		res.redirect('/');
 	});
-});
+	/*
+	db.all("INSERT INTO cycles (
 
+	);
+	*/
+});
+/*
+router.post('/cyclepost', function(req, res) {
+	db.all('INSERT INTO cycles
+	
+	);
+});
+*/
 
 router.post('/deletepost', function(req, res) {
 	var query = "";

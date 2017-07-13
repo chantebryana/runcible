@@ -9,6 +9,8 @@
 		</p>
 		<% // https://www.w3schools.com/html/html_forms.asp %>
 		<form action='/form_post_update' method='post'>
+			Which Cycle ID: <br>
+			<input type='text' name='cycle_id' value = "<%= row_to_renderer.cycle_id %>" placeholder='00'><br>
 			Enter Date: <br>
 			<input type='text' name='date' value = "<%= row_to_renderer.date %>" placeholder='YYYY-MM-DD' autofocus><br>
 			Enter Time Taken: <br>
