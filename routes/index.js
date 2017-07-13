@@ -124,7 +124,7 @@ router.post('/formpost', function(req, res) {
 		//res.redirect('/cyclepost');
 		res.redirect('/');
 	});
-	/*
+	/* CE: this is a messy attempt to add new entry to 'cycles' table: learning that it takes more thought!
 	db.all("INSERT INTO cycles (
 
 	);

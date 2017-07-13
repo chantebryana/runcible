@@ -2,9 +2,6 @@
 <% include ../partials/metadata_template %>
 
 <main>
-	<!-- attempting to include the chart: -->
-	<% //include ../partials/chartist_partial %> 
-	<% include ../partials/chartist_partial_temp %>
 	<div class="jumbotron">
 		<h1>DB Query Results</h1>
 	<% //hyperlinks to move forwards and backwards through cycles, with conditions to "deactivate" hyperlinks when they reach the beginning or end of the cycle range: %>
@@ -34,6 +31,9 @@
 			<input type='hidden' value="<%= cycle_id_to_renderer.curr %>" name='current_cycle'>
 		</form>
 		<br>
+		<% // attempting to include the chart: %>
+		<% //include ../partials/chartist_partial %> 
+		<% include ../partials/chartist_partial_temp %>
 		<table>
 			<tr>
 				<th>ID</th>
