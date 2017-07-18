@@ -1,0 +1,38 @@
+c, ruby
+thing_i_want = func_that_gets_it();
+use(thing_i_want)
+or
+use(func_that_gets_it())
+
+js
+func_that_gets_it(function(thing_i_want){
+	use(thing_i_want)
+})
+
+>>>
+record_list = mysql_query("select * from users");
+
+cout << "Users are:\n";
+
+for(int i = 0; i < record_list.length; i++){
+  cout << record_list[i]["user_name"] << "\n";
+}
+<<<
+
+>>>
+console.log("Users are:");
+
+mysql_query_async("select * from users", function(record_list){
+  record_list.for_each(function(record_list_item){
+    console.log(record_list_item.user_name);
+  })
+})
+<<<
+
+[ {one: 'a', two: 'b', three: 'c'}, {two: "bongos"} ].forEach(function(hash_object){
+	console.log(hash_object.two)
+})
+
+# Output:
+> b
+> bongoes
