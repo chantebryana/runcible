@@ -52,7 +52,7 @@ router.get('/form_update', function(req, res) {
 	//res.render('pages/form_update.ejs', {title: 'Form Update', rows: rows});
 });
 
-
+/*
 // this function looks up the beginning and ending "brackets" of paging through each cycle: laying out all of the id's in cycle table, storing the data in a simple array, and then using the indeces of the array to look up the id of the current cycle, as well as the next and previous ones.  This is all used in res.render('/'...) to help with printing the correct cycle on the home page of my site:
 function cycle_brackets(current_cycle_id, callback){
 	// this db query looks up the ids of all entries in cycles table, ordered by date (not id) in descending order: 
@@ -89,6 +89,7 @@ router.get('/', function(req, res) {
 	var current_cycle = req.query.cycle;
 	// cycle_brackets() defined in function above
 	cycle_brackets(current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
+	//cycle_brackets(cycle_id_array_func(), current_cycle, function(previous_cycle, next_cycle, first_cycle, last_cycle) {
 		// defines the cycle_id to include in db query: if req.query.cycle returns true (ie, if webpage query string passes a cycle variable), then the db query looks up the current_cycle, otherwise, the query defaults to the most recent cycle (last_cycle):
 		var which_cycle_id = last_cycle;
 		if(req.query.cycle){
@@ -118,6 +119,34 @@ router.get('/', function(req, res) {
 		});
 	});
 });
+*/
+
+function get_cycle_id_by_date(callback) {
+	db.all('SELECT id FROM cycles ORDER BY begin_date DESC', function(err, rows_from_db) {
+		var cycle_id_array = [];
+		var cycles_length = rows_from_db.length;
+		for (i = 0; i < cycles_length; i++) {
+			cycle_id_array[i] = rows_from_db[i].id;
+		};
+		callback(cycle_id_array);
+	});
+};
+
+function get_first_and_last_cycle_id(callback) {
+	get_cycle_id_by_date(function(cycle_id_array){
+		var first_cycle_id = cycle_id_array[cycle_id_array.length-1];
+		var last_cycle_id = cycle_id_array[0];
+//		console.log('first_cycle_id: ' + first_cycle_id + ', last_cycle_id: ' + last_cycle_id + '\n');
+		callback(first_cycle_id, last_cycle_id);
+	});
+};
+
+router.get('/', function(req,res) {
+	get_first_and_last_cycle_id(function(first_cycle_id, last_cycle_id){
+		console.log('first_cycle_id: ' + first_cycle_id + ', last_cycle_id: ' + last_cycle_id + '\n');
+	});
+});
+
 
 router.post('/formpost', function(req, res) {
 	db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \" " + req.body["date"] + " \", \" " + req.body["time_taken"] + " \", \" " + req.body["temp_f"] + " \", \" " + req.body["cycle_id"] + " \")", function(err, rows) {
