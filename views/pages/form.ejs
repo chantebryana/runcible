@@ -10,7 +10,7 @@
 		<% // https://www.w3schools.com/html/html_forms.asp %>
 		<form action='/formpost' method='post'>
 			Select Cycle: <br>
-			<select name="cycles">
+			<select name="cycle_id">
 				<option value = "new cycle">new cycle</option>
 				<% cycle_id_array_to_renderer.forEach((cycle_id)=> { %>
 					<option value = "<%= cycle_id %>"><%= cycle_id %></option>
