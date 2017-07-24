@@ -10,7 +10,10 @@
 		<% // https://www.w3schools.com/html/html_forms.asp %>
 		<form action='/formpost' method='post'>
 			Which Cycle ID: <br>
-			<input type='text' name='cycle_id' value = '<%= cycle_id_to_renderer.curr %>' placeholder='00'><br>
+			<select name="cycles">
+				<option value = "\"" + <%= cycle_name_array_to_renderer[0] %> + "\""><%= cycle_name_array_to_renderer[0] %></option>
+				<option value = "\"" + <%= cycle_name_array_to_renderer[1] %> + "\""><%= cycle_name_array_to_renderer[1] %></option>
+			</select> <br>
 			Enter Date: <br>
 			<input type='text' name='date' placeholder='YYYY-MM-DD' autofocus><br>
 			Enter Time Taken: <br>
