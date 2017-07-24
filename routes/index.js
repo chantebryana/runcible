@@ -38,14 +38,14 @@ router.get('/form', function(req, res) {
 				// 2 temporary lines: 
 				//var last_cycle = 2;
 				//var cycle_id_to_renderer = {last: last_cycle};
-				db.all('SELECT name FROM cycles ORDER BY begin_date DESC', function(err, cycle_names_from_db) {
-					var cycle_name_array = [];
-					for (i = 0; i < cycle_names_from_db.length; i++) {
-						cycle_name_array[i] = cycle_names_from_db[i].name;
+				db.all('SELECT * FROM cycles ORDER BY begin_date DESC', function(err, cycle_value_from_db) {
+					var cycle_id_array = [];
+					for (i = 0; i < cycle_value_from_db.length; i++) {
+						cycle_id_array[i] = cycle_value_from_db[i].id;
 					};
 					res.render('pages/form.ejs', {title: 'Form', 
 						//cycle_names_to_renderer: cycle_names_from_db, 
-						cycle_name_array_to_renderer: cycle_name_array,
+						cycle_id_array_to_renderer: cycle_id_array,
 						cycle_id_to_renderer: {
 							//curr: current_cycle
 							curr: current_cycle[0].id
