@@ -38,11 +38,14 @@ router.get('/form', function(req, res) {
 				// 2 temporary lines: 
 				//var last_cycle = 2;
 				//var cycle_id_to_renderer = {last: last_cycle};
-				res.render('pages/form.ejs', {title: 'Form', 
-					cycle_id_to_renderer: {
-						//curr: current_cycle
-						curr: current_cycle[0].id
-					}
+				db.all('SELECT name FROM cycles ORDER BY begin_date DESC', function(err, cycle_names_from_db) {
+					res.render('pages/form.ejs', {title: 'Form', 
+						cycle_names_to_renderer: cycle_names_from_db, 
+						cycle_id_to_renderer: {
+							//curr: current_cycle
+							curr: current_cycle[0].id
+						}
+					});
 				});
 			});
 		});
