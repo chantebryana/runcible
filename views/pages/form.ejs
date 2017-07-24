@@ -11,8 +11,9 @@
 		<form action='/formpost' method='post'>
 			Which Cycle ID: <br>
 			<select name="cycles">
-				<option value = "\"" + <%= cycle_name_array_to_renderer[0] %> + "\""><%= cycle_name_array_to_renderer[0] %></option>
-				<option value = "\"" + <%= cycle_name_array_to_renderer[1] %> + "\""><%= cycle_name_array_to_renderer[1] %></option>
+				<% cycle_name_array_to_renderer.forEach((cycle_name)=> { %>
+					<option value = "\"" + <%= cycle_name %> + "\""><%= cycle_name %></option>
+				<% }); %>
 			</select> <br>
 			Enter Date: <br>
 			<input type='text' name='date' placeholder='YYYY-MM-DD' autofocus><br>
