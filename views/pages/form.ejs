@@ -9,10 +9,11 @@
 		</p>
 		<% // https://www.w3schools.com/html/html_forms.asp %>
 		<form action='/formpost' method='post'>
-			Which Cycle ID: <br>
+			Select Cycle: <br>
 			<select name="cycles">
+				<option value = "new cycle">new cycle</option>
 				<% cycle_name_array_to_renderer.forEach((cycle_name)=> { %>
-					<option value = "\"" + <%= cycle_name %> + "\""><%= cycle_name %></option>
+					<option value = "<%= cycle_name %>"><%= cycle_name %></option>
 				<% }); %>
 			</select> <br>
 			Enter Date: <br>
