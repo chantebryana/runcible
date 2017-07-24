@@ -23,24 +23,29 @@ var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
 router.get('/form', function(req, res) {
-	// defines the cycle_id to include in db query: if req.query.cycle returns true (ie, if webpage query string passes a cycle variable), then the db query looks up the current_cycle [currently manually set to 2], otherwise, the query defaults to the most recent cycle (last_cycle):
-	var which_cycle_id = 2; // CE: change this to dynamic variable, not static number
-	if (req.query.current_cycle) {
-		which_cycle_id = req.query.current_cycle;
-	}
-	var query = "";
-	db.all (query='SELECT id FROM cycles WHERE id = ' + which_cycle_id, function(err, current_cycle) {
-	console.log('attempted to query db with __ ' + query + ' __');
-	console.log(current_cycle);
-	// 2 temporary lines: 
-	//var last_cycle = 2;
-	//var cycle_id_to_renderer = {last: last_cycle};
-	res.render('pages/form.ejs', {title: 'Form', 
-		cycle_id_to_renderer: {
-			//curr: current_cycle
-			curr: current_cycle[0].id
-		}
-	});
+		var current_cycle_id = req.query.cycle;
+	get_first_and_last_cycle_id(function(first_cycle_id, last_cycle_id){
+		find_next_previous_cycle(current_cycle_id, function(previous_cycle_id, next_cycle_id){
+			// defines the cycle_id to include in db query: if req.query.cycle returns true (ie, if webpage query string passes a cycle variable), then the db query looks up the current_cycle [currently manually set to 2], otherwise, the query defaults to the most recent cycle (last_cycle):
+			var which_cycle_id = last_cycle_id;
+			if (req.query.current_cycle) {
+				which_cycle_id = req.query.current_cycle;
+			}
+			var query = "";
+			db.all (query='SELECT id FROM cycles WHERE id = ' + which_cycle_id, function(err, current_cycle) {
+				console.log('attempted to query db with __ ' + query + ' __');
+				console.log(current_cycle);
+				// 2 temporary lines: 
+				//var last_cycle = 2;
+				//var cycle_id_to_renderer = {last: last_cycle};
+				res.render('pages/form.ejs', {title: 'Form', 
+					cycle_id_to_renderer: {
+						//curr: current_cycle
+						curr: current_cycle[0].id
+					}
+				});
+			});
+		});
 	});
 });
 
@@ -52,7 +57,6 @@ router.get('/form_update', function(req, res) {
 	//res.render('pages/form_update.ejs', {title: 'Form Update', rows: rows});
 });
 
-///*
 // query db for a list of id's from 'cycles' table, ordered by date; pass the array via callback:
 function get_cycle_id_by_date(callback) {
 	db.all('SELECT id FROM cycles ORDER BY begin_date DESC', function(err, rows_from_db) {
@@ -127,7 +131,6 @@ router.get('/', function(req,res) {
 		});
 	});
 });
-//*/
 
 router.post('/formpost', function(req, res) {
 	db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \" " + req.body["date"] + " \", \" " + req.body["time_taken"] + " \", \" " + req.body["temp_f"] + " \", \" " + req.body["cycle_id"] + " \")", function(err, rows) {
