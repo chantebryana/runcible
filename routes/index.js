@@ -141,23 +141,37 @@ router.get('/', function(req,res) {
 });
 
 router.post('/formpost', function(req, res) {
-	db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \" " + req.body["date"] + " \", \" " + req.body["time_taken"] + " \", \" " + req.body["temp_f"] + " \", \" " + req.body["cycle_id"] + " \")", function(err, rows) {
-		//res.redirect('/cyclepost');
+	// if a new cycle is being initiated:
+	if(req.body["cycle_id"] == 'new_cycle') {
+		// insert new name and begin_date to cycles table (which will auto-generate an id): 
+		db.all("INSERT INTO cycles (name, begin_date) VALUES(\"" + req.body["name"] + "\", \"" + req.body["date"]+ "\")", function(err, rows_from_cycles_insert) {
+			// look up the new cycle I just created to find out what the new id is:
+			db.all("SELECT * FROM cycles WHERE name = \"" + req.body["name"] + "\")", function(err, rows_from_cycles_select) {
+				// also insert new entry data into time_temp table, using the new cycle id I just looked up to link the child entry to the parent entry:
+				var new_cycle_id = rows_from_cycles_select[0].id;
+				db.all("INSERT INTO time_temp(date, time_taken, temp_f, cycle_id) VALUES( \"" + req.body["date"] + "\", \"" + req.body["time_taken"] + "\", \"" + req.body["temp_f"] + "\", \"" + "\" new_cycle_id)", function(err, rows_from_time_temp) {
+					// after conducting all this brain work, redirect to home page: 
+					res.redirect('/');
+				});
+			});
+		});
+	// or else if cycle_id equals the id of an already existing cycle: 
+	} else {
+		// insert new entry data into time_temp (including cycle_id of existing cycle): 
+		db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \"" + req.body["date"] + "\", \"" + req.body["time_taken"] + "\", \"" + req.body["temp_f"] + "\", \"" + req.body["cycle_id"] + "\")", function(err, rows_from_time_temp) {
+			// after conducting this brain work, redirect to home page: 
+			res.redirect('/');
+		});
+	}
+
+
+/*
+	db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \"" + req.body["date"] + "\", \"" + req.body["time_taken"] + "\", \"" + req.body["temp_f"] + "\", \"" + req.body["cycle_id"] + "\")", function(err, rows) {
 		res.redirect('/');
 	});
-	/* CE: this is a messy attempt to add new entry to 'cycles' table: learning that it takes more thought!
-	db.all("INSERT INTO cycles (
-
-	);
-	*/
-});
-/*
-router.post('/cyclepost', function(req, res) {
-	db.all('INSERT INTO cycles
-	
-	);
-});
 */
+});
+
 
 router.post('/deletepost', function(req, res) {
 	var query = "";

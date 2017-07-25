@@ -10,14 +10,16 @@
 		<% // https://www.w3schools.com/html/html_forms.asp %>
 		<form action='/formpost' method='post'>
 			Select Cycle: <br>
-			<select name="cycle_id">
+			<select name="cycle_id" autofocus>
 				<option value = "new cycle">new cycle</option>
 				<% cycle_id_array_to_renderer.forEach((cycle_id)=> { %>
 					<option value = "<%= cycle_id %>"><%= cycle_id %></option>
 				<% }); %>
 			</select> <br>
+			If New Cycle, Enter Name: <br>
+			<input type='text' name='name' placeholder='(text here)'><br>
 			Enter Date: <br>
-			<input type='text' name='date' placeholder='YYYY-MM-DD' autofocus><br>
+			<input type='text' name='date' placeholder='YYYY-MM-DD'><br>
 			Enter Time Taken: <br>
 			<input type='text' name='time_taken' placeholder='HH:MM'><br>
 			Enter Temp (F): <br>
