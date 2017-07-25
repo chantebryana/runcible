@@ -155,7 +155,9 @@ router.post('/formpost', function(req, res) {
 				var new_cycle_id = rows_from_cycles_select[0].id;
 				db.all("INSERT INTO time_temp(date, time_taken, temp_f, cycle_id) VALUES( \"" + req.body["date"] + "\", \"" + req.body["time_taken"] + "\", \"" + req.body["temp_f"] + "\", \"" + new_cycle_id + "\")", function(err, rows_from_time_temp) {
 					// after conducting all this brain work, redirect to home page: 
-console.log(err);console.log("<<<<>>>>");
+console.log(err);console.log("<<<<>>>>"); // JE: shows the 'contents' of object 'err'; the 'contents' aren't printed out the same way you'd expect for a regular object, such as the array results of sqlite query (this is because console.log() has special machinery to insepct and spit out objects of type 'Error'
+// JE: supporting 'Error' documentation here: https://nodejs.org/api/errors.html 
+console.log(err.constructor.name); // JE: shows the type of the object 'err'
 					res.redirect('/');
 				});
 			});
@@ -197,4 +199,5 @@ router.post('/form_post_update', function(req, res) {
 app.listen(3000, function() {
 	console.log('Example app listening on port 3000!');
 });
+
 
