@@ -124,7 +124,9 @@ router.get('/', function(req,res) {
 				// res.render sends various variables to index.ejs and its dependent pages:
 				res.render('pages', {
 					title: 'Home', 
-					rows_to_renderer: rows_from_db, 
+					// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: 
+					// if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
+					rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
 					temp_array_to_renderer: temp_array,
 					date_array_to_renderer: date_array,
 					cycle_id_to_renderer: {
