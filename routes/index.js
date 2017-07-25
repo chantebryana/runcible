@@ -148,13 +148,14 @@ router.post('/formpost', function(req, res) {
 		// insert new name and begin_date to cycles table (which will auto-generate an id): 
 		db.all("INSERT INTO cycles (name, begin_date) VALUES(\"" + req.body["name"] + "\", \"" + req.body["date"]+ "\")", function(err, rows_from_cycles_insert) {
 			// look up the new cycle I just created to find out what the new id is:
-			db.all("SELECT * FROM cycles WHERE name = \"" + req.body["name"] + "\")", function(err, rows_from_cycles_select) {
+			db.all("SELECT * FROM cycles WHERE name = \"" + req.body["name"] + "\"", function(err, rows_from_cycles_select) {
 				console.log("rows_from_cycles_select: ");
 				console.log(rows_from_cycles_select);
 				// also insert new entry data into time_temp table, using the new cycle id I just looked up to link the child entry to the parent entry:
 				var new_cycle_id = rows_from_cycles_select[0].id;
-				db.all("INSERT INTO time_temp(date, time_taken, temp_f, cycle_id) VALUES( \"" + req.body["date"] + "\", \"" + req.body["time_taken"] + "\", \"" + req.body["temp_f"] + "\", \"" + "\" new_cycle_id)", function(err, rows_from_time_temp) {
+				db.all("INSERT INTO time_temp(date, time_taken, temp_f, cycle_id) VALUES( \"" + req.body["date"] + "\", \"" + req.body["time_taken"] + "\", \"" + req.body["temp_f"] + "\", \"" + new_cycle_id + "\")", function(err, rows_from_time_temp) {
 					// after conducting all this brain work, redirect to home page: 
+console.log(err);console.log("<<<<>>>>");
 					res.redirect('/');
 				});
 			});
