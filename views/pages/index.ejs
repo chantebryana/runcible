@@ -5,7 +5,7 @@
 	<div class="jumbotron">
 		<% //CE: eventually get page title to pull cycle and date data from 'cycles' table %>
 		<h1>Cycle <%= rows_to_renderer[0].cycle_id %> Results</h1>
-		<% //<h2>[date] through [date]</h2> %>
+		<h2> <%= begin_date_to_renderer %> through <%= end_date_to_renderer %> </h2>
 	<% //hyperlinks to move forwards and backwards through cycles, with conditions to "deactivate" hyperlinks when they reach the beginning or end of the cycle range: %>
 	<p>
 		<% if (cycle_id_to_renderer.prev) { %>
