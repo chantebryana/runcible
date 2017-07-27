@@ -115,27 +115,36 @@ router.get('/', function(req,res) {
 				which_cycle_id = current_cycle_id;
 			};
 			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
-				var temp_array = []
-				var date_array = []
-				for (var i = 0; i < rows_from_db.length; i++){
-					temp_array[i] = rows_from_db[i].temp_f
-					date_array[i] = "\"" + rows_from_db[i].month_day + "\""
-				}
-				// res.render sends various variables to index.ejs and its dependent pages:
-				res.render('pages', {
-					title: 'Home', 
-					// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: 
-					// if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
-					rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
-					temp_array_to_renderer: temp_array,
-					date_array_to_renderer: date_array,
-					cycle_id_to_renderer: {
-						prev: previous_cycle_id, 
-						curr: current_cycle_id, 
-						next: next_cycle_id, 
-						first: first_cycle_id, 
-						last: last_cycle_id
+
+				//find beginning and end dates of currently displayed cycle: 
+				db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + next_cycle_id, function(err, dates_from_db){
+					var begin_date = dates_from_db[0].begin_date;
+					var end_date = dates_from_db[1].yesterday;
+
+					var temp_array = []
+					var date_array = []
+					for (var i = 0; i < rows_from_db.length; i++){
+						temp_array[i] = rows_from_db[i].temp_f
+						date_array[i] = "\"" + rows_from_db[i].month_day + "\""
 					}
+					// res.render sends various variables to index.ejs and its dependent pages:
+					res.render('pages', {
+						title: 'Home', 
+						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
+						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
+						temp_array_to_renderer: temp_array,
+						date_array_to_renderer: date_array,
+						// render beginning and end dates of currently displayed cycle to index.ejs:
+						begin_date_to_renderer: begin_date,
+						end_date_to_renderer: end_date,
+						cycle_id_to_renderer: {
+							prev: previous_cycle_id, 
+							curr: current_cycle_id, 
+							next: next_cycle_id, 
+							first: first_cycle_id, 
+							last: last_cycle_id
+						}
+					});
 				});
 			});
 		});
