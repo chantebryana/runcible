@@ -116,10 +116,22 @@ router.get('/', function(req,res) {
 			};
 			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
 
-				//find beginning and end dates of currently displayed cycle: 
-				db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + next_cycle_id, function(err, dates_from_db){
-					var begin_date = dates_from_db[0].begin_date;
-					var end_date = dates_from_db[1].yesterday;
+					// variables for query below with conditions so that the query doesn't break if next_cycle_id is undefined (ie, if the page is displaying the final cycle and there is no next cycle created yet): 
+					var id_search_var = 0;
+					if (next_cycle_id) {
+						id_search_var = next_cycle_id;
+					} else {
+						id_search_var = which_cycle_id; // simply assigning id_search_var to something that I know won't be undefined
+					};
+					// query to find beginning and end dates of currently displayed cycle: 
+					db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var, function(err, dates_from_db){
+							if (next_cycle_id) {
+								var begin_date = dates_from_db[0].begin_date;
+								var end_date = dates_from_db[1].yesterday;
+							} else {
+								var begin_date = dates_from_db[0].begin_date;
+								var end_date = 'Present';
+							};
 
 					var temp_array = []
 					var date_array = []
