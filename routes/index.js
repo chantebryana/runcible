@@ -121,23 +121,23 @@ router.get('/', function(req,res) {
 					if (next_cycle_id) {
 						id_search_var = next_cycle_id;
 					} else {
-						id_search_var = which_cycle_id; // simply assigning id_search_var to something that I know won't be undefined
+						id_search_var = which_cycle_id; // simply assigning id_search_var to something that I know won't be undefined and break the query below
 					};
 					// query to find beginning and end dates of currently displayed cycle: 
-					db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var, function(err, dates_from_db){
+					db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
 							if (next_cycle_id) {
 								var begin_date = dates_from_db[0].begin_date;
 								var end_date = dates_from_db[1].yesterday;
 							} else {
 								var begin_date = dates_from_db[0].begin_date;
-								var end_date = 'Present';
+								var end_date = 'Today';
 							};
 
 					var temp_array = []
 					var date_array = []
 					for (var i = 0; i < rows_from_db.length; i++){
 						temp_array[i] = rows_from_db[i].temp_f
-						date_array[i] = "\"" + rows_from_db[i].month_day + "\""
+						date_array[i] = "\"" + rows_from_db[i].month_day + " " + rows_from_db[i].time_taken + "\""
 					}
 					// res.render sends various variables to index.ejs and its dependent pages:
 					res.render('pages', {

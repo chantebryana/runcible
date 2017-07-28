@@ -1,38 +1,36 @@
 <link rel='stylesheet' href='javascripts/chartist.min.css'>
 <script src='javascripts/chartist.min.js'></script>
-<div class="ct-chart_temp ct-major-seventh"></div>
+<div class="ct-chart_time ct-double_octave"></div>
 
 <script>
 
 	var data = {
 		// A labels array that can contain any sort of values
-//		labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5'],
 		labels: [<%- date_array_to_renderer %>], 
 		// Our series array that contains series objects or in this case series data arrays
 		series: [
-			[<%= temp_array_to_renderer %>]
+			[<%- time_array_to_renderer %>]
 		]
 	};
 
 	var options = {
 		axisX: {
-			//offset: 40, // provides enough space for 3 lines of labels on X axis
-			position: 'start'
+			//offset: 40 // provides enough space for 3 lines of labels on X axis
 		},
 		axisY: {
 			// restrict the y-axis to only show values between 96.5 and 98.0, which should 
 			// pertain to >80% of entered temp values and make it easier to compare mo by mo:
-			high: 99.0, 
-			low: 96.5, 
+			high: 946722600, 
+			low: 946710000, 
 			// I need both 'type' and 'ticks' to define the y-axis intervals displayed. 
 			// https://github.com/gionkunz/chartist-js/issues/693
 			type: Chartist.FixedScaleAxis,
-			ticks: [96.5, 96.6, 96.7, 96.8, 96.9, 97.0, 97.1, 97.2, 97.3, 97.4, 97.5, 97.6, 97.7, 97.8, 97.9, 98.0, 98.1, 98.2, 98.3, 98.4, 98.5, 98.6, 98.7, 98.8, 98.9, 99.0]
+			//ticks: [6, 7, 8, 9, 10, 11]
 		}
 	};	
 
 	// Create a new line chart object where as first parameter we pass in a selector
 	// that is resolving to our chart container element. The Second parameter
 	// is the actual data object.
-	new Chartist.Line('.ct-chart_temp', data, options);
+	new Chartist.Line('.ct-chart_time', data, options);
 </script>
