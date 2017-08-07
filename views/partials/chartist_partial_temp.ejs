@@ -1,16 +1,25 @@
 <link rel='stylesheet' href='javascripts/chartist.min.css'>
 <script src='javascripts/chartist.min.js'></script>
 <div class="ct-chart_temp ct-major-seventh"></div>
+<script src="javascripts/moment.min.js"></script>
 
 <script>
 
 	var data = {
 		// A labels array that can contain any sort of values
-//		labels: ['June 1\nThur\nDay 1', 'June 2\nFri\nDay 2', 'June 3\nSat\nDay 3', 'June 4\nSun\nDay 4', 'June 5\nMon\nDay5'],
-		labels: [<%- date_array_to_renderer %>], 
+		//labels: [<%- date_array_to_renderer %>], 
 		// Our series array that contains series objects or in this case series data arrays
 		series: [
-			[<%= temp_array_to_renderer %>]
+			{
+			//[<%= temp_array_to_renderer %>]
+				data: [
+					{x: new Date('2017-07-01T12:00'), y: 97.0}, 
+					{x: new Date('2017-07-02T12:00'), y: 97.2}, 
+					{x: new Date('2017-07-03T12:00'), y: 97.1}, 
+					{x: new Date('2017-07-04T12:00'), y: 97.5}, 
+					{x: new Date('2017-07-06T12:00'), y: 97.4}
+				]
+			}
 		]
 	};
 
@@ -18,7 +27,12 @@
 		chartPadding: 15,
 		axisX: {
 			//offset: 40, // provides enough space for 3 lines of labels on X axis
-			position: 'start'
+			//position: 'start' // puts labels on top of chart (not bottom, which is default)
+			type: Chartist.FixedScaleAxis, 
+			divisor: 5, // JE take begin_date and end_date/most_recent_date and divide it by 1000/60/60/24 to convert milliseconds to whole days, which will set the divisor to the correct intiger
+			labelInterpolationFnc: function(value) {
+				return moment(value).format('MMM D');
+			}
 		},
 		axisY: {
 			// restrict the y-axis to only show values between 96.5 and 98.0, which should 

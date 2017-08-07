@@ -1,0 +1,22 @@
+when i download a file (like a library), i can symbolically link the file within the bowels of node_modules into a more web-accessible folder, such as javascripts (in public): 
+
+ruby@rubyVM:~/Projects/runcible$ cd ./public/javascripts/
+ruby@rubyVM:~/Projects/runcible/public/javascripts$ ls-la
+ls-la: command not found
+ruby@rubyVM:~/Projects/runcible/public/javascripts$ ls -la
+total 8
+drwxr-xr-x 2 ruby ruby 4096 Jun 29 11:24 .
+drwxr-xr-x 5 ruby ruby 4096 Jun 29 11:39 ..
+lrwxrwxrwx 1 ruby ruby   49 Jun 29 11:24 chartist.min.css -> ../../node_modules/chartist/dist/chartist.min.css
+lrwxrwxrwx 1 ruby ruby   48 Jun 28 15:12 chartist.min.js -> ../../node_modules/chartist/dist/chartist.min.js
+lrwxrwxrwx 1 ruby ruby   45 Jun 27 11:16 Chart.min.js -> ../../node_modules/chart.js/dist/Chart.min.js
+ruby@rubyVM:~/Projects/runcible/public/javascripts$ ln -s ../../node_modules/moment/min/moment.min.js ./
+ruby@rubyVM:~/Projects/runcible/public/javascripts$ ls -la
+total 8
+drwxr-xr-x 2 ruby ruby 4096 Jul 28 14:37 .
+drwxr-xr-x 5 ruby ruby 4096 Jun 29 11:39 ..
+lrwxrwxrwx 1 ruby ruby   49 Jun 29 11:24 chartist.min.css -> ../../node_modules/chartist/dist/chartist.min.css
+lrwxrwxrwx 1 ruby ruby   48 Jun 28 15:12 chartist.min.js -> ../../node_modules/chartist/dist/chartist.min.js
+lrwxrwxrwx 1 ruby ruby   45 Jun 27 11:16 Chart.min.js -> ../../node_modules/chart.js/dist/Chart.min.js
+lrwxrwxrwx 1 ruby ruby   43 Jul 28 14:37 moment.min.js -> ../../node_modules/moment/min/moment.min.js
+
