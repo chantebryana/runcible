@@ -27,7 +27,8 @@
 			//offset: 40, // provides enough space for 3 lines of labels on X axis
 			//position: 'start' // puts labels on top of chart (not bottom, which is default)
 			type: Chartist.FixedScaleAxis, 
-			divisor: 5, // JE take begin_date and end_date/most_recent_date and divide it by 1000/60/60/24 to convert milliseconds to whole days, which will set the divisor to the correct intiger
+			divisor: <%= date_range_int_to_renderer %>,
+			//divisor: 5, // JE take begin_date and end_date/most_recent_date and divide it by 1000/60/60/24 to convert milliseconds to whole days, which will set the divisor to the correct intiger
 			labelInterpolationFnc: function(value) {
 				return moment(value).format('MMM D');
 			}

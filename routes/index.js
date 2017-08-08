@@ -146,21 +146,13 @@ router.get('/', function(req,res) {
 						// put values into new object:
 						date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:00\')";
 						date_temp_object[i].y = rows_from_db[i].temp_f;
-						//console.log(date_temp_object[i].x + ", " + date_temp_object[i].y);
 					}
-					
-					//console.log(date_temp_object);
-/*
-					x_array = [
-						"new Date('2017-07-01T12:00')", 
-						"new Date('2017-07-02T12:00')", 
-						"new Date('2017-07-03T12:00')", 
-						"new Date('2017-07-04T12:00')", 
-						"new Date('2017-07-06T12:00')"
-					]
 
-					y_array = [97.0, 97.2, 97.1, 97.5, 97.4]
-*/
+					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs:
+					var start_date_int = new Date(rows_from_db[0].date + " 12:00:00");
+					var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date + " 12:00:00");
+					var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24);
+					
 					// res.render sends various variables to index.ejs and its dependent pages:
 					res.render('pages', {
 						title: 'Home', 
@@ -168,12 +160,11 @@ router.get('/', function(req,res) {
 						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
 						temp_array_to_renderer: temp_array,
 						date_array_to_renderer: date_array,
-						//x_array_to_renderer: x_array, 
-						//y_array_to_renderer: y_array,
 						date_temp_object_to_renderer: date_temp_object,
 						// render beginning and end dates of currently displayed cycle to index.ejs:
 						begin_date_to_renderer: begin_date,
 						end_date_to_renderer: end_date,
+						date_range_int_to_renderer: date_range_int,
 						cycle_id_to_renderer: {
 							prev: previous_cycle_id, 
 							curr: current_cycle_id, 
