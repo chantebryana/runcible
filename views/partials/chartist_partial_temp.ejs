@@ -13,9 +13,9 @@
 			{
 			//[<%= temp_array_to_renderer %>]
 				data: [
-					<% date_temp_object_to_renderer.forEach(axis)=> { %>
+					<% date_temp_object_to_renderer.forEach((axis)=> { %>
 						{x: <%- axis.x %> , y: <%= axis.y %>}, 
-					<% } %>
+					<% }); %>
 				]
 			}
 		]
