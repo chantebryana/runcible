@@ -133,14 +133,9 @@ router.get('/', function(req,res) {
 								var end_date = 'Today';
 							};
 
-					var temp_array = []
-					var date_array = []
 					var date_temp_object = []
 					
 					for (var i = 0; i < rows_from_db.length; i++){
-						//temp_array[i] = rows_from_db[i].temp_f
-						//date_array[i] = "\"" + rows_from_db[i].month_day + " " + rows_from_db[i].time_taken + "\""
-
 						// assign a new object in my array:
 						date_temp_object[i] = {}; 
 						// put values into new object:
@@ -151,18 +146,13 @@ router.get('/', function(req,res) {
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs:
 					var start_date_int = new Date(rows_from_db[0].date);
 					var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date);
-					var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24);
-					console.log(start_date_int);
-					console.log(end_date_int);
-					console.log(date_range_int);
+					var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
 					
 					// res.render sends various variables to index.ejs and its dependent pages:
 					res.render('pages', {
 						title: 'Home', 
 						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
 						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
-						temp_array_to_renderer: temp_array,
-						date_array_to_renderer: date_array,
 						date_temp_object_to_renderer: date_temp_object,
 						// render beginning and end dates of currently displayed cycle to index.ejs:
 						begin_date_to_renderer: begin_date,

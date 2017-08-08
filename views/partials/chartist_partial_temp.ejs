@@ -6,15 +6,12 @@
 <script>
 
 	var data = {
-		// A labels array that can contain any sort of values
-		//labels: [<%- date_array_to_renderer %>], 
 		// Our series array that contains series objects or in this case series data arrays
 		series: [
 			{
-			//[<%= temp_array_to_renderer %>]
 				data: [
 					<% date_temp_object_to_renderer.forEach((axis)=> { %>
-						{x: <%- axis.x %> , y: <%= axis.y %>}, 
+						{x:<%- axis.x %>, y:<%= axis.y %>}, 
 					<% }); %>
 				]
 			}
@@ -26,9 +23,9 @@
 		axisX: {
 			//offset: 40, // provides enough space for 3 lines of labels on X axis
 			//position: 'start' // puts labels on top of chart (not bottom, which is default)
+			// the next 3 lines needed to create gaps in data for days that i don't log temperature:
 			type: Chartist.FixedScaleAxis, 
 			divisor: <%= date_range_int_to_renderer %>,
-			//divisor: 5, // JE take begin_date and end_date/most_recent_date and divide it by 1000/60/60/24 to convert milliseconds to whole days, which will set the divisor to the correct intiger
 			labelInterpolationFnc: function(value) {
 				return moment(value).format('MMM D');
 			}
