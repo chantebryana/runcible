@@ -135,10 +135,32 @@ router.get('/', function(req,res) {
 
 					var temp_array = []
 					var date_array = []
+					var date_temp_object = []
+					
 					for (var i = 0; i < rows_from_db.length; i++){
-						temp_array[i] = rows_from_db[i].temp_f
-						date_array[i] = "\"" + rows_from_db[i].month_day + " " + rows_from_db[i].time_taken + "\""
+						//temp_array[i] = rows_from_db[i].temp_f
+						//date_array[i] = "\"" + rows_from_db[i].month_day + " " + rows_from_db[i].time_taken + "\""
+
+						// assign a new object in my array:
+						date_temp_object[i] = {}; 
+						// put values into new object:
+						date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:00\')";
+						date_temp_object[i].y = rows_from_db[i].temp_f;
+						//console.log(date_temp_object[i].x + ", " + date_temp_object[i].y);
 					}
+					
+					//console.log(date_temp_object);
+/*
+					x_array = [
+						"new Date('2017-07-01T12:00')", 
+						"new Date('2017-07-02T12:00')", 
+						"new Date('2017-07-03T12:00')", 
+						"new Date('2017-07-04T12:00')", 
+						"new Date('2017-07-06T12:00')"
+					]
+
+					y_array = [97.0, 97.2, 97.1, 97.5, 97.4]
+*/
 					// res.render sends various variables to index.ejs and its dependent pages:
 					res.render('pages', {
 						title: 'Home', 
@@ -146,6 +168,9 @@ router.get('/', function(req,res) {
 						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
 						temp_array_to_renderer: temp_array,
 						date_array_to_renderer: date_array,
+						//x_array_to_renderer: x_array, 
+						//y_array_to_renderer: y_array,
+						date_temp_object_to_renderer: date_temp_object,
 						// render beginning and end dates of currently displayed cycle to index.ejs:
 						begin_date_to_renderer: begin_date,
 						end_date_to_renderer: end_date,

@@ -13,11 +13,9 @@
 			{
 			//[<%= temp_array_to_renderer %>]
 				data: [
-					{x: new Date('2017-07-01T12:00'), y: 97.0}, 
-					{x: new Date('2017-07-02T12:00'), y: 97.2}, 
-					{x: new Date('2017-07-03T12:00'), y: 97.1}, 
-					{x: new Date('2017-07-04T12:00'), y: 97.5}, 
-					{x: new Date('2017-07-06T12:00'), y: 97.4}
+					<% date_temp_object_to_renderer.forEach(axis)=> { %>
+						{x: <%- axis.x %> , y: <%= axis.y %>}, 
+					<% } %>
 				]
 			}
 		]
