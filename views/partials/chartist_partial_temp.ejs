@@ -5,7 +5,10 @@
 <script src="javascripts/jquery.min.js"></script>
 
 <script>
-
+// CE possible onclick event resources: 
+// https://github.com/gionkunz/chartist-js/issues/571
+// http://gionkunz.github.io/chartist-js/api-documentation.html#chartistevent-function-addeventhandler
+// https://github.com/gionkunz/chartist-js/issues/458
 	var data = {
 		// Our series array that contains series objects or in this case series data arrays
 		series: [
@@ -28,12 +31,12 @@
 			type: Chartist.FixedScaleAxis, 
 			divisor: <%= date_range_int_to_renderer %>,
 			labelInterpolationFnc: function(value) {
-				// for loop
-				// get this value month-day
-				// look up hours:minutes by month-day (key: month-day; value: hours:minutes)
-				// return month-day \n hours:minutes string 
-				// perhaps gaps in h:m data won't be disaplyed on x axis?
-				return moment(value).format('M-D') + "\n08:00"; // + time[i];
+				// CE for loop
+				// JE get this value month-day
+				// JE look up hours:minutes by month-day (key: month-day; value: hours:minutes)
+				// JE return month-day \n hours:minutes string 
+				// JE perhaps gaps in h:m data won't be disaplyed on x axis?
+				return moment(value).format('M-D') + "\n08:00"; // CE + time[i];
 			}
 		},
 		axisY: {
