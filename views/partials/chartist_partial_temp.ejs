@@ -2,6 +2,7 @@
 <script src='javascripts/chartist.min.js'></script>
 <div class="ct-chart_temp ct-major-seventh"></div>
 <script src="javascripts/moment.min.js"></script>
+<script src="javascripts/jquery.min.js"></script>
 
 <script>
 
@@ -27,7 +28,12 @@
 			type: Chartist.FixedScaleAxis, 
 			divisor: <%= date_range_int_to_renderer %>,
 			labelInterpolationFnc: function(value) {
-				return moment(value).format('M-D');
+				// for loop
+				// get this value month-day
+				// look up hours:minutes by month-day (key: month-day; value: hours:minutes)
+				// return month-day \n hours:minutes string 
+				// perhaps gaps in h:m data won't be disaplyed on x axis?
+				return moment(value).format('M-D') + "\n08:00"; // + time[i];
 			}
 		},
 		axisY: {
