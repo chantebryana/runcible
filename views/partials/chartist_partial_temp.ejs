@@ -27,7 +27,7 @@
 			type: Chartist.FixedScaleAxis, 
 			divisor: <%= date_range_int_to_renderer %>,
 			labelInterpolationFnc: function(value) {
-				return moment(value).format('MMM D');
+				return moment(value).format('M-D');
 			}
 		},
 		axisY: {
