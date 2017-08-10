@@ -1,4 +1,3 @@
-/*
 // https://expressjs.com/en/starter/hello-world.html
 // https://scotch.io/tutorials/use-ejs-to-template-your-node-application
 
@@ -22,8 +21,6 @@ app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
 var sqlite3 = require('sqlite3').verbose();
 var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
-*/
-var support = require('./support');
 
 router.get('/form', function(req, res) {
 		var current_cycle_id = req.query.cycle;
