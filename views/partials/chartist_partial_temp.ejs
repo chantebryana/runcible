@@ -36,7 +36,7 @@
 				// JE look up hours:minutes by month-day (key: month-day; value: hours:minutes)
 				// JE return month-day \n hours:minutes string 
 				// JE perhaps gaps in h:m data won't be disaplyed on x axis?
-				return moment(value).format('M-D') + "\n08:00"; // CE + time[i];
+				return moment(value).format('M-D \nh:mm'); // CE + time[i];
 			}
 		},
 		axisY: {
