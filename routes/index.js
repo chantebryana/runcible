@@ -139,7 +139,7 @@ router.get('/', function(req,res) {
 						// assign a new object in my array:
 						date_temp_object[i] = {}; 
 						// put values into new object:
-						date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:00\')";
+						date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:30\')";
 						date_temp_object[i].y = rows_from_db[i].temp_f;
 					}
 
