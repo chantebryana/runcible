@@ -6,6 +6,7 @@
 
 <script>
 // CE possible onclick event resources: 
+// play with jquery to get onclick event: play in terminal of web browser (developer tools): the idea works, even if i don't know how to implement it for real yet!: 
 // https://github.com/gionkunz/chartist-js/issues/571
 // http://gionkunz.github.io/chartist-js/api-documentation.html#chartistevent-function-addeventhandler
 // https://github.com/gionkunz/chartist-js/issues/458
@@ -36,7 +37,7 @@
 				// JE look up hours:minutes by month-day (key: month-day; value: hours:minutes)
 				// JE return month-day \n hours:minutes string 
 				// JE perhaps gaps in h:m data won't be disaplyed on x axis?
-				return moment(value).format('M-D[\n]ddd[\n]h:mm'); // CE + time[i];
+				return moment(value).format('M-D[\n]ddd'); // CE + time[i];
 			}
 		},
 		axisY: {
