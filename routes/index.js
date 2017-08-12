@@ -213,10 +213,12 @@ console.log(err.constructor.name); // JE: shows the type of the object 'err'
 
 
 router.post('/deletepost', function(req, res) {
+	console.log("req.body[\'cycle_id\']" + req.body["cycle_id"]);
 	var query = "";
 	db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id_home"], function(err, rows) {
 		console.log("attempted to delete with ((" + query + "))");
-		res.redirect('/');
+		//res.redirect('/');
+		res.redirect('/?cycle=' + req.body["cycle_id"]);
 	});
 });
 
