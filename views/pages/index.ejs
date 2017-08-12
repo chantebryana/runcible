@@ -49,7 +49,9 @@
 					<td>
 						<form action='/deletepost' method='post' onsubmit="return window.confirm('Delete row number <%= row.id  %>?')" >
 							<input type="submit" value="Delete" >
+							<% // pass id of row I intend to delete to router.post('/deletepost'...) in index.js: needed for sqlite query: %>
 							<input type="hidden" value="<%= row.id %>" name="id_home">
+							<% // pass cycle_id of row I intend to delete to router.post('/deletepost'...) in index.js: needed to route back to currently-viewed cycle after delete (instead of defaulting to most recent cycle): %>
 							<input type="hidden" value="<%= row.cycle_id %>" name="cycle_id">
 						</form>
 					</td>
