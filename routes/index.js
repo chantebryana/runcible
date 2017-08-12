@@ -115,6 +115,9 @@ router.get('/', function(req,res) {
 				which_cycle_id = current_cycle_id;
 			};
 			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
+					console.log("rows_from_db: " + rows_from_db);
+					//console.log(err);console.log("<<<<>>>>");
+					//console.log(err.constructor.name); 
 
 					// variables for query below with conditions so that the query doesn't break if next_cycle_id is undefined (ie, if the page is displaying the final cycle and there is no next cycle created yet): 
 					var id_search_var = 0;
@@ -123,6 +126,8 @@ router.get('/', function(req,res) {
 					} else {
 						id_search_var = which_cycle_id; // simply assigning id_search_var to something that I know won't be undefined and break the query below
 					};
+
+					// CE: consider added brains to make this act differently if time_temp query returns null (?): 
 					// query to find beginning and end dates of currently displayed cycle: 
 					db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
 							if (next_cycle_id) {
@@ -134,20 +139,33 @@ router.get('/', function(req,res) {
 							};
 
 					var date_temp_object = []
-					
-					for (var i = 0; i < rows_from_db.length; i++){
-						// assign a new object in my array:
-						date_temp_object[i] = {}; 
-						// put values into new object:
-						date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:30\')";
-						date_temp_object[i].y = rows_from_db[i].temp_f;
+					// CE: if (rows_from_db){} --> only does this for() pass if time_temp query returns anything other than null (?):
+					if (rows_from_db) {
+						for (var i = 0; i < rows_from_db.length; i++){
+							// assign a new object in my array:
+							date_temp_object[i] = {}; 
+							// put values into new object:
+							date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:30\')";
+							date_temp_object[i].y = rows_from_db[i].temp_f;
+							console.log("date_temp_object[i].x & y" + date_temp_object[i].x + " " + date_temp_object[i].y);
+						}
 					}
 
+					//console.log(err);console.log("<<<<>>>>");
+					//console.log(err.constructor.name);
+
+					// CE: also create an if(){} statement here to set date_range_int to 1 day if time_temp query returns null (?):
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs:
-					var start_date_int = new Date(rows_from_db[0].date);
-					var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date);
-					var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
-					
+/*
+					if (rows_from_db) {
+						var start_date_int = new Date(rows_from_db[0].date);
+						var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date);
+						var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
+					} else {
+						var date_range_int = 1; // default to showing one time segment
+					}
+*/					
+					var date_range_int = 1;
 					// res.render sends various variables to index.ejs and its dependent pages:
 					res.render('pages', {
 						title: 'Home', 
@@ -189,7 +207,7 @@ router.post('/formpost', function(req, res) {
 					// after conducting all this brain work, redirect to home page: 
 console.log(err);console.log("<<<<>>>>"); // JE: shows the 'contents' of object 'err'; the 'contents' aren't printed out the same way you'd expect for a regular object, such as the array results of sqlite query (this is because console.log() has special machinery to insepct and spit out objects of type 'Error'
 // JE: supporting 'Error' documentation here: https://nodejs.org/api/errors.html 
-console.log(err.constructor.name); // JE: shows the type of the object 'err'
+//console.log(err.constructor.name); // JE: shows the type of the object 'err'
 					res.redirect('/');
 					//res.redirect('/?cycle=' + new_cycle_id);
 				});
