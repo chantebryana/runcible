@@ -190,7 +190,7 @@ router.post('/formpost', function(req, res) {
 console.log(err);console.log("<<<<>>>>"); // JE: shows the 'contents' of object 'err'; the 'contents' aren't printed out the same way you'd expect for a regular object, such as the array results of sqlite query (this is because console.log() has special machinery to insepct and spit out objects of type 'Error'
 // JE: supporting 'Error' documentation here: https://nodejs.org/api/errors.html 
 console.log(err.constructor.name); // JE: shows the type of the object 'err'
-					res.redirect('/');
+					res.redirect('/?cycle=3');
 				});
 			});
 		});
@@ -199,7 +199,7 @@ console.log(err.constructor.name); // JE: shows the type of the object 'err'
 		// insert new entry data into time_temp (including cycle_id of existing cycle): 
 		db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \"" + req.body["date"] + "\", \"" + req.body["time_taken"] + "\", \"" + req.body["temp_f"] + "\", \"" + req.body["cycle_id"] + "\")", function(err, rows_from_time_temp) {
 			// after conducting this brain work, redirect to home page: 
-			res.redirect('/');
+			res.redirect('/?cycle=3');
 		});
 	}
 
