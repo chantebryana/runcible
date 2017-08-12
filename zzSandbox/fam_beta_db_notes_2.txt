@@ -32,6 +32,10 @@ CREATE TABLE IF NOT EXISTS time_temp (
 );
 
 
+///
+BEGIN TRANSACTION; 
+
+ALTER TABLE time_temp RENAME TO _time_temp_old_b;
 
 CREATE TABLE IF NOT EXISTS time_temp (
 	id INTEGER PRIMARY KEY, 
@@ -40,8 +44,15 @@ CREATE TABLE IF NOT EXISTS time_temp (
 	temp_f INTEGER, 
 	cycle_id INTEGER,
 	notes TEXT,
-	entry_created DATETIME DEFAULT CURRENT_TIMESTAMP
+	entry_created DATETIME DEFAULT (DATETIME('NOW', 'LOCALTIME'))
 );
+
+INSERT INTO time_temp(date, time_taken, temp_f, cycle_id, notes)
+	SELECT date, time_taken, temp_f, cycle_id, notes
+	FROM _time_temp_old_b;
+
+COMMIT;
+///
 
 
 - should I have ON UPDATE or ON DELETE special actions? (no action, restrict, set null, set default, cascade)
