@@ -134,6 +134,7 @@ router.get('/', function(req,res) {
 								var end_date = 'Today';
 							};
 
+					// massages data gleaned from time_temp query into a format that can be used by chart in chartist_partial_temp.ejs (via res.render() section below); create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
 					var date_temp_object = []
 					if (rows_from_db.length != 0) {
 						console.log("running date_temp_object branch");
@@ -146,7 +147,7 @@ router.get('/', function(req,res) {
 						}
 					}
 
-					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs:
+					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs; create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
 					var date_range_int = 0;
 					if (rows_from_db.length != 0) {
 						console.log("running date_range_int branch");
