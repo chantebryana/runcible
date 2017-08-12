@@ -115,9 +115,6 @@ router.get('/', function(req,res) {
 				which_cycle_id = current_cycle_id;
 			};
 			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
-					//console.log("rows_from_db: " + rows_from_db);
-					//console.log(err);console.log("<<<<>>>>");
-					//console.log(err.constructor.name); 
 
 					// variables for query below with conditions so that the query doesn't break if next_cycle_id is undefined (ie, if the page is displaying the final cycle and there is no next cycle created yet): 
 					var id_search_var = 0;
@@ -127,7 +124,6 @@ router.get('/', function(req,res) {
 						id_search_var = which_cycle_id; // simply assigning id_search_var to something that I know won't be undefined and break the query below
 					};
 
-					// CE: consider added brains to make this act differently if time_temp query returns null (?): 
 					// query to find beginning and end dates of currently displayed cycle: 
 					db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
 							if (next_cycle_id) {
@@ -139,43 +135,26 @@ router.get('/', function(req,res) {
 							};
 
 					var date_temp_object = []
-					// CE: if (rows_from_db){} --> only does this for() pass if time_temp query returns anything other than null (?):
-					if (rows_from_db) {
+					if (rows_from_db.length != 0) {
+						console.log("running date_temp_object branch");
 						for (var i = 0; i < rows_from_db.length; i++){
 							// assign a new object in my array:
 							date_temp_object[i] = {}; 
 							// put values into new object:
 							date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:30\')";
 							date_temp_object[i].y = rows_from_db[i].temp_f;
-							console.log("date_temp_object[i].x & y" + date_temp_object[i].x + " " + date_temp_object[i].y);
 						}
 					}
 
-					//console.log(err);console.log("<<<<>>>>");
-					//console.log(err.constructor.name);
-
-					// CE: also create an if(){} statement here to set date_range_int to 1 day if time_temp query returns null (?):
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs:
-
 					var date_range_int = 0;
-					//rows_from_db = [1,2,3];
-					console.log("rows_from_db: " + rows_from_db);
-					console.log(rows_from_db);
-					console.log(rows_from_db.constructor.name);
-					console.log(typeof(rows_from_db));
 					if (rows_from_db.length != 0) {
-						//console.log(err);console.log("<<<<>>>>");
-						//console.log(err.constructor.name);
-						console.log("running rows_from_db == []");
+						console.log("running date_range_int branch");
 						var start_date_int = new Date(rows_from_db[0].date);
 						var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date);
-						//var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
 						date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
-					} //else {
-						//var date_range_int = 1; // default to showing one time segment
-					//}
-			
-					//var date_range_int = 0;
+					} 
+
 					// res.render sends various variables to index.ejs and its dependent pages:
 					res.render('pages', {
 						title: 'Home', 
