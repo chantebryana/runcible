@@ -158,9 +158,13 @@ router.get('/', function(req,res) {
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs:
 
 					var date_range_int = 0;
-					if (rows_from_db == null) {
-						console.log(err);console.log("<<<<>>>>");
-						console.log(err.constructor.name);
+					console.log("rows_from_db: " + rows_from_db);
+					console.log(rows_from_db);
+					console.log(rows_from_db.constructor.name);
+					console.log(typeof(rows_from_db));
+					if (rows_from_db == []) {
+						//console.log(err);console.log("<<<<>>>>");
+						//console.log(err.constructor.name);
 						var start_date_int = new Date(rows_from_db[0].date);
 						var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date);
 						//var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
