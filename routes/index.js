@@ -115,7 +115,7 @@ router.get('/', function(req,res) {
 				which_cycle_id = current_cycle_id;
 			};
 			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
-					console.log("rows_from_db: " + rows_from_db);
+					//console.log("rows_from_db: " + rows_from_db);
 					//console.log(err);console.log("<<<<>>>>");
 					//console.log(err.constructor.name); 
 
@@ -156,16 +156,20 @@ router.get('/', function(req,res) {
 
 					// CE: also create an if(){} statement here to set date_range_int to 1 day if time_temp query returns null (?):
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs:
-/*
-					if (rows_from_db) {
+
+					var date_range_int = 0;
+					if (rows_from_db == null) {
+						console.log(err);console.log("<<<<>>>>");
+						console.log(err.constructor.name);
 						var start_date_int = new Date(rows_from_db[0].date);
 						var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date);
-						var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
-					} else {
-						var date_range_int = 1; // default to showing one time segment
-					}
-*/					
-					var date_range_int = 1;
+						//var date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
+						date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
+					} //else {
+						//var date_range_int = 1; // default to showing one time segment
+					//}
+			
+					//var date_range_int = 0;
 					// res.render sends various variables to index.ejs and its dependent pages:
 					res.render('pages', {
 						title: 'Home', 
