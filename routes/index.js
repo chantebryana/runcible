@@ -5,6 +5,7 @@ var express = require('express');
 var path = require('path'); // makes app.use(express.static ... work down below
 
 var cookieParser = require('cookie-parser');
+var cookie = require('cookie');  // https://www.npmjs.com/package/cookie
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -243,7 +244,16 @@ router.post('/form_post_update', function(req, res) {
 });
 
 router.get('/cookie', function(req,res){
-	res.cookie(cookie_name, 'cookie_value').send('Cookie is set');
+	var cookie_name = "cookie_name";
+	//res.cookie(cookie_name, 'cookie_value', {expire: new Date() + 9999}).send('Cookie is set');
+	// https://www.npmjs.com/package/cookie:
+	res.setHeader('Set-Cookie', cookie.serialize('cookiez_name', 'cookiez_value', {/*expire: (new Date()).toString()*/ maxAge: 60 * 60 * 24 * 7}) );
+	res.send('Cookie\'s sent, bitches!');
+});
+
+router.get('/clearcookie', function(req,res){
+	clearCookie('cookie_name');
+	res.send('Cookie deleted');
 });
 
 app.listen(3000, function() {
