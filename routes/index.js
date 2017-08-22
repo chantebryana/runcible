@@ -104,6 +104,7 @@ function find_next_previous_cycle(current_cycle_id, callback) {
 
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get('/', function(req,res) {
+	console.log("Cookies: ", req.cookies);
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
 	// get the following cycle id's via callbacks: first, last, previous, next
@@ -239,6 +240,10 @@ router.post('/form_post_update', function(req, res) {
 		// redirect to the cycle of the row I just updated (not defaulting to most recent cycle): 
 		res.redirect('/?cycle=' + req.body["cycle_id"]);
 	});
+});
+
+router.get('/cookie', function(req,res){
+	res.cookie(cookie_name, 'cookie_value').send('Cookie is set');
 });
 
 app.listen(3000, function() {
