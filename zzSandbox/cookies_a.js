@@ -48,6 +48,6 @@ var new_object = eval(JSON_string);
 // ...	...	...
 // https://www.codementor.io/noddy/cookie-management-in-express-js-du107rmna
 
-app.get('/cookie', function(req,res){
+router.get('/cookie', function(req,res){
 	res.cookie(cookie_name, 'cookie_value').send('Cookie is set');
 });
