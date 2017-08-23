@@ -269,7 +269,8 @@ router.get('/cookie', function(req,res){
 });
 
 router.get('/clearcookie', function(req,res){
-	res.clearCookie('cookiez_name');
+	res.clearCookie('cookieq_name');
+	res.clearCookie('cookiex_name');
 	res.send('Cookie deleted');
 });
 
