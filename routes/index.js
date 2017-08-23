@@ -246,15 +246,17 @@ router.post('/form_post_update', function(req, res) {
 router.get('/cookie', function(req,res){
 	var cookie_name = "cookieq_name";
 	res.cookie(cookie_name, 'cookieq_value', {/*expire: new Date() + 9999*/ maxAge: 60 * 60 * 24 * 7}).send('Cookie is set');
-	// CE: network header reads out this: cookieq_name=cookieq_value; Max-Age=604; Path=/; Expires=Wed, 23 Aug 2017 16:45:02 GMT
-	// CE: it seems weird that it would have both a max age and an expires -- shouldn't it be one or the other? also, the max age doesn't match my math, which should be 604800 s or something (== 1 week)
+	// CE: I get this server-side error when I try to set a cookie, even if it's a new one: Can't set headers after they are sent.
+
 	// https://www.npmjs.com/package/cookie:
 	//res.setHeader('Set-Cookie', cookie.serialize('cookiez_name', 'cookiez_value', {/*expire: (new Date()).toString()*/ maxAge: 60 * 60 * 24 * 7}) );
 	res.send('Cookie\'s sent, bitches!');
 });
 
 router.get('/clearcookie', function(req,res){
-	clearCookie('cookie_name');
+	//clearCookie('cookie_name');
+	// comments on https://www.codementor.io/noddy/cookie-management-in-express-js-du107rmna : 
+	res.clearCookie('cookieq_name');
 	res.send('Cookie deleted');
 });
 
