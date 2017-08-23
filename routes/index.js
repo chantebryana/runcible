@@ -106,14 +106,11 @@ function find_next_previous_cycle(current_cycle_id, callback) {
 
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get('/', function(req,res) {
+	// print onto terminal browser's cache of cookies: 
 	console.log("Cookies from browser: ", req.cookies);
+	// store broswer's cache of cookies onto server variable: 
 	cookie_var = req.cookies
-	// CE: console.log(variable);
-
-	// JE increment value associated w/ cookie
-	// je down below i push incremented value back to browser
-	//cookie_var = req.cookies.parse;
-	//cooke_var = cookies.parse(req.cookies);
+	// print onto terminal the server variable: 
 	console.log("cookie_var: ", cookie_var);
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
