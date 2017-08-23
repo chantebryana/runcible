@@ -245,18 +245,18 @@ router.post('/form_post_update', function(req, res) {
 
 router.get('/cookie', function(req,res){
 	var cookie_name = "cookieq_name";
-	res.cookie(cookie_name, 'cookieq_value', {/*expire: new Date() + 9999*/ maxAge: 60 * 60 * 24 * 7}).send('Cookie is set');
+	//res.cookie(cookie_name, 'cookieq_value', {/*expire: new Date() + 9999*/ maxAge: 60 * 60 * 24 * 7}).send('Cookie is set');
 	// CE: I get this server-side error when I try to set a cookie, even if it's a new one: Can't set headers after they are sent.
 
 	// https://www.npmjs.com/package/cookie:
-	//res.setHeader('Set-Cookie', cookie.serialize('cookiez_name', 'cookiez_value', {/*expire: (new Date()).toString()*/ maxAge: 60 * 60 * 24 * 7}) );
+	res.setHeader('Set-Cookie', cookie.serialize('cookiez_name', 'cookiez_value', {/*expire: (new Date()).toString()*/ maxAge: 60 * 60 * 24 * 7}) );
 	res.send('Cookie\'s sent, bitches!');
 });
 
 router.get('/clearcookie', function(req,res){
 	//clearCookie('cookie_name');
 	// comments on https://www.codementor.io/noddy/cookie-management-in-express-js-du107rmna : 
-	res.clearCookie('cookieq_name');
+	res.clearCookie('cookiez_name');
 	res.send('Cookie deleted');
 });
 
