@@ -269,8 +269,8 @@ router.get('/cookie', function(req,res){
 });
 
 router.get('/clearcookie', function(req,res){
-	res.clearCookie('cookieq_name');
-	res.clearCookie('cookiex_name');
+	// remove page_loads cookie from browser cache (and subsequently from the server's attempts to access browser's cache): 
+	res.clearCookie('page_loads');
 	res.send('Cookie deleted');
 });
 
