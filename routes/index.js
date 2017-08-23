@@ -11,7 +11,6 @@ var bodyParser = require('body-parser');
 
 // CE PLAYING AROUND W/ COOKIE-LIKE OBJECTS BEGINS
 
-//var rows = "{key: 'value', page_loads: '0', name: 'Chante'}";
 // rows equals string formatted like a cookie: 
 var rows = "key=value;page_loads=0;name=Chante";
 // print rows to make sure it looks correctly: 
