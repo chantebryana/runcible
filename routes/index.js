@@ -9,6 +9,20 @@ var cookie = require('cookie');  // https://www.npmjs.com/package/cookie
 var cookie_var = ""; // CE: temporary cookie variable
 var bodyParser = require('body-parser');
 
+// CE PLAYING AROUND W/ COOKIE-LIKE OBJECTS BEGINS
+
+//var rows = "{key: 'value', page_loads: '0', name: 'Chante'}";
+// rows equals string formatted like a cookie: 
+var rows = "key=value;page_loads=0;name=Chante";
+// print rows to make sure it looks correctly: 
+console.log("CE playing around: ", rows);
+// parse the rows string so that the key:value pairs are separated and usable more like a conventional associative array or dictionary or object:
+var parsed_rows = cookie.parse(rows);
+// print parsed_rows to make sure it behaves correct: 
+console.log("parsed_rows: ", parsed_rows);
+
+// CE PLAYING AROUND W/ COOKIE-LIKE OBJECTS ENDS
+
 var app = express();
 
 app.use(bodyParser.json());
@@ -123,7 +137,6 @@ router.get('/', function(req,res) {
 				which_cycle_id = current_cycle_id;
 			};
 			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
-
 					// variables for query below with conditions so that the query doesn't break if next_cycle_id is undefined (ie, if the page is displaying the final cycle and there is no next cycle created yet): 
 					var id_search_var = 0;
 					if (next_cycle_id) {
