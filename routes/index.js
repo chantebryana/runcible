@@ -6,6 +6,7 @@ var path = require('path'); // makes app.use(express.static ... work down below
 
 var cookieParser = require('cookie-parser');
 var cookie = require('cookie');  // https://www.npmjs.com/package/cookie
+var cookie_var = ""; // CE: temporary cookie variable
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -105,7 +106,9 @@ function find_next_previous_cycle(current_cycle_id, callback) {
 
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get('/', function(req,res) {
-	console.log("Cookies: ", req.cookies);
+	console.log("Cookies from browser: ", req.cookies);
+	cookie_var = req.cookies;
+	console.log("cookie_var: ", cookie_var);
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
 	// get the following cycle id's via callbacks: first, last, previous, next
@@ -244,8 +247,7 @@ router.post('/form_post_update', function(req, res) {
 });
 
 router.get('/cookie', function(req,res){
-	var cookie_name = "cookieq_name";
-	res.setHeader('Set-Cookie', cookie.serialize('cookiez_name', 'cookiez_value', { maxAge: 60 * 60 * 24 * 7}) );
+	res.setHeader('Set-Cookie', cookie.serialize('cookiex_name', 'cookiex_value', { maxAge: 60 * 60 * 24 * 7}) );
 	res.send('Cookie\'s sent, bitches!');
 });
 
