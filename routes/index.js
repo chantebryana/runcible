@@ -107,7 +107,13 @@ function find_next_previous_cycle(current_cycle_id, callback) {
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get('/', function(req,res) {
 	console.log("Cookies from browser: ", req.cookies);
-	cookie_var = req.cookies;
+	cookie_var = req.cookies
+	// CE: console.log(variable);
+
+	// JE increment value associated w/ cookie
+	// je down below i push incremented value back to browser
+	//cookie_var = req.cookies.parse;
+	//cooke_var = cookies.parse(req.cookies);
 	console.log("cookie_var: ", cookie_var);
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
@@ -247,8 +253,34 @@ router.post('/form_post_update', function(req, res) {
 });
 
 router.get('/cookie', function(req,res){
-	res.setHeader('Set-Cookie', cookie.serialize('cookiex_name', 'cookiex_value', { maxAge: 60 * 60 * 24 * 7}) );
-	res.send('Cookie\'s sent, bitches!');
+	//res.setHeader('Set-Cookie', cookie.serialize('cookiex_name', 'cookiex_value', { maxAge: 60 * 60 * 24 * 7}) );
+
+	// CE: after discussion w/ Jim, set up proto-code for creating a more dynamic cookie that iterates with each page load: 
+	// sets the initial cookie, with default value of 0: 
+	res.setHeader('Set-Cookie', cookie.serialize('page_loads', '0'));
+	// creates a temp variable that stores the value of the key page_loads: 
+	var cookie_temp_var = req.cookies.page_loads;
+	// prints to console as an error check (make sure it works as expected): 
+	console.log("cooke_temp_var: ", cookie_temp_var);
+	// convert temp string variable into an iteratable integer: 
+	cookie_var = parseInt(cookie_temp_var);
+	// prints to console as an error check (make sure it works as expected): 
+	console.log("cookie_var: ", cookie_var);
+	// iterate cookie_var by one: 
+	cookie_var += 1;
+	// send the iterated integer cookie_var back to the browser's cookie storage, being sure to convert the integer back to a string: 
+	res.setHeader('Set-Cookie', cookie.serialize('page_loads', cookie_var.toString()));
+
+	//console.log('cookie_var in /cookie: ', cookie_var);
+	// ... cookie.serialize('cookiex_name', '0');
+	// CE: NO: variable = req.cookies;
+	// CE: NO: variable += 1;  ==> somehow i need to access VALUE of key:value pair of req.cookies that's stored in variable | variable.cookiex_name
+	// JE store the incremented value, not the whole cookie
+	// variable = parseInt(req.cookies.cookiex_name);
+	// variable += 1;
+	// res.setHeader('Set-Cookie', cookie.serialize('cookiex_name', variable.toString()));
+	// CE not this: ... "\'" + variable + "\'"
+	res.send('Cookie\'s sent!');
 });
 
 router.get('/clearcookie', function(req,res){
