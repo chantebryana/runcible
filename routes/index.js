@@ -258,12 +258,8 @@ router.get('/cookie', function(req,res){
 	res.setHeader('Set-Cookie', cookie.serialize('page_loads', '0'));
 	// creates a temp variable that stores the value of the key page_loads: 
 	var cookie_temp_var = req.cookies.page_loads;
-	// prints to console as an error check (make sure it works as expected): 
-	console.log("cooke_temp_var: ", cookie_temp_var);
 	// convert temp string variable into an iteratable integer: 
 	cookie_var = parseInt(cookie_temp_var);
-	// prints to console as an error check (make sure it works as expected): 
-	console.log("cookie_var: ", cookie_var);
 	// iterate cookie_var by one: 
 	cookie_var += 1;
 	// send the iterated integer cookie_var back to the browser's cookie storage, being sure to convert the integer back to a string: 
