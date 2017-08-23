@@ -253,8 +253,6 @@ router.post('/form_post_update', function(req, res) {
 });
 
 router.get('/cookie', function(req,res){
-	//res.setHeader('Set-Cookie', cookie.serialize('cookiex_name', 'cookiex_value', { maxAge: 60 * 60 * 24 * 7}) );
-
 	// CE: after discussion w/ Jim, set up proto-code for creating a more dynamic cookie that iterates with each page load: 
 	// sets the initial cookie, with default value of 0: 
 	res.setHeader('Set-Cookie', cookie.serialize('page_loads', '0'));
@@ -270,16 +268,7 @@ router.get('/cookie', function(req,res){
 	cookie_var += 1;
 	// send the iterated integer cookie_var back to the browser's cookie storage, being sure to convert the integer back to a string: 
 	res.setHeader('Set-Cookie', cookie.serialize('page_loads', cookie_var.toString()));
-
-	//console.log('cookie_var in /cookie: ', cookie_var);
-	// ... cookie.serialize('cookiex_name', '0');
-	// CE: NO: variable = req.cookies;
-	// CE: NO: variable += 1;  ==> somehow i need to access VALUE of key:value pair of req.cookies that's stored in variable | variable.cookiex_name
-	// JE store the incremented value, not the whole cookie
-	// variable = parseInt(req.cookies.cookiex_name);
-	// variable += 1;
-	// res.setHeader('Set-Cookie', cookie.serialize('cookiex_name', variable.toString()));
-	// CE not this: ... "\'" + variable + "\'"
+	// send a message to the web page to let the user know something happened: 
 	res.send('Cookie\'s sent!');
 });
 
