@@ -143,7 +143,7 @@ router.get('/', function(req,res) {
 
 					// massages data gleaned from time_temp query into a format that can be used by chart in chartist_partial_temp.ejs (via res.render() section below); create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
 					var date_temp_object = []
-					if (rows_from_db.length != 0) {
+					if (rows_from_db.length-1 != 0) {
 						//console.log("running date_temp_object branch");
 						for (var i = 0; i < rows_from_db.length; i++){
 							// assign a new object in my array:
@@ -152,6 +152,10 @@ router.get('/', function(req,res) {
 							date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:30\')";
 							date_temp_object[i].y = rows_from_db[i].temp_f;
 						}
+						date_temp_object[rows_from_db.length-1] = {}; 
+						// put values into new object:
+						date_temp_object[rows_from_db.length-1].x = "new Date (\'" + rows_from_db[rows_from_db.length-1].date + "T12:30:20\')";
+						date_temp_object[rows_from_db.length-1].y = rows_from_db[rows_from_db.length-1].temp_f;
 					}
 
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs; create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
@@ -160,7 +164,11 @@ router.get('/', function(req,res) {
 						//console.log("running date_range_int branch");
 						var start_date_int = new Date(rows_from_db[0].date);
 						var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date);
+						console.log("end_date_int: ", end_date_int);
+						//end_date_int.setDate(end_date_int.getDate() + 1);
+						//console.log("end_date_int: ", end_date_int);
 						date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
+						console.log("date_range_int: ",date_range_int);
 					} 
 
 					// res.render sends various variables to index.ejs and its dependent pages:
