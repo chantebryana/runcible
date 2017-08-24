@@ -142,6 +142,7 @@ router.get('/', function(req,res) {
 							};
 
 					// massages data gleaned from time_temp query into a format that can be used by chart in chartist_partial_temp.ejs (via res.render() section below); create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
+/*
 					var date_temp_object = []
 					if (rows_from_db.length != 0) {
 						//console.log("running date_temp_object branch");
@@ -153,7 +154,20 @@ router.get('/', function(req,res) {
 							date_temp_object[i].y = rows_from_db[i].temp_f;
 						}
 					}
-
+*/
+					var date_temp_object=[]
+					if (rows_from_db.length != 0) {
+						// iterate through all but the last element of rows_from_db array:
+						for (var i = 0; i < rows_from_db.length-1; i++) {
+							date_temp_object[i] = {};
+							date_temp_object[i].x = "new Date (\'" + rows_from_db[i].date + "T12:30\')";
+							date_temp_object[i].y = rows_from_db[i].temp_f;
+						}
+						// add 20 extra seconds to final object within date_temp_object array, to see if it includes the final date tick on the x-axis of the chartist chart: 
+						date_temp_object[rows_from_db.length-1] = {};
+						date_temp_object[rows_from_db.length-1].x = "new Date (\'" + rows_from_db[rows_from_db.length-1].date + "T13:20\')";
+						date_temp_object[rows_from_db.length-1].y = rows_from_db[rows_from_db.length-1].temp_f;
+					}
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs; create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
 					var date_range_int = 0;
 					if (rows_from_db.length != 0) {
