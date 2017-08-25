@@ -1,0 +1,36 @@
+<link rel='stylesheet' href='javascripts/chartist.min.css'>
+<script src='javascripts/chartist.min.js'></script>
+<div class="ct-chart_temp ct-major-seventh"></div>
+<script src="javascripts/moment.min.js"></script>
+<script src="javascripts/jquery.min.js"></script>
+
+<script>
+
+	var data = {
+		series: [[
+			{x: "1\n07:30\n10-23\nTue", y: 97.5},
+		  {x: "2\n07:30\n10-24\nWed", y: 98.2},
+		  {x: "3\n07:30\n10-25\nThu", y: 97.3},
+		  {x: "4\n07:30\n10-26\nFri", y: undefined},
+		  {x: "5\n08:30\n10-27\nSat", y: 97.6}, 
+			{x: "6\n09:00\n10-28\nSun", y: 97.4},
+			{x: "7\n07:30\n10-29\nMon", y: 97.9}
+		]]
+	};
+	
+	var options = {
+		chartPadding: 15,
+		axisX: {
+			offset: 40,
+			position: 'start'
+			},
+		axisY: {
+			high: 99.0, 
+			low: 96.5, 
+			type: Chartist.FixedScaleAxis,
+			ticks: [96.5, 96.6, 96.7, 96.8, 96.9, 97.0, 97.1, 97.2, 97.3, 97.4, 97.5, 97.6, 97.7, 97.8, 97.9, 98.0, 98.1, 98.2, 98.3, 98.4, 98.5, 98.6, 98.7, 98.8, 98.9, 99.0]
+		}
+	};
+
+	new Chartist.Line('.ct-chart_temp', data, options);
+</script>
