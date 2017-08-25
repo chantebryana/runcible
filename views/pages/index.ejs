@@ -36,6 +36,7 @@
 				<th>Time</th>
 				<th>Temp(F)</th>
 				<th>Cycle Number</th>
+				<th>Notes</th>
 				<th>Entry Created</th>
 			</tr>
 			<% rows_to_renderer.forEach((row)=> { %>
@@ -45,6 +46,7 @@
 					<td><%= row.time_taken %></td>
 					<td><%= row.temp_f %></td>
 					<td><%= row.cycle_id %></td>
+					<td><%= row.notes %></td>
 					<td><%= row.entry_created %></td>
 					<td>
 						<form action='/deletepost' method='post' onsubmit="return window.confirm('Delete row number <%= row.id  %>?')" >
