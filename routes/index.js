@@ -123,6 +123,7 @@ router.get('/', function(req,res) {
 				which_cycle_id = current_cycle_id;
 			};
 			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
+console.log(rows_from_db);
 					// variables for query below with conditions so that the query doesn't break if next_cycle_id is undefined (ie, if the page is displaying the final cycle and there is no next cycle created yet): 
 					var id_search_var = 0;
 					if (next_cycle_id) {
