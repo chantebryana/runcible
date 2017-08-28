@@ -80,11 +80,62 @@ end_date // eg 2012-10-22 or 'Today'
 //CE: DON'T RUN THIS CODE IN NODE: MEMORY LEAK SOMEWHERE (APPARENTLY): CRASHED NODE TERMINAL:
 var begin_date = new Date();
 var end_date = new Date();
-end_date.setDate(end_date.getDate() + 28); 
+//end_date.setDate(end_date.getDate() + 28); 
+end_date.setDate(end_date.getDate() + 5); 
 var next_day = new Date();
 next_day.setDate(next_day.getDate(begin_date)+1);
 var date_range = [];
 date_range[0] = begin_date;
+date_range[1] = next_day;
+next_day.setDate(next_day.getDate(next_day)+1);
+date_range[2] = next_day;
+next_day.setDate(next_day.getDate(next_day)+1);
+date_range[3] = next_day;
+next_day.setDate(next_day.getDate(next_day)+1);
+date_range[4] = next_day;
+
+/*
+// here are the results of running the code above: 
+	> var begin_date = new Date();
+	undefined
+	> var end_date = new Date();
+	undefined
+	> //end_date.setDate(end_date.getDate() + 28); 
+	undefined
+	> end_date.setDate(end_date.getDate() + 5); 
+	1504383877585
+	> var next_day = new Date();
+	undefined
+	> next_day.setDate(next_day.getDate(begin_date)+1);
+	1504038277613
+	> var date_range = [];
+	undefined
+	> date_range[0] = begin_date;
+	Mon Aug 28 2017 15:24:37 GMT-0500 (CDT)
+	> date_range[1] = next_day;
+	Tue Aug 29 2017 15:24:37 GMT-0500 (CDT)
+	> next_day.setDate(next_day.getDate(next_day)+1);
+	1504124677613
+	> date_range[2] = next_day;
+	Wed Aug 30 2017 15:24:37 GMT-0500 (CDT)
+	> next_day.setDate(next_day.getDate(next_day)+1);
+	1504211077613
+	> date_range[3] = next_day;
+	Thu Aug 31 2017 15:24:37 GMT-0500 (CDT)
+	> next_day.setDate(next_day.getDate(next_day)+1);
+	1504297477613
+	> date_range[4] = next_day;
+	Fri Sep 01 2017 15:24:37 GMT-0500 (CDT)
+	> date_range;
+	[ Mon Aug 28 2017 15:24:37 GMT-0500 (CDT),
+		Fri Sep 01 2017 15:24:37 GMT-0500 (CDT),
+		Fri Sep 01 2017 15:24:37 GMT-0500 (CDT),
+		Fri Sep 01 2017 15:24:37 GMT-0500 (CDT),
+		Fri Sep 01 2017 15:24:37 GMT-0500 (CDT) ]
+	> 
+// it appears that next_day points to MEMORY and when it's updated it updates previous assignments too!! Thanks so much, C++ and pointers!!
+*/
+/*
 var count = 1;
 while (next_day <= end_date) {
 	date_range[count] = next_day;
@@ -96,7 +147,7 @@ while (next_day <= end_date) {
 		break;
 	}
 }
-
+*/
 
 // find a way to populate with iterative dates based on begin and end date (generated form cycles table): 
 var date_range = [/*series of dates!*/];
