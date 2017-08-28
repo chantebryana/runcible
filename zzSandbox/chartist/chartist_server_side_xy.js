@@ -78,8 +78,9 @@ end_date // eg 2012-10-22 or 'Today'
 */
 
 //CE: DON'T RUN THIS CODE IN NODE: MEMORY LEAK SOMEWHERE (APPARENTLY): CRASHED NODE TERMINAL:
-begin_date = new Date();
-end_date.setDate(end_date.getDate() + 28); // arbitrary date for now
+var begin_date = new Date();
+var end_date = new Date();
+end_date.setDate(end_date.getDate() + 28); 
 var next_day = new Date();
 next_day.setDate(next_day.getDate(begin_date)+1);
 var date_range = [];
@@ -88,8 +89,10 @@ var count = 1;
 while (next_day <= end_date) {
 	date_range[count] = next_day;
 	count ++;
-	next_day ++;
+	next_day.setDate(next_day.getDate(next_day)+1);
 	if (next_day > end_date) {
+		break;
+	} else if (count >= 100) {
 		break;
 	}
 }
