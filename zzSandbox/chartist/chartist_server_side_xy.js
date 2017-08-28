@@ -49,10 +49,51 @@ labels: ['', '', '', ''] // x axis text
 series: [ , , , ] // y axis integers or undefined
 // also consider syncing up with cycles table to determine what the beginning and end date should be (instead of relying on gap-prone time_temp table info)
 
+
+
 // use these variables: 
 // taken from cycles table: begin date and end date of current cycle: 
 begin_date // eg 2012-09-23
 end_date // eg 2012-10-22 or 'Today'
+// useful internet resources for working w/ dates and date ranges:
+// https://www.tutorialspoint.com/javascript/javascript_date_object.htm
+// https://stackoverflow.com/questions/3674539/incrementing-a-date-in-javascript
+
+// useful Node Brainstormings on Date method and date ranges: 
+/*
+	> begin_date = new Date();
+	Mon Aug 28 2017 14:42:42 GMT-0500 (CDT)
+	> var end_date = new Date();
+	undefined
+	> end_date.setDate(end_date.getDate() + 28);
+	1506367870601
+	> end_date;
+	Mon Sep 25 2017 14:31:10 GMT-0500 (CDT)
+	> var next_day = new Date();
+	undefined
+	> next_day.setDate(next_day.getDate(begin_date)+1);
+	1504035208968
+	> next_day;
+	Tue Aug 29 2017 14:33:28 GMT-0500 (CDT)
+*/
+
+//CE: DON'T RUN THIS CODE IN NODE: MEMORY LEAK SOMEWHERE (APPARENTLY): CRASHED NODE TERMINAL:
+begin_date = new Date();
+end_date.setDate(end_date.getDate() + 28); // arbitrary date for now
+var next_day = new Date();
+next_day.setDate(next_day.getDate(begin_date)+1);
+var date_range = [];
+date_range[0] = begin_date;
+var count = 1;
+while (next_day <= end_date) {
+	date_range[count] = next_day;
+	count ++;
+	next_day ++;
+	if (next_day > end_date) {
+		break;
+	}
+}
+
 
 // find a way to populate with iterative dates based on begin and end date (generated form cycles table): 
 var date_range = [/*series of dates!*/];
