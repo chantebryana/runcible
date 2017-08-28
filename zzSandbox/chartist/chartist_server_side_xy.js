@@ -77,7 +77,94 @@ end_date // eg 2012-10-22 or 'Today'
 	Tue Aug 29 2017 14:33:28 GMT-0500 (CDT)
 */
 
+// blatently ripped this off from the interent, but it works!
+// https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
+> var start = new Date ("August 13, 2011");
+undefined
+> start;
+Sat Aug 13 2011 00:00:00 GMT-0500 (CDT)
+> var end = new Date ("October 13, 2011");
+undefined
+> end;
+Thu Oct 13 2011 00:00:00 GMT-0500 (CDT)
+> var range = [];
+undefined
+> var mil = 86400000;
+undefined
+> mil
+86400000
+> range
+[]
+> for (var i = start.getTime(); i < end.getTime(); i = i+mil) {
+...   range.push(new Date(i));
+... }
+61
+// results: 
+> range;
+[ Sat Aug 13 2011 00:00:00 GMT-0500 (CDT),
+  Sun Aug 14 2011 00:00:00 GMT-0500 (CDT),
+  Mon Aug 15 2011 00:00:00 GMT-0500 (CDT),
+  Tue Aug 16 2011 00:00:00 GMT-0500 (CDT),
+  Wed Aug 17 2011 00:00:00 GMT-0500 (CDT),
+  Thu Aug 18 2011 00:00:00 GMT-0500 (CDT),
+  Fri Aug 19 2011 00:00:00 GMT-0500 (CDT),
+  Sat Aug 20 2011 00:00:00 GMT-0500 (CDT),
+  Sun Aug 21 2011 00:00:00 GMT-0500 (CDT),
+  Mon Aug 22 2011 00:00:00 GMT-0500 (CDT),
+  Tue Aug 23 2011 00:00:00 GMT-0500 (CDT),
+  Wed Aug 24 2011 00:00:00 GMT-0500 (CDT),
+  Thu Aug 25 2011 00:00:00 GMT-0500 (CDT),
+  Fri Aug 26 2011 00:00:00 GMT-0500 (CDT),
+  Sat Aug 27 2011 00:00:00 GMT-0500 (CDT),
+  Sun Aug 28 2011 00:00:00 GMT-0500 (CDT),
+  Mon Aug 29 2011 00:00:00 GMT-0500 (CDT),
+  Tue Aug 30 2011 00:00:00 GMT-0500 (CDT),
+  Wed Aug 31 2011 00:00:00 GMT-0500 (CDT),
+  Thu Sep 01 2011 00:00:00 GMT-0500 (CDT),
+  Fri Sep 02 2011 00:00:00 GMT-0500 (CDT),
+  Sat Sep 03 2011 00:00:00 GMT-0500 (CDT),
+  Sun Sep 04 2011 00:00:00 GMT-0500 (CDT),
+  Mon Sep 05 2011 00:00:00 GMT-0500 (CDT),
+  Tue Sep 06 2011 00:00:00 GMT-0500 (CDT),
+  Wed Sep 07 2011 00:00:00 GMT-0500 (CDT),
+  Thu Sep 08 2011 00:00:00 GMT-0500 (CDT),
+  Fri Sep 09 2011 00:00:00 GMT-0500 (CDT),
+  Sat Sep 10 2011 00:00:00 GMT-0500 (CDT),
+  Sun Sep 11 2011 00:00:00 GMT-0500 (CDT),
+  Mon Sep 12 2011 00:00:00 GMT-0500 (CDT),
+  Tue Sep 13 2011 00:00:00 GMT-0500 (CDT),
+  Wed Sep 14 2011 00:00:00 GMT-0500 (CDT),
+  Thu Sep 15 2011 00:00:00 GMT-0500 (CDT),
+  Fri Sep 16 2011 00:00:00 GMT-0500 (CDT),
+  Sat Sep 17 2011 00:00:00 GMT-0500 (CDT),
+  Sun Sep 18 2011 00:00:00 GMT-0500 (CDT),
+  Mon Sep 19 2011 00:00:00 GMT-0500 (CDT),
+  Tue Sep 20 2011 00:00:00 GMT-0500 (CDT),
+  Wed Sep 21 2011 00:00:00 GMT-0500 (CDT),
+  Thu Sep 22 2011 00:00:00 GMT-0500 (CDT),
+  Fri Sep 23 2011 00:00:00 GMT-0500 (CDT),
+  Sat Sep 24 2011 00:00:00 GMT-0500 (CDT),
+  Sun Sep 25 2011 00:00:00 GMT-0500 (CDT),
+  Mon Sep 26 2011 00:00:00 GMT-0500 (CDT),
+  Tue Sep 27 2011 00:00:00 GMT-0500 (CDT),
+  Wed Sep 28 2011 00:00:00 GMT-0500 (CDT),
+  Thu Sep 29 2011 00:00:00 GMT-0500 (CDT),
+  Fri Sep 30 2011 00:00:00 GMT-0500 (CDT),
+  Sat Oct 01 2011 00:00:00 GMT-0500 (CDT),
+  Sun Oct 02 2011 00:00:00 GMT-0500 (CDT),
+  Mon Oct 03 2011 00:00:00 GMT-0500 (CDT),
+  Tue Oct 04 2011 00:00:00 GMT-0500 (CDT),
+  Wed Oct 05 2011 00:00:00 GMT-0500 (CDT),
+  Thu Oct 06 2011 00:00:00 GMT-0500 (CDT),
+  Fri Oct 07 2011 00:00:00 GMT-0500 (CDT),
+  Sat Oct 08 2011 00:00:00 GMT-0500 (CDT),
+  Sun Oct 09 2011 00:00:00 GMT-0500 (CDT),
+  Mon Oct 10 2011 00:00:00 GMT-0500 (CDT),
+  Tue Oct 11 2011 00:00:00 GMT-0500 (CDT),
+  Wed Oct 12 2011 00:00:00 GMT-0500 (CDT) ]
 
+
+/*
 var begin_date = new Date();
 var end_date = new Date();
 //end_date.setDate(end_date.getDate() + 28); 
