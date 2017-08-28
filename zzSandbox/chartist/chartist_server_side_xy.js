@@ -69,6 +69,19 @@ for (var i = (start.getTime() + cdt); i < end.getTime(); i = i + mil) {
 }
 
 
+//CE more playing around: 
+var a_short = [1, 3, 7];
+var a_long = [1, 2, 3, 4, 5, 6, 7];
+var a_match = [];
+var count = 0;
+for (int j = 0; j < 7; j++) {
+	if (a_long[i] == a_short[count]) {
+		a_match[j] = "match";
+		count ++;
+	} else {
+		a_match[j] = "clash";
+	}
+}
 
 
 
