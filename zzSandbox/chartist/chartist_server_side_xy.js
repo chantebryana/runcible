@@ -60,12 +60,27 @@ begin_date // eg 2012-09-23
 end_date // eg 2012-10-22 or 'Today'
 */
 // useful Node Brainstormings on Date method and date ranges: 
+
+var mil = (1000*60*60*24)// 24 hr in miliseconds
+var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
+
+var dates_logged = [];
+for (var i = 0; i < rows.length; i++) {
+	// dates_logged[i] = rows[i].date;
+	//dates_logged[i] = new Date(rows[i].date, cst);  // this doesn't work
+	var temp = new Date(rows[i].date).getTime();
+	//console.log(temp + cst);
+	dates_logged[i] = new Date(temp + cst);
+}
+console.log(dates_logged);
+
+
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
 var start = new Date(rows[0].date);
 var end = new Date(rows[rows.length-1].date);
 var date_range = [];
-var mil = (1000*60*60*24)// 24 hr in miliseconds
-var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
+// var mil = (1000*60*60*24)// 24 hr in miliseconds
+// var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
 // add bunches of mil and cst to account for funky time mismatches using ISO date format with Date(): 
 for (var i = (start.getTime() + cst); i < (end.getTime() + cst + mil); i = i + mil) {
 	date_range.push(new Date(i));
