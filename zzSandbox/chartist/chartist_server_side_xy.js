@@ -64,13 +64,12 @@ end_date // eg 2012-10-22 or 'Today'
 var mil = (1000*60*60*24)// 24 hr in miliseconds
 var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
 
+// helpful resource: https://www.toptal.com/software/definitive-guide-to-datetime-manipulation:
 var dates_logged = [];
 for (var i = 0; i < rows.length; i++) {
-	// dates_logged[i] = rows[i].date;
-	//dates_logged[i] = new Date(rows[i].date, cst);  // this doesn't work
-	var temp = new Date(rows[i].date).getTime();
-	//console.log(temp + cst);
-	dates_logged[i] = new Date(temp + cst);
+	// var temp = new Date(rows[i].date).getTime();
+	// dates_logged[i] = new Date(temp + cst);
+	// dates_logged[i] = new Date(rows[i].date).getTime() + cst; // doens't work
 }
 console.log(dates_logged);
 
