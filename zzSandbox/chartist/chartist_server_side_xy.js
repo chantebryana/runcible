@@ -69,8 +69,8 @@ end_date // eg 2012-10-22 or 'Today'
 */
 // useful Node Brainstormings on Date method and date ranges: 
 
-var mil = (1000*60*60*24)// 24 hr in miliseconds
-var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
+// var mil = (1000*60*60*24)// 24 hr in miliseconds
+// var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
 
 // helpful resource: https://www.toptal.com/software/definitive-guide-to-datetime-manipulation:
 var dates_logged = [];
@@ -83,13 +83,16 @@ console.log(dates_logged);
 
 
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
-var start = new Date(rows[0].date);
-var end = new Date(rows[rows.length-1].date);
+//var start = new Date(rows[0].date);
+var start = new Date(rows[0].datetime);
+//var end = new Date(rows[rows.length-1].date);
+var end = new Date(rows[rows.length-1].datetime);
 var date_range = [];
-// var mil = (1000*60*60*24)// 24 hr in miliseconds
+var mil = (1000*60*60*24)// 24 hr in miliseconds
 // var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
 // add bunches of mil and cst to account for funky time mismatches using ISO date format with Date(): 
-for (var i = (start.getTime() + cst); i < (end.getTime() + cst + mil); i = i + mil) {
+// for (var i = (start.getTime() + cst); i < (end.getTime() + cst + mil); i = i + mil) {
+for (var i = start.getTime(); i < (end.getTime() + mil); i = i + mil) {
 	date_range.push(new Date(i));
 }
 console.log(date_range);
