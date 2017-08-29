@@ -116,7 +116,7 @@ for (var j = 0; j < date_range.length; j++) {
 	// if (a_long[j] == a_short[count]) {
 	console.log(date_range[j]);
 	console.log(dates_logged[count]);
-	if (date_range[j] == dates_logged[count]) {
+	if (date_range[j] - dates_logged[count] == 0) { // CE modify these vars so that the dates (or their manipulated values) actually compare 
 		a_match[j] = "match";
 		count ++;
 	} else {
