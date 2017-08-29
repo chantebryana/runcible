@@ -134,6 +134,11 @@ router.get('/', function(req,res) {
 
 					// query to find beginning and end dates of currently displayed cycle: 
 					// query creates two different datetime formats for begin and end variables: one that's pretty on the webpage, and one that works better with javascript date methods:
+					/*
+					query creates results formatted like the ones below: 
+						2012-09-23|2012-09-22|2012-09-23 00:00:00|2012-09-22 00:00:00
+						2012-10-23|2012-10-22|2012-10-23 00:00:00|2012-10-22 00:00:00
+					*/
 					db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'end_date\', strftime(\'%Y-%m-%d %H:%M:%S\', begin_date) as \'begin_datetime\', strftime(\'%Y-%m-%d %H:%M:%S\', begin_date, \'-1 day\') as \'end_datetime\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
 						if (next_cycle_id) {
 							var begin_date = dates_from_db[0].begin_date;
