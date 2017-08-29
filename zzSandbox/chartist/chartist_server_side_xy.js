@@ -119,7 +119,8 @@ for (var j = 0; j < full_date_range.length; j++) {
 	}
 }
 console.log(a_match);
-
+// returns: 
+// [ 1, 0, 0, 1, 1, 1, 1 ]
 
 // populate y axis datapoints based on a_match:
 y_temp_f = [];
@@ -133,7 +134,8 @@ for (var i = 0; i < a_match.length; i++) {
 	}
 }
 console.log(y_temp_f);
-
+// returns: 
+// [ 97.7, undefined, undefined, 98.2, 98.3, 98.3, 98.2 ]
 
 // populate time_taken array, inserting null values if no match: 
 x_time_taken = [];
@@ -147,7 +149,8 @@ for (var i = 0; i < a_match.length; i++) {
 	}
 }
 console.log(x_time_taken);
-
+// returns: 
+// [ '07:30', '', '', '07:30', '09:00', '07:30', '11:30' ]
 
 
 // translation notes: 
@@ -168,7 +171,15 @@ for (var i = 0; i < full_date_range.length; i++) {
 }
 console.log(x_label_values);
 // returns: 
-// [ '10-15', '10-16', '10-17', '10-18', '10-19', '10-20', '10-21' ]
+/*
+[ '1\nM\n10-15\n07:30',
+  '2\nT\n10-16\n',
+  '3\nW\n10-17\n',
+  '4\nT\n10-18\n07:30',
+  '5\nF\n10-19\n09:00',
+  '6\nS\n10-20\n07:30',
+  '7\nS\n10-21\n11:30' ]
+*/
 
 
 
