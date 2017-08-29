@@ -88,13 +88,13 @@ console.log(dates_logged);
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
 var start = new Date(rows[0].datetime);
 var end = new Date(rows[rows.length-1].datetime);
-var date_range = [];
+var full_date_range = [];
 var mil = (1000*60*60*24)// 24 hr in miliseconds
 // add mil to end.getTime() to add one more day to the iteration range:
 for (var i = start.getTime(); i < (end.getTime() + mil); i = i + mil) {
-	date_range.push(new Date(i));
+	full_date_range.push(new Date(i));
 }
-console.log(date_range);
+console.log(full_date_range);
 /*
 [ Mon Oct 15 2012 00:00:00 GMT-0500 (CDT),
   Tue Oct 16 2012 00:00:00 GMT-0500 (CDT),
@@ -105,22 +105,28 @@ console.log(date_range);
   Sun Oct 21 2012 00:00:00 GMT-0500 (CDT) ]
 */
 
+// translation notes: 
+/*
+> combination = (full_date_range[0].getMonth() + 1) + "-" + full_date_range[0].getDate();
+'10-15'
+*/
+
+var combination = []
+for (var i = 0; i < full_date_range.length; i++) {
+	combination[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
+}
+console.log(combination);
+
 
 //CE more playing around: 
-// var a_short = [1, 3, 7];
-// var a_long = [1, 2, 3, 4, 5, 6, 7];
 var a_match = [];
 var count = 0;
-// for (var j = 0; j < 7; j++) {
-for (var j = 0; j < date_range.length; j++) {
-	// if (a_long[j] == a_short[count]) {
-	console.log(date_range[j]);
-	console.log(dates_logged[count]);
-	if (date_range[j] - dates_logged[count] == 0) { // CE modify these vars so that the dates (or their manipulated values) actually compare 
-		a_match[j] = "match";
+for (var j = 0; j < full_date_range.length; j++) {
+	if (full_date_range[j] - dates_logged[count] == 0) { // can't directly compare two date objects, but I can indirectly manipulate their results for comparison
+		a_match[j] = 1; // 1 == 'true' match
 		count ++;
 	} else {
-		a_match[j] = "clash";
+		a_match[j] = 0; // 0 == 'false' clash
 	}
 }
 console.log(a_match);
