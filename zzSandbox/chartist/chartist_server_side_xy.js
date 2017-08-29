@@ -28,6 +28,17 @@ var cycles_rows = [
 	{ begin_date: '2012-11-21', 
 		yesterday: '2012-11-20' }
 ]
+// long story short, I've updated begin_date and end_date so that they're always a date (versus non-date values like 'today')--but I'm just realizing that the format is different than what I played with below. 
+SELECT begin_date, date(begin_date, '-1 day') as 'end_date', STRFTIME('%Y-%m-%d %H:%M:%S', begin_date) as 'begin_datetime', STRFTIME('%Y-%m-%d %H:%M:%S', begin_date, '-1 day') as 'end_datetime' FROM cycles WHERE id = 7 or id = 8 ORDER BY begin_date;
+//results in sqlite3:
+/*
+2012-09-23|2012-09-22|2012-09-23 00:00:00|2012-09-22 00:00:00
+2012-10-23|2012-10-22|2012-10-23 00:00:00|2012-10-22 00:00:00
+*/
+// ^^this way I have both of the date formats that I want: simple, short dates that would be better to read on the webpage header or on a chart label scheme, and also the long-form datetime that can more easily be used in date formatting methods!  an no translation middle step needed (at least not here)
+
+
+
 
 /* datetime created from this query: 
 SELECT *, strftime('%Y-%m-%d %H:%M:%S', date) as 'datetime' FROM time_temp WHERE cycle_id = 7 ORDER BY id;
