@@ -133,10 +133,12 @@ router.get('/', function(req,res) {
 					};
 
 					// query to find beginning and end dates of currently displayed cycle: 
-					db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
+					// query creates two different datetime formats for begin and end variables: one that's pretty on the webpage, and one that works better with javascript date methods:
+					//db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
+					db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'end_date\', strftime(\'%Y-%m-%d %H:%M:%S\', begin_date) as \'begin_datetime\', strftime(\'%Y-%m-%d %H:%M:%S\', begin_date, \'-1 day\') as \'end_datetime\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
 						if (next_cycle_id) {
 							var begin_date = dates_from_db[0].begin_date;
-							var end_date = dates_from_db[1].yesterday;
+							var end_date = dates_from_db[1].end_date;
 						} else {
 							var begin_date = dates_from_db[0].begin_date;
 							//var end_date = 'Today';
