@@ -76,7 +76,7 @@ for (var i = 0; i < rows.length; i++) {
 	dates_logged[i] = new Date(rows[i].datetime);
 }
 console.log(dates_logged);
-/*
+/* returns: 
 [ Mon Oct 15 2012 00:00:00 GMT-0500 (CDT),
   Thu Oct 18 2012 00:00:00 GMT-0500 (CDT),
   Fri Oct 19 2012 00:00:00 GMT-0500 (CDT),
@@ -95,7 +95,7 @@ for (var i = start.getTime(); i < (end.getTime() + mil); i = i + mil) {
 	full_date_range.push(new Date(i));
 }
 console.log(full_date_range);
-/*
+/* returns: 
 [ Mon Oct 15 2012 00:00:00 GMT-0500 (CDT),
   Tue Oct 16 2012 00:00:00 GMT-0500 (CDT),
   Wed Oct 17 2012 00:00:00 GMT-0500 (CDT),
@@ -106,16 +106,13 @@ console.log(full_date_range);
 */
 
 // translation notes: 
-/*
-> combination = (full_date_range[0].getMonth() + 1) + "-" + full_date_range[0].getDate();
-'10-15'
-*/
-
-var combination = []
+var full_string_dates = []
 for (var i = 0; i < full_date_range.length; i++) {
-	combination[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
+	full_string_dates[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
 }
-console.log(combination);
+console.log(full_string_dates);
+// returns: 
+// [ '10-15', '10-16', '10-17', '10-18', '10-19', '10-20', '10-21' ]
 
 
 //CE more playing around: 
