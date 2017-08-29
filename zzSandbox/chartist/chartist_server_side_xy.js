@@ -70,7 +70,9 @@ end_date // eg 2012-10-22 or 'Today'
 // useful Node Brainstormings on Date method and date ranges: 
 
 
-// helpful resource: https://www.toptal.com/software/definitive-guide-to-datetime-manipulation:
+// helpful resources: 
+// https://www.toptal.com/software/definitive-guide-to-datetime-manipulation:
+// https://www.tutorialspoint.com/javascript/javascript_date_object.htm
 var dates_logged = [];
 for (var i = 0; i < rows.length; i++) {
 	dates_logged[i] = new Date(rows[i].datetime);
@@ -152,14 +154,16 @@ console.log(x_time_taken);
 var x_label_values = []
 var cycle_count = 1;
 count = 0;
+var days_of_the_week = ["S", "M", "T", "W", "T", "F", "S"];
 for (var i = 0; i < full_date_range.length; i++) {
 	// define to individual variables for simplicy: 
 	var month = (full_date_range[i].getMonth() + 1);
 	var date = full_date_range[i].getDate();
+	var day = days_of_the_week[full_date_range[i].getDay()];
 	//var time_taken = rows[i].time_taken;
 	var time_taken = x_time_taken[i];
 	// full_string_dates[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
-	x_label_values[i] = cycle_count + "\n" + month + "-" + date + "\n" + time_taken;
+	x_label_values[i] = cycle_count + "\n" + day + "\n" + month + "-" + date + "\n" + time_taken;
 	cycle_count ++;
 }
 console.log(x_label_values);
