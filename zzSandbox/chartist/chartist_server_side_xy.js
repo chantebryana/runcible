@@ -1,9 +1,5 @@
 // try to populate {x: ,y: } array-object (with y gaps) manually 
 
-SELECT *, strftime() 
-
-
-
 // what var rows might look like after a db table query:
 /* datetime created from this query: 
 SELECT *, strftime('%Y-%m-%d %H:%M:%S', date) as 'datetime' FROM time_temp WHERE cycle_id = 7 ORDER BY id;
@@ -79,8 +75,9 @@ var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
 // helpful resource: https://www.toptal.com/software/definitive-guide-to-datetime-manipulation:
 var dates_logged = [];
 for (var i = 0; i < rows.length; i++) {
-	var temp = new Date(rows[i].date).getTime();
-	dates_logged[i] = new Date(temp + cst);
+	// var temp = new Date(rows[i].date).getTime();
+	// dates_logged[i] = new Date(temp + cst);
+	dates_logged[i] = new Date(rows[i].datetime);
 }
 console.log(dates_logged);
 
