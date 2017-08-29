@@ -76,6 +76,13 @@ for (var i = 0; i < rows.length; i++) {
 	dates_logged[i] = new Date(rows[i].datetime);
 }
 console.log(dates_logged);
+/*
+[ Mon Oct 15 2012 00:00:00 GMT-0500 (CDT),
+  Thu Oct 18 2012 00:00:00 GMT-0500 (CDT),
+  Fri Oct 19 2012 00:00:00 GMT-0500 (CDT),
+  Sat Oct 20 2012 00:00:00 GMT-0500 (CDT),
+  Sun Oct 21 2012 00:00:00 GMT-0500 (CDT) ]
+*/
 
 
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
@@ -88,15 +95,28 @@ for (var i = start.getTime(); i < (end.getTime() + mil); i = i + mil) {
 	date_range.push(new Date(i));
 }
 console.log(date_range);
+/*
+[ Mon Oct 15 2012 00:00:00 GMT-0500 (CDT),
+  Tue Oct 16 2012 00:00:00 GMT-0500 (CDT),
+  Wed Oct 17 2012 00:00:00 GMT-0500 (CDT),
+  Thu Oct 18 2012 00:00:00 GMT-0500 (CDT),
+  Fri Oct 19 2012 00:00:00 GMT-0500 (CDT),
+  Sat Oct 20 2012 00:00:00 GMT-0500 (CDT),
+  Sun Oct 21 2012 00:00:00 GMT-0500 (CDT) ]
+*/
 
 
 //CE more playing around: 
-var a_short = [1, 3, 7];
-var a_long = [1, 2, 3, 4, 5, 6, 7];
+// var a_short = [1, 3, 7];
+// var a_long = [1, 2, 3, 4, 5, 6, 7];
 var a_match = [];
 var count = 0;
-for (var j = 0; j < 7; j++) {
-	if (a_long[j] == a_short[count]) {
+// for (var j = 0; j < 7; j++) {
+for (var j = 0; j < date_range.length; j++) {
+	// if (a_long[j] == a_short[count]) {
+	console.log(date_range[j]);
+	console.log(dates_logged[count]);
+	if (date_range[j] == dates_logged[count]) {
 		a_match[j] = "match";
 		count ++;
 	} else {
