@@ -52,24 +52,6 @@ var rows = [
 		datetime: '2012-10-21 00:00:00' }
 ];
 
-// what i need to match up on chartist side: 
-/*
-labels: ['', '', '', ''] // x axis text
-series: [ , , , ] // y axis integers or undefined
-*/
-// also consider syncing up with cycles table to determine what the beginning and end date should be (instead of relying on gap-prone time_temp table info)
-
-
-
-// use these variables: 
-// taken from cycles table: begin date and end date of current cycle: 
-/*
-begin_date // eg 2012-09-23
-end_date // eg 2012-10-22 or 'Today'
-*/
-// useful Node Brainstormings on Date method and date ranges: 
-
-
 // helpful resources: 
 // https://www.toptal.com/software/definitive-guide-to-datetime-manipulation:
 // https://www.tutorialspoint.com/javascript/javascript_date_object.htm
@@ -184,7 +166,22 @@ console.log(x_label_values);
 
 
 
+// what i need to match up on chartist side: 
 /*
+labels: ['', '', '', ''] // x axis text
+series: [ , , , ] // y axis integers or undefined
+*/
+// also consider syncing up with cycles table to determine what the beginning and end date should be (instead of relying on gap-prone time_temp table info)
+
+
+
+// use these variables: 
+// taken from cycles table: begin date and end date of current cycle: 
+/*
+begin_date // eg 2012-09-23
+end_date // eg 2012-10-22 or 'Today'
+
+
 // find a way to populate with iterative dates based on begin and end date (generated form cycles table): 
 var date_range = [series of dates!];
 
@@ -208,3 +205,5 @@ for (var i = 0; i < rows.length; i++) { // i don't know which 'rows' i'll be usi
 
 }
 */
+
+
