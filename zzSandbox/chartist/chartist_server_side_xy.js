@@ -63,12 +63,21 @@ end_date // eg 2012-10-22 or 'Today'
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
 var start = new Date(rows[0].date);
 var end = new Date(rows[rows.length-1].date);
+// console.log(end);
+// var end_plus_one = new Date();
+// end_plus_one = setDate(end_plus_one.getDate(end) + 1);
+// console.log(end_plus_one);
 var date_range = [];
 var mil = (1000*60*60*24)// 24 hr in miliseconds
-var cdt = 1000*60*60*5 // add 5 hours: rough and dirty time zone correction
-for (var i = (start.getTime() + cdt); i < end.getTime(); i = i + mil) {
+var cst = 1000*60*60*6 // add 6 hours: rough and dirty time zone correction
+for (var i = (start.getTime() + cst); i < (end.getTime() + cst + mil); i = i + mil) {
 	date_range.push(new Date(i));
+	// console.log(i); // something like 1350280800000
+	// console.log(end.getTime()) // 1350777600000
+	// console.log((end.getTime() + mil))//  1350864000000
 }
+//console.log(end.getTime() + cst);
+//date_range.push(end.getTime() + cst);
 console.log(date_range);
 
 
