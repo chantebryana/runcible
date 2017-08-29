@@ -129,6 +129,20 @@ for (var j = 0; j < full_date_range.length; j++) {
 console.log(a_match);
 
 
+// populate y axis datapoints based on a_match
+y_temp_f = [];
+count = 0;
+for (var i = 0; i < a_match.length; i++) {
+	if (a_match[i] == 1) { // if match == true
+		y_temp_f[i] = rows[count].temp_f;
+		count ++;
+	} else { // if match == false
+		y_temp_f[i] = undefined;
+	}
+}
+console.log(y_temp_f);
+
+
 /*
 // find a way to populate with iterative dates based on begin and end date (generated form cycles table): 
 var date_range = [series of dates!];
