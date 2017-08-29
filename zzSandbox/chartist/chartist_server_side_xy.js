@@ -105,17 +105,7 @@ console.log(full_date_range);
   Sun Oct 21 2012 00:00:00 GMT-0500 (CDT) ]
 */
 
-// translation notes: 
-var full_string_dates = []
-for (var i = 0; i < full_date_range.length; i++) {
-	full_string_dates[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
-}
-console.log(full_string_dates);
-// returns: 
-// [ '10-15', '10-16', '10-17', '10-18', '10-19', '10-20', '10-21' ]
-
-
-//CE more playing around: 
+// compare full_date_range against dates_logged, and populate an array that says whether the match is true (1) or false(0): 
 var a_match = [];
 var count = 0;
 for (var j = 0; j < full_date_range.length; j++) {
@@ -129,7 +119,7 @@ for (var j = 0; j < full_date_range.length; j++) {
 console.log(a_match);
 
 
-// populate y axis datapoints based on a_match
+// populate y axis datapoints based on a_match:
 y_temp_f = [];
 count = 0;
 for (var i = 0; i < a_match.length; i++) {
@@ -141,6 +131,42 @@ for (var i = 0; i < a_match.length; i++) {
 	}
 }
 console.log(y_temp_f);
+
+
+// populate time_taken array, inserting null values if no match: 
+x_time_taken = [];
+count = 0;
+for (var i = 0; i < a_match.length; i++) {
+	if (a_match[i] == 1) { // if match == true
+		x_time_taken[i] = rows[count].time_taken;
+		count ++;
+	} else { // if match == false
+		x_time_taken[i] = "";
+	}
+}
+console.log(x_time_taken);
+
+
+
+// translation notes: 
+var x_label_values = []
+var cycle_count = 1;
+count = 0;
+for (var i = 0; i < full_date_range.length; i++) {
+	// define to individual variables for simplicy: 
+	var month = (full_date_range[i].getMonth() + 1);
+	var date = full_date_range[i].getDate();
+	//var time_taken = rows[i].time_taken;
+	var time_taken = x_time_taken[i];
+	// full_string_dates[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
+	x_label_values[i] = cycle_count + "\n" + month + "-" + date + "\n" + time_taken;
+	cycle_count ++;
+}
+console.log(x_label_values);
+// returns: 
+// [ '10-15', '10-16', '10-17', '10-18', '10-19', '10-20', '10-21' ]
+
+
 
 
 /*
