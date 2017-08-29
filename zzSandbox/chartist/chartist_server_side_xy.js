@@ -1,6 +1,34 @@
 // try to populate {x: ,y: } array-object (with y gaps) manually 
 
 // what var rows might look like after a db table query:
+
+/*
+// code from index.js that queries cycle table to find beginning and end dates of currently displayed cycle: 
+db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
+	if (next_cycle_id) {
+		var begin_date = dates_from_db[0].begin_date;
+		var end_date = dates_from_db[1].yesterday;
+	} else {
+		var begin_date = dates_from_db[0].begin_date;
+		var end_date = 'Today';
+	};
+});
+*/
+// if there's a next cycle: 
+var cycles_rows = [
+	{ begin_date: '2012-09-23', 
+		yesterday: '2012-09-22' }, 
+	{ begin_date: '2012-10-23', 
+		yesterday: '2012-10-22' }
+]
+// if this is the last cycle (no next cycle): 
+var cycles_rows = [
+	{ begin_date: '2012-11-21', 
+		yesterday: '2012-11-20' }, 
+	{ begin_date: '2012-11-21', 
+		yesterday: '2012-11-20' }
+]
+
 /* datetime created from this query: 
 SELECT *, strftime('%Y-%m-%d %H:%M:%S', date) as 'datetime' FROM time_temp WHERE cycle_id = 7 ORDER BY id;
 */

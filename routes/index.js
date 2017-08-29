@@ -140,7 +140,7 @@ router.get('/', function(req,res) {
 						} else {
 							var begin_date = dates_from_db[0].begin_date;
 							//var end_date = 'Today';
-							var end_date = rows_from_db[rows_from_db.length-1].date;
+							var end_date = rows_from_db[rows_from_db.length-1].date; // assign an actual value to end_date (gleaned from time_temp most recent row), to make chartist labels display correctly (they depend on begin_date and end_date values, and raw string 'today' would have made that dependency wonky
 						};
 
 					// massages data gleaned from time_temp query into a format that can be used by chart in chartist_partial_temp.ejs (via res.render() section below); create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
