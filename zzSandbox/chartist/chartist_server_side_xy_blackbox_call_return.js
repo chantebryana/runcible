@@ -14,7 +14,7 @@ var dates_from_db = [
 /* datetime created from this query: 
 SELECT *, strftime('%Y-%m-%d %H:%M:%S', date) as 'datetime' FROM time_temp WHERE cycle_id = 7 ORDER BY id;
 */
-var rows = [
+var rows_from_db = [
   { id: 192,
     date: '2012-10-15',
     time_taken: '07:30',
@@ -66,8 +66,8 @@ var rows = [
 // pull the dates logged in time_temp table and populate into array dates_logged:
 function logged_dates() {
 	var dates_logged = [];
-	for (var i = 0; i < rows.length; i++) {
-		dates_logged[i] = new Date(rows[i].datetime);
+	for (var i = 0; i < rows_from_db.length; i++) {
+		dates_logged[i] = new Date(rows_from_db[i].datetime);
 	}
 	return dates_logged	
 }
@@ -103,7 +103,7 @@ function populate_y_axis_data(a_match) {
 	var count = 0;
 	for (var i = 0; i < a_match.length; i++) {
 		if (a_match[i] == 1) { // if match == true
-			y_temp_f[i] = rows[count].temp_f;
+			y_temp_f[i] = rows_from_db[count].temp_f;
 			count ++;
 		} else { // if match == false
 			y_temp_f[i] = undefined;
@@ -117,7 +117,7 @@ function logged_time_taken(a_match) {
 	var count = 0;
 	for (var i = 0; i < a_match.length; i++) {
 		if (a_match[i] == 1) { // if match == true
-			x_time_taken[i] = rows[count].time_taken;
+			x_time_taken[i] = rows_from_db[count].time_taken;
 			count ++;
 		} else { // if match == false
 			x_time_taken[i] = "";
@@ -136,7 +136,7 @@ function populate_x_axis_labels(full_date_range, x_time_taken) {
 		var month = (full_date_range[i].getMonth() + 1);
 		var date = full_date_range[i].getDate();
 		var day = days_of_the_week[full_date_range[i].getDay()];
-		//var time_taken = rows[i].time_taken;
+		//var time_taken = rows_from_db[i].time_taken;
 		var time_taken = x_time_taken[i];
 		// full_string_dates[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
 		x_label_values[i] = cycle_count + "\n" + day + "\n" + month + "-" + date + "\n" + time_taken;

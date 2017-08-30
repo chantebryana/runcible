@@ -104,6 +104,13 @@ function find_next_previous_cycle(current_cycle_id, callback) {
 	});
 };
 
+
+// 6 functions that find and define the values of y-axis and labels for x-axis for chartist chart: 
+
+
+
+
+
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get('/', function(req,res) {
 	// print onto terminal browser's cache of cookies: 
@@ -122,7 +129,7 @@ router.get('/', function(req,res) {
 			if (req.query.cycle) {
 				which_cycle_id = current_cycle_id;
 			};
-			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
+			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\', strftime(\'%Y-%m-%d %H:%M:%S\', date) as \'datetime\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
 //console.log(rows_from_db[rows_from_db.length-1].date);
 					// variables for query below with conditions so that the query doesn't break if next_cycle_id is undefined (ie, if the page is displaying the final cycle and there is no next cycle created yet): 
 					var id_search_var = 0;
@@ -148,9 +155,19 @@ router.get('/', function(req,res) {
 							var end_date = rows_from_db[rows_from_db.length-1].date; // assign an actual value to end_date (gleaned from time_temp most recent row), to make chartist labels display correctly (they depend on begin_date and end_date values, and raw string 'today' would have made that dependency wonky
 						};
 
-
-
-
+						console.log(rows_from_db[0].datetime);
+/*
+						function logged_dates() {
+							var dates_logged = [];
+							for (var i = 0; i < rows_from_db.length; i++) {
+								dates_logged[i] = new Date(rows_from_db[i].datetime);
+							}
+							return dates_logged	
+						}
+*/
+						var xyaxis_values = require('../views/partials/chartist_xyaxis_value_funcs.js');
+						//console.log(logged_dates());
+						console.log(xyaxis_values);
 
 /*
 					// massages data gleaned from time_temp query into a format that can be used by chart in chartist_partial_temp.ejs (via res.render() section below); create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
