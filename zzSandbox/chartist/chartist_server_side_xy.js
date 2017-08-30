@@ -67,11 +67,20 @@ var rows = [
 // helpful resources: 
 // https://www.toptal.com/software/definitive-guide-to-datetime-manipulation:
 // https://www.tutorialspoint.com/javascript/javascript_date_object.htm
+/*
 var dates_logged = [];
 for (var i = 0; i < rows.length; i++) {
 	dates_logged[i] = new Date(rows[i].datetime);
 }
 console.log(dates_logged);
+*/
+function logged_dates(callback) {
+	var dates_logged = [];
+	for (var i = 0; i < rows.length; i++) {
+		dates_logged[i] = new Date(rows[i].datetime);
+	}
+	callback(dates_logged);	
+}
 /* returns: 
 [ Mon Oct 15 2012 00:00:00 GMT-0500 (CDT),
   Thu Oct 18 2012 00:00:00 GMT-0500 (CDT),
@@ -79,6 +88,9 @@ console.log(dates_logged);
   Sat Oct 20 2012 00:00:00 GMT-0500 (CDT),
   Sun Oct 21 2012 00:00:00 GMT-0500 (CDT) ]
 */
+
+logged_dates(function(dates_logged){
+	console.log(dates_logged);
 
 
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
@@ -166,6 +178,8 @@ for (var i = 0; i < full_date_range.length; i++) {
 	cycle_count ++;
 }
 console.log(x_label_values);
+
+});
 // returns: 
 /*
 [ '1\nM\n10-15\n07:30',
