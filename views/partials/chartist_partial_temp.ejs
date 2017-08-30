@@ -12,14 +12,13 @@
 // https://github.com/gionkunz/chartist-js/issues/458
 
 // JE: axis[last].x += 20000 (add 20 seconds to last element of axis.x to see if that'll add one day to chart x-axis labels --> CE: tried this 2017-08-24 11:25: didn't twerk
+
 	var data = {
+		// A labels array that can contain any sort of values
+		labels: [<%- x_label_values_to_renderer %>],
 		// Our series array that contains series objects or in this case series data arrays
 		series: [
-			{
-				data: [
-
-				]
-			}
+			[<%= y_temp_f_to_renderer %>]
 		]
 	};
 
@@ -29,7 +28,7 @@
 			//offset: 40, // provides enough space for 3 lines of labels on X axis
 			position: 'start', // puts labels on top of chart (not bottom, which is default)
 			// the next 3 lines needed to create gaps in data for days that i don't log temperature:
-			type: Chartist.FixedScaleAxis, 
+			//type: Chartist.FixedScaleAxis, 
 		},
 		axisY: {
 			// restrict the y-axis to only show values between 96.5 and 98.0, which should 

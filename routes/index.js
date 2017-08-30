@@ -231,19 +231,16 @@ router.get('/', function(req,res) {
 								//var time_taken = rows_from_db[i].time_taken;
 								var time_taken = x_time_taken[i];
 								// full_string_dates[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
-								x_label_values[i] = cycle_count + "\n" + day + "\n" + month + "-" + date + "\n" + time_taken;
+								x_label_values[i] = "\"" +cycle_count + "\\n" + day + "\\n" + month + "-" + date + "\\n" + time_taken + "\"";
+								// x_label_values[i] = "\"" + month + "-" + date + "\\n" + time_taken + "\"";
 								cycle_count ++;
 							}
 							return x_label_values;
 						}
 
-						// running the functions: 
-							console.log( logged_dates() );
-							console.log( auto_compute_date_range() );
-							console.log( comparison_key( auto_compute_date_range(), logged_dates() ) );
-							console.log( populate_y_axis_data( comparison_key( auto_compute_date_range(), logged_dates() ) ) );
-							console.log( logged_time_taken( comparison_key( auto_compute_date_range(), logged_dates() ) ) );
-							console.log( populate_x_axis_labels( auto_compute_date_range(), logged_time_taken( comparison_key( auto_compute_date_range(), logged_dates() ) ) ) );
+
+						var y_temp_f = populate_y_axis_data( comparison_key( auto_compute_date_range(), logged_dates() ) );
+						var x_label_values = populate_x_axis_labels( auto_compute_date_range(), logged_time_taken( comparison_key( auto_compute_date_range(), logged_dates() ) ) );
 
 /*
 					// massages data gleaned from time_temp query into a format that can be used by chart in chartist_partial_temp.ejs (via res.render() section below); create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
@@ -279,6 +276,8 @@ router.get('/', function(req,res) {
 						begin_date_to_renderer: begin_date,
 						end_date_to_renderer: end_date,
 						// date_range_int_to_renderer: date_range_int,
+						y_temp_f_to_renderer: y_temp_f, 
+						x_label_values_to_renderer: x_label_values,
 						cycle_id_to_renderer: {
 							prev: previous_cycle_id, 
 							curr: current_cycle_id, 
