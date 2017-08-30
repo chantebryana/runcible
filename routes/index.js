@@ -24,6 +24,9 @@ var sqlite3 = require('sqlite3').verbose();
 var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
+// require functions found elsewhere: 
+const xyvaluefunc = require('../views/partials/chartist_xyaxis_value_funcs.js');
+
 router.get('/form', function(req, res) {
 		var current_cycle_id = req.query.cycle;
 	get_first_and_last_cycle_id(function(first_cycle_id, last_cycle_id){
@@ -148,6 +151,11 @@ router.get('/', function(req,res) {
 							var end_date = rows_from_db[rows_from_db.length-1].date; // assign an actual value to end_date (gleaned from time_temp most recent row), to make chartist labels display correctly (they depend on begin_date and end_date values, and raw string 'today' would have made that dependency wonky
 						};
 
+						// const xyvaluefunc = require('../views/partials/chartist_xyaxis_value_funcs.js');
+
+						console.log(logged_dates());
+
+/*
 					// massages data gleaned from time_temp query into a format that can be used by chart in chartist_partial_temp.ejs (via res.render() section below); create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
 					var date_temp_object = []
 					if (rows_from_db.length != 0) {
@@ -160,6 +168,7 @@ router.get('/', function(req,res) {
 							date_temp_object[i].y = rows_from_db[i].temp_f;
 						}
 					}
+*/
 /*
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs; create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
 					var date_range_int = 0;
@@ -175,7 +184,7 @@ router.get('/', function(req,res) {
 						title: 'Home', 
 						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
 						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
-						date_temp_object_to_renderer: date_temp_object,
+						//date_temp_object_to_renderer: date_temp_object,
 						// render beginning and end dates of currently displayed cycle to index.ejs:
 						begin_date_to_renderer: begin_date,
 						end_date_to_renderer: end_date,
