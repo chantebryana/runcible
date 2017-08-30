@@ -160,7 +160,7 @@ router.get('/', function(req,res) {
 							date_temp_object[i].y = rows_from_db[i].temp_f;
 						}
 					}
-
+/*
 					// calculate time range in integer form for 'divisor' section in chartist_partial_temp.ejs; create if condition to verify that branch of code only runs if there are data points for this cycle (if time_temp query doesn't return empty or null):
 					var date_range_int = 0;
 					if (rows_from_db.length != 0) {
@@ -169,7 +169,7 @@ router.get('/', function(req,res) {
 						var end_date_int = new Date(rows_from_db[(rows_from_db.length)-1].date);
 						date_range_int = ((end_date_int - start_date_int)/1000/60/60/24); // convert milliseconds to whole days
 					} 
-
+*/
 					// res.render sends various variables to index.ejs and its dependent pages:
 					res.render('pages', {
 						title: 'Home', 
@@ -179,7 +179,7 @@ router.get('/', function(req,res) {
 						// render beginning and end dates of currently displayed cycle to index.ejs:
 						begin_date_to_renderer: begin_date,
 						end_date_to_renderer: end_date,
-						date_range_int_to_renderer: date_range_int,
+						// date_range_int_to_renderer: date_range_int,
 						cycle_id_to_renderer: {
 							prev: previous_cycle_id, 
 							curr: current_cycle_id, 

@@ -17,9 +17,7 @@
 		series: [
 			{
 				data: [
-					<% date_temp_object_to_renderer.forEach((axis)=> { %>
-						{x:<%- axis.x %>, y:<%= axis.y %>}, 
-					<% }); %>
+
 				]
 			}
 		]
@@ -32,15 +30,6 @@
 			position: 'start', // puts labels on top of chart (not bottom, which is default)
 			// the next 3 lines needed to create gaps in data for days that i don't log temperature:
 			type: Chartist.FixedScaleAxis, 
-			divisor: <%= date_range_int_to_renderer %>,
-			labelInterpolationFnc: function(value) {
-				// CE for loop
-				// JE get this value month-day
-				// JE look up hours:minutes by month-day (key: month-day; value: hours:minutes)
-				// JE return month-day \n hours:minutes string 
-				// JE perhaps gaps in h:m data won't be disaplyed on x axis?
-				return moment(value).format('M-D[\n]ddd'); // CE + time[i];
-			}
 		},
 		axisY: {
 			// restrict the y-axis to only show values between 96.5 and 98.0, which should 
