@@ -2,43 +2,16 @@
 
 // what var rows might look like after a db table query:
 
-/*
-// code from index.js that queries cycle table to find beginning and end dates of currently displayed cycle: 
-db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'yesterday\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
-	if (next_cycle_id) {
-		var begin_date = dates_from_db[0].begin_date;
-		var end_date = dates_from_db[1].yesterday;
-	} else {
-		var begin_date = dates_from_db[0].begin_date;
-		var end_date = 'Today';
-	};
-});
-*/
-// if there's a next cycle: 
-var cycles_rows = [
-	{ begin_date: '2012-09-23', 
-		yesterday: '2012-09-22' }, 
-	{ begin_date: '2012-10-23', 
-		yesterday: '2012-10-22' }
+var dates_from_db = [
+	{ begin_date: '2012-09-23',
+		end_date: '2012-09-22',
+		begin_datetime: '2012-09-23 00:00:00',
+		end_datetime: '2012-09-22 00:00:00' }, 
+	{ begin_date: '2012-10-23',
+		end_date: '2012-10-22',
+		begin_datetime: '2012-10-23 00:00:00',
+		end_datetime: '2012-10-22 00:00:00' }
 ]
-// if this is the last cycle (no next cycle): 
-var cycles_rows = [
-	{ begin_date: '2012-11-21', 
-		yesterday: '2012-11-20' }, 
-	{ begin_date: '2012-11-21', 
-		yesterday: '2012-11-20' }
-]
-// long story short, I've updated begin_date and end_date so that they're always a date (versus non-date values like 'today')--but I'm just realizing that the format is different than what I played with below. 
-SELECT begin_date, date(begin_date, '-1 day') as 'end_date', STRFTIME('%Y-%m-%d %H:%M:%S', begin_date) as 'begin_datetime', STRFTIME('%Y-%m-%d %H:%M:%S', begin_date, '-1 day') as 'end_datetime' FROM cycles WHERE id = 7 or id = 8 ORDER BY begin_date;
-//results in sqlite3:
-/*
-2012-09-23|2012-09-22|2012-09-23 00:00:00|2012-09-22 00:00:00
-2012-10-23|2012-10-22|2012-10-23 00:00:00|2012-10-22 00:00:00
-*/
-// ^^this way I have both of the date formats that I want: simple, short dates that would be better to read on the webpage header or on a chart label scheme, and also the long-form datetime that can more easily be used in date formatting methods!  an no translation middle step needed (at least not here)
-
-
-
 
 /* datetime created from this query: 
 SELECT *, strftime('%Y-%m-%d %H:%M:%S', date) as 'datetime' FROM time_temp WHERE cycle_id = 7 ORDER BY id;
@@ -109,8 +82,10 @@ console.log(dates_logged);
 
 
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
-var start = new Date(rows[0].datetime);
-var end = new Date(rows[rows.length-1].datetime);
+//var start = new Date(rows[0].datetime);
+//var end = new Date(rows[rows.length-1].datetime);
+var start = new Date(dates_from_db[0].begin_datetime);
+var end = new Date(dates_from_db[1].end_datetime);
 var full_date_range = [];
 var mil = (1000*60*60*24)// 24 hr in miliseconds
 // add mil to end.getTime() to add one more day to the iteration range:
