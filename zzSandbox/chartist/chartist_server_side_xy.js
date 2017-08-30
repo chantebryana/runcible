@@ -3,10 +3,10 @@
 // what var rows might look like after a db table query:
 
 var dates_from_db = [
-	{ begin_date: '2012-09-23',
-		end_date: '2012-09-22',
-		begin_datetime: '2012-09-23 00:00:00',
-		end_datetime: '2012-09-22 00:00:00' }, 
+	{ begin_date: '2012-10-15',
+		end_date: '2012-10-14',
+		begin_datetime: '2012-10-15 00:00:00',
+		end_datetime: '2012-10-14 00:00:00' }, 
 	{ begin_date: '2012-10-23',
 		end_date: '2012-10-22',
 		begin_datetime: '2012-10-23 00:00:00',
@@ -84,12 +84,12 @@ console.log(dates_logged);
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
 //var start = new Date(rows[0].datetime);
 //var end = new Date(rows[rows.length-1].datetime);
-var start = new Date(dates_from_db[0].begin_datetime);
-var end = new Date(dates_from_db[1].end_datetime);
+var begin_datetime = new Date(dates_from_db[0].begin_datetime);
+var end_datetime = new Date(dates_from_db[1].end_datetime);
 var full_date_range = [];
 var mil = (1000*60*60*24)// 24 hr in miliseconds
-// add mil to end.getTime() to add one more day to the iteration range:
-for (var i = start.getTime(); i < (end.getTime() + mil); i = i + mil) {
+// add mil to end_datetime.getTime() to add one more day to the iteration range:
+for (var i = begin_datetime.getTime(); i < (end_datetime.getTime() + mil); i = i + mil) {
 	full_date_range.push(new Date(i));
 }
 console.log(full_date_range);
