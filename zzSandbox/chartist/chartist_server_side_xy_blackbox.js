@@ -63,6 +63,7 @@ var rows = [
 ];
 
 // black boxes: 
+// pull the dates logged in time_temp table and populate into array dates_logged:
 function logged_dates(callback) {
 	var dates_logged = [];
 	for (var i = 0; i < rows.length; i++) {
@@ -71,7 +72,7 @@ function logged_dates(callback) {
 	console.log(dates_logged);
 	callback(dates_logged);	
 }
-
+// pull begin and end datetimes from cycles table and auto-populate a series of dates into full_date_range array: 
 function auto_compute_date_range(callback) {
 	var begin_datetime = new Date(dates_from_db[0].begin_datetime);
 	var end_datetime = new Date(dates_from_db[1].end_datetime);
@@ -84,7 +85,7 @@ function auto_compute_date_range(callback) {
 	console.log(full_date_range);
 	callback(full_date_range);
 }
-
+// compare dates_logged against full_date_range, and populate a new a_match array with 0's or 1's, depending on whether there's a match (0 == false, 1 == true):
 function comparison_key(full_date_range, dates_logged, callback) {
 	var a_match = [];
 	var count = 0;
@@ -99,7 +100,7 @@ function comparison_key(full_date_range, dates_logged, callback) {
 	console.log(a_match);
 	callback(a_match);
 }
-
+// pull temp_f data from time_temp table; iterate over a_match: if element is 1, then fill the same-indexed element of y_temp_f array with the temp_f data from time_temp table; else, fill y_temp_f with 'undefined'. y_temp_f feeds directly to chartist chart, and the undefined elements show up as gaps in the chart: 
 function populate_y_axis_data(a_match, callback) {
 	var y_temp_f = [];
 	var count = 0;
@@ -114,7 +115,7 @@ function populate_y_axis_data(a_match, callback) {
 	console.log(y_temp_f);
 	callback(y_temp_f);
 }
-
+// pull time_taken data from time_temp table; iterate over a_match: if element is 1, then fill the same-indexed element of x_time_taken array with the time_taken data from time_temp table; else, fill x_time_taken with '' empty string. x_time_taken array will be used later to populate the labels for the x-axis of chartist chart:  
 function logged_time_taken(a_match, callback) {
 	var x_time_taken = [];
 	var count = 0;
@@ -129,7 +130,7 @@ function logged_time_taken(a_match, callback) {
 	console.log(x_time_taken);
 	callback(x_time_taken);
 }
-
+// populate the labels for the x-axis of chartist chart with array x_label_values.  Include data from full_date_range and time_taken, with gaps in data as appropriate (the time_taken value is just an empty string '' if there's no y-axis temp_f, for instance): 
 function populate_x_axis_labels(full_date_range, x_time_taken, callback) {
 	var x_label_values = []
 	var cycle_count = 1;
