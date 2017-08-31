@@ -71,12 +71,13 @@ var rows_from_db = [
 							return dates_logged	
 						}
 						// pull begin and end datetimes from cycles table and auto-populate a series of dates into full_date_range array: 
-						function auto_compute_date_range() {
+						function auto_compute_date_range(dates_from_db) {
 							var begin_datetime = new Date(dates_from_db[0].begin_datetime);
 							var end_datetime = new Date(dates_from_db[1].end_datetime);
 							var full_date_range = [];
 							var mil = (1000*60*60*24)// 24 hr in miliseconds
 							// add mil to end_datetime.getTime() to add one more day to the iteration range:
+							// CE: I don't think this for() logic works for time changes:
 							for (var i = begin_datetime.getTime(); i < (end_datetime.getTime() + mil); i = i + mil) {
 								full_date_range.push(new Date(i));
 							}
@@ -97,7 +98,7 @@ var rows_from_db = [
 							return a_match;
 						}
 						// pull temp_f data from time_temp table; iterate over a_match: if element is 1, then fill the same-indexed element of y_temp_f array with the temp_f data from time_temp table; else, fill y_temp_f with 'undefined'. y_temp_f feeds directly to chartist chart, and the undefined elements show up as gaps in the chart: 
-						function populate_y_axis_data(a_match) {
+						function populate_y_axis_data(a_match, rows_from_db) {
 							var y_temp_f = [];
 							var count = 0;
 							for (var i = 0; i < a_match.length; i++) {
@@ -111,7 +112,7 @@ var rows_from_db = [
 							return y_temp_f;
 						}
 						// pull time_taken data from time_temp table; iterate over a_match: if element is 1, then fill the same-indexed element of x_time_taken array with the time_taken data from time_temp table; else, fill x_time_taken with '' empty string. x_time_taken array will be used later to populate the labels for the x-axis of chartist chart:  
-						function logged_time_taken(a_match) {
+						function logged_time_taken(a_match, rows_from_db) {
 							var x_time_taken = [];
 							var count = 0;
 							for (var i = 0; i < a_match.length; i++) {
@@ -138,7 +139,7 @@ var rows_from_db = [
 								//var time_taken = rows_from_db[i].time_taken;
 								var time_taken = x_time_taken[i];
 								// full_string_dates[i] = (full_date_range[i].getMonth() + 1) + "-" + full_date_range[i].getDate();
-								x_label_values[i] = "\"" +cycle_count + "\\n" + day + "\\n" + month + "-" + date + "\\n" + time_taken + "\"";
+								x_label_values[i] = "\"" + cycle_count + "\\n" + day + "\\n" + month + "-" + date + "\\n" + time_taken + "\"";
 								// x_label_values[i] = "\"" + month + "-" + date + "\\n" + time_taken + "\"";
 								cycle_count ++;
 							}
@@ -147,10 +148,10 @@ var rows_from_db = [
 
 // running the functions: 
 var dates_logged = logged_dates(rows_from_db);
-var full_date_range = auto_compute_date_range();
+var full_date_range = auto_compute_date_range(dates_from_db);
 var a_match = comparison_key(full_date_range, dates_logged);
-var y_temp_f = populate_y_axis_data(a_match);
-var x_time_taken = logged_time_taken(a_match);
+var y_temp_f = populate_y_axis_data(a_match, rows_from_db);
+var x_time_taken = logged_time_taken(a_match, rows_from_db);
 var x_label_values = populate_x_axis_labels(full_date_range, x_time_taken);
 
 console.log(dates_logged);
