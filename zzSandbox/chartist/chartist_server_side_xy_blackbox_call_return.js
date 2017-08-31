@@ -63,7 +63,7 @@ var rows_from_db = [
 ];
 
 // pull the dates logged in time_temp table and populate into array dates_logged:
-						function logged_dates() {
+						function logged_dates(rows_from_db) {
 							var dates_logged = [];
 							for (var i = 0; i < rows_from_db.length; i++) {
 								dates_logged[i] = new Date(rows_from_db[i].datetime);
@@ -146,10 +146,17 @@ var rows_from_db = [
 						}
 
 // running the functions: 
-console.log( logged_dates() );
-console.log( auto_compute_date_range() );
-console.log( comparison_key( auto_compute_date_range(), logged_dates() ) );
-console.log( populate_y_axis_data( comparison_key( auto_compute_date_range(), logged_dates() ) ) );
-console.log( logged_time_taken( comparison_key( auto_compute_date_range(), logged_dates() ) ) );
-console.log( populate_x_axis_labels( auto_compute_date_range(), logged_time_taken( comparison_key( auto_compute_date_range(), logged_dates() ) ) ) );
+var dates_logged = logged_dates(rows_from_db);
+var full_date_range = auto_compute_date_range();
+var a_match = comparison_key(full_date_range, dates_logged);
+var y_temp_f = populate_y_axis_data(a_match);
+var x_time_taken = logged_time_taken(a_match);
+var x_label_values = populate_x_axis_labels(full_date_range, x_time_taken);
+
+console.log(dates_logged);
+console.log(full_date_range);
+console.log(a_match);
+console.log(y_temp_f);
+console.log(x_time_taken);
+console.log(x_label_values);
 
