@@ -1,0 +1,13 @@
+2017/09/08 Friday
+follow up on convo w/ Jim
+re cookies and setting up server and looking ahead to next week
+
+Jim volunteered to help me with setting up server for runcible, and any related road blocks.  one immediate / obvious roadblock is lack of cookies for security purposes. that reminded me that i need to think about that, and led me to consider why i may have been putting it off. some for good (get back into the groove of things after feeling intimidated and having a hard time logging enough time), some maybe for not so good (avoiding the problem instead of tackling it bit by bit or dividing into ever-smaller pieces). this is relevant for a big-kid-job environment where i want to pivot over to the boss's seeming whims or respond to what for me is an incomplete vision. i need to be accountable for the needs of the company, even if they're hard or confusing or frustrating. So there's that!
+
+So what would I do if i re-emerged back into cookies? how should i handle it on monday (or during the weekend, should i choose to do some work over the next day or two -- a separate consideration...)
+
+well, get back into the groove of things: remember what i've even done with cookies. Jim and i did a little bit of that -- refreshing my memory briefly on keys and saving page loads to database and tracking separate sessions (different browsers, different machines, different users, etc).  so, i think i'd take some time on monday to consider where i've been and to read up my old notes. and i'm assuming i'd feel overwhelmed, so i'll try to take some time to scale down the problem and try to divide it into simpler chunks. 
+
+and, remember, it's low key and fun. no pressure no hassle no bad work!  just good and fun and coding for the joy of it! and remembering to take plenty of pomodoro breaks, but to also be mindful and conscious of my intentions and to hold myself accountable (and to be transparent w/ Jim in an attempt to acheive that end).
+
+ok, enough for now. wish me luck!
