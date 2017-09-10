@@ -1,4 +1,6 @@
-2017/09/08 Friday
+==	==	==	==	==	==	==	==	==	==
+2017/09/08 FRIDAY
+
 follow up on convo w/ Jim
 re cookies and setting up server and looking ahead to next week
 
@@ -11,3 +13,86 @@ well, get back into the groove of things: remember what i've even done with cook
 and, remember, it's low key and fun. no pressure no hassle no bad work!  just good and fun and coding for the joy of it! and remembering to take plenty of pomodoro breaks, but to also be mindful and conscious of my intentions and to hold myself accountable (and to be transparent w/ Jim in an attempt to acheive that end).
 
 ok, enough for now. wish me luck!
+
+==	==	==	==	==	==	==	==	==	==
+2017/09/10 SUNDAY
+
+Looking up old paper notes, it seems that I haven't touched cookies since 2017/08/24 Thursday (about 2.5 weeks ago).  I did work on the following day (a Friday), but I very purposefully began the day by telling myself I *wasn't* going to touch cookies -- too difficult!  
+
+So I should definitely try to avoid running into that problem again.  Perhaps not over-thinking it? Dividing the problem into smaller sub-problems (and sub-sub-sub-problems if needed).  And pinging Jim liberally to get past any sticky points (versus trying to figure it all out all by myself all at once -- I don't have to be superwoman, rather I need to figure out systems that work for me right now!).  
+
+OK, enough of the pep talk.  It's Sunday and I'm having fun and let's have fun on the computer (while sipping tea and munching on graham crackers + chocolate).
+
+--	--	--	--
+
+cookie setup on in index.js:
+
+router.get('/'...)
+	// print onto terminal browser's cache of cookies:
+	console.log("Cookies from browser: ", req.cookies);
+	// store browser's cache of cookies onto server variable: 
+	cookie_var = req.cookies;
+	// print onto terminal the server variable: 
+	console.log("cookie_var: ", cookie_var);
+
+router.get('/cookie', function(req,res){
+	// CE: after discussion w/ Jim, set up proto-code for creating a more dynamic cookie that iterates with each page load: 
+	// sets the initial cookie, with default value of 0: 
+	res.setHeader('Set-Cookie', cookie.serialize('page_loads', '0'));
+	// creates a temp variable that stores the value of the key page_loads: 
+	var cookie_temp_var = req.cookies.page_loads;
+	// convert temp string variable into an iteratable integer: 
+	cookie_var = parseInt(cookie_temp_var);
+	// iterate cookie_var by one: 
+	cookie_var += 1;
+	// send the iterated integer cookie_var back to the browser's cookie storage, being sure to convert the integer back to a string: 
+	res.setHeader('Set-Cookie', cookie.serialize('page_loads', cookie_var.toString()));
+	// send a message to the web page to let the user know something happened: 
+	res.send('Cookie\'s sent!');
+});
+
+router.get('/clearcookie', function(req,res){
+	// remove page_loads cookie from browser cache (and subsequently from the server's attempts to access browser's cache): 
+	res.clearCookie('page_loads');
+	// send a message to the web page to let the user know something happened: 
+	res.send('Cookie deleted');
+});
+
+--	--	--	--
+
+Various notes files: 
+cookies_a.js & cookies_b.js
+[1 commit]
+1) playing around with cookies and db-style objects to see what I can learn about / what questions I can generate regarding saving cookie data on server-side db table
+
+cookies_c.js
+created 2017-08-24 --> the last day I touched cookies
+[2 relevant commits]
+
+1) commiting pseudocode and brainstormings re how to create more sophisticated / robust / relevant / apt cookie setup for saving page loads (and moving forward towards cookies for authentication and login). whew! i've got lots to do but my brain's pooped at this point!
+
+2) more pseudocode changes
+
+--	--	--	--
+
+I think what I've got laid out on cookies_c.js is valuable but missing some important focus points.  I seem to be focusing on the page-load-tracking, and that's good and valuable to figure out. But for some reason right now I'm more inspired to figure out the session key. The unique identifier shared by the browser and the server / database to figure out who's who and validate that the pieces are cleared to talk to each other (and about what subject). The keyword that the lawyer and the city department share with each other to know that they're talking about the case of Runcible B Spoon. Or something. 
+
+browser cookie key = 1000
+
+if (no cookie) {
+	set cookie (iterate existing largest cookie by 1)
+	define it in the browser
+	define it in the db
+	update the page_load data by 1 (b/c presumably i've visited the page for the first time, which means i've loaded the page once)
+} else () {
+	do normal workflow (whatever that may be): perhaps: 
+	update the page_load data by 1: if I'm hitting this block of code, surely i'm refreshing or visiting the page, which means i should iterate the page load count by 1.
+}
+
+==	==	==	==
+
+Taking a moment to remember where my brain was at the last time I touched this idea, I think I need to take a step or two back before trying to pseudocode at this level. The workflow and placement of the cookies is still a bit mystifying to me -- it's far from internalized to the extent needed to write code around it. Perhaps I should take some time to think about the workflow of cookies are, and to perhaps attempt to diagram it or quantify it or something so that I can further tease out where gaps in my knowledge may lie. I could re-listen to the audio I captured from my discussion w/ Jim some time ago, to try to remember how he described things and to reset my level of understanding to where I was at that point. I could also try to look up internet suggestions for creating a page-load cookie tracker -- maybe it would provide valuable insights, even if it may be for a different context or language. All good thoughts I think. 
+
+Is there anything else I want to do with this today? Maybe not -- it's Sunday and I want to chill out a bit. But I'm really glad I touched on this idea, got my mind jogging a bit, and invested in some preparation for getting the ball rolling on Monday. I suppose my next step after this may be to try to figure out an action plan for the remainder of my Sunday and going into Monday...
+
+
