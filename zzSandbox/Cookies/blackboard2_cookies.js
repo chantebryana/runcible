@@ -32,12 +32,15 @@ router.get('/', function(req, res){
 		var pg_load = rows_from_select[0].page_loads;
 		pg_load += 1;
 		db.all("UPDATE cookie_key_test SET page_loads=" + pg_load + "WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-			//console.log(rows_from_update); // don't twerk b/c UPDATE query doesn't return anything. duh.
 			console.log("update portion ran"); // that worked.
+			// res.send(pg_load); // threw this error: express deprecated res.send(status): Use res.sendStatus(status) instead
+			//res.sendStatus(pg_load); // also didn't work
+/*
 			// server error with res.render portion:
-			//res.render( {
-				//pg_load_to_renderer: pg_load
-			//});
+			res.render('pages', { // this is looking up files within views/pages folder. how do i point the renderer to look at a file in a different folder??
+				pg_load_to_renderer: pg_load
+			});
+*/
 		});
 	});
 });
