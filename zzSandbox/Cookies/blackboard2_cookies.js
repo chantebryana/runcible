@@ -24,24 +24,34 @@ var sqlite3 = require('sqlite3').verbose();
 var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
-
+/*
+CREATE TABLE cookie_key_json (
+	id integer PRIMARY KEY,
+	cookie_key text,
+	session_data text
+);
+*/
 
 router.get('/', function(req, res){
+	// CE PLAYING W/ COOKIES!!
 	var browser_secret_cookie = "bbb222";
-	db.all("SELECT page_loads FROM cookie_key_test WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
-		var pg_load = rows_from_select[0].page_loads;
-		pg_load += 1;
-		db.all("UPDATE cookie_key_test SET page_loads=" + pg_load + " WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-			console.log("update portion ran"); // that worked.
-			// res.send(pg_load); // threw this error: express deprecated res.send(status): Use res.sendStatus(status) instead
-			//res.sendStatus(pg_load); // also didn't work
+	db.all("SELECT session_data FROM cookie_key_json WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+		// console.log(err);
+		//var pg_load = rows_from_select[0].page_loads;
+		if (err) {
+			console.log(err);
+		};
+		console.log(rows_from_select);
+		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
+		//var parsed_rows = JSON.parse('{"page_count" : 222}');
+		console.log(parsed_rows);
 /*
-			// server error with res.render portion:
-			res.render('pages', { // this is looking up files within views/pages folder. how do i point the renderer to look at a file in a different folder??
-				pg_load_to_renderer: pg_load
-			});
-*/
+		pg_load += 1;
+		rows_from_select[0].page_loads = pg_load;
+		db.all("UPDATE cookie_key_json SET page_loads=" + pg_load + " WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+			// console.log(err);
 		});
+*/
 	});
 });
 
