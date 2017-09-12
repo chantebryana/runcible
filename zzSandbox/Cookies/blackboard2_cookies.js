@@ -28,13 +28,20 @@ var db = new sqlite3.Database(file);
 
 router.get('/', function(req, res){
 	var browser_secret_cookie = "bbb222";
-	db.all("SELECT page_loads FROM cookie_key_test WHERE session_id = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
-		console.log(rows_from_select);
+	db.all("SELECT page_loads FROM cookie_key_test WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+		console.log(rows_from_select); // returned [ { page_loads: 2 } ]
+		console.log(rows_from_select[0]); // returned { page_loads: 2 }
+		console.log(rows_from_select[0].page_loads); // returned 2
 	});
 });
-
 
 app.listen(3000, function() {
 	console.log('Example app listening on port 3000!');
 });
+
+
+
+
+
+
 
