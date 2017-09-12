@@ -36,15 +36,21 @@ router.get('/', function(req, res){
 	// CE PLAYING W/ COOKIES!!
 	var browser_secret_cookie = "bbb222";
 	db.all("SELECT session_data FROM cookie_key_json WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
-		// console.log(err);
-		//var pg_load = rows_from_select[0].page_loads;
 		if (err) {
 			console.log(err);
 		};
-		console.log(rows_from_select);
+		console.log(rows_from_select); // returns [ { session_data: '{"page_count" : 222}' } ]
 		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
-		//var parsed_rows = JSON.parse('{"page_count" : 222}');
-		console.log(parsed_rows);
+		console.log(parsed_rows); // returns { page_count: 222 }
+		var pg_load = parsed_rows.page_count;
+		console.log(pg_load); // returns 222
+		pg_load += 1;
+		parsed_rows.page_count = pg_load;
+		console.log(parsed_rows); // returns { page_count: 223 }
+		var stringed_row = JSON.stringify(parsed_rows);
+		console.log(stringed_row); // returns {"page_count":223}
+		var re_assembled_row = [{"session_data": '' + stringed_row + ''}] // returns [ { session_data: '{"page_count":223}' } ]
+		console.log(re_assembled_row);
 /*
 		pg_load += 1;
 		rows_from_select[0].page_loads = pg_load;
