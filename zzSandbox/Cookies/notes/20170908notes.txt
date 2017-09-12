@@ -95,4 +95,109 @@ Taking a moment to remember where my brain was at the last time I touched this i
 
 Is there anything else I want to do with this today? Maybe not -- it's Sunday and I want to chill out a bit. But I'm really glad I touched on this idea, got my mind jogging a bit, and invested in some preparation for getting the ball rolling on Monday. I suppose my next step after this may be to try to figure out an action plan for the remainder of my Sunday and going into Monday...
 
+==	==	==	==	==	==	==	==	==	==
+2017/09/11 MONDAY
+
+Reviewing Recorded words w/ Jim re cookies
+
+==> whew, it's taking me 25 minutes to review and annotate 8 minutes of Jim's words re Express setup <==
+
+==> ha! second pomodoro: I got through 12 minutes of JIm-speak this time :-) <==
+
+Huzzah: I'm finally finished up with listening to and transcribing notes based on Jim's cookie lecture given on 23 Aug. It took me nearly 2.5 hours to get through less than 1 hour of live words. So curious. But I much better understand things now: being able to transcribe and diagram and rewind and relisten to key phrases or confusing points made a big difference.  I Khan Academy'd Jim's lecture!  :-D  And I learned more about Express and I learned more about cookie infrastructure and that's all good: I received my desired effect, which was to gain incrementally more understanding of how cookies work and get ideas for how to set them up.  I'll take photos of my hand-written notes and include them in my notes page for future reference possibilities.  
+
+So what are my thoughts? How to move forward? Well, I could begin by making a simple dictionary of a dictionary, and other database-side playings-with-it. 
+
+==	==	==	==
+
+hp:firefox				->	session key: 'UUID2300'
+hp:chrome					-> 	session key: 'UUID2400'
+moto:firefos			->	session key: 'UUID2500'
+library:explorer	->	session key: 'UUID2600'
+
+in this case I'm only storing page loads for each browser session. I'm not storing username password data for unique and secured user experience. So try to keep my mindframe as simplified as possible -- don't overthing things into super fancy secured user setup.
+
+ID | COOKIE_KEY_SESSION_DATA
+--------------------------------------------
+00 | {'secret_cookie_id': {'page_loads': 0}}
+
+Or, what about this???: 
+{'session_token': 'abc123', 'session_data': {'key1':'value1', 'key2':'value2', 'key3':'value3'}}
+
+
+--	--	--	--
+
+Try to answer some of my questions and come across wikipedia page on cookies -- interesting stuff as i browsed down, especially the 'alternatives to cookies' section: I've been using some of those for a long time now without really realizing that i was using cookie-style setup!
+https://en.wikipedia.org/wiki/HTTP_cookie
+
+--	--	--	--
+
+OK, I'm giving up on this particular question for now. Since my use case is so simple, and to allow me to move forward on other tasks, I'll create my own home-cooked database table setup. I can always change it later!
+
+ID | SESSION_ID | SESSION_DATA
+----------------------------------------
+00 | 'abc123'		| '{"page_loads":00}' (' and " must follow this convention)
+
+or 
+
+ID | SESSION_ID | PAGE_LOADS
+-------------------------------
+00 | 'abc123'		| 00
+
+^^(this is simpler for now)^^
+  (unless the cookie format
+    / setup adds jankiness)
+
+--	--	--
+
+	˅˅JIM˅˅
+	---
+	JSON-ify:
+	'{cookie_key:{session_data:value}}'
+
+	get JSON library? use built-in?
+
+	- legit key from browser to server
+	- query db table to find relevant row
+	- from that row, i'd glean out session_data column: long string
+	- 1)using JSON parsing infrastructure: parse out long string into an object
+	- 2)read 'page_loads' member of the object and use in the render
+	- 3)increment 'page_loads' data by 1 and write value to page_loads member of object
+	- JSON-ify the live data
+	- write updated 'page_loads' data back to db table (db.all UPDATE)
+	- also show on web browser .ejs (res.render live-session-data variable)
+
+	1)live_session_data = parseJSON(query_column_string);
+	2)send_load_count_to_renderer(live_session_data.page_loads);
+	3)live_session_data.page_loads += 1; //write-back incremented value to object
+
+	---
+	^^JIM^^
+==	==	==	==
+
+OK, now what else to consider? I don't want to officially setup my db table until I brainstorm some of the other aspects of the setup. 
+
+I want each router.get or router.post to call a function that increments the page_loads by 1. And I don't even necessarily need to access a db table at this stage: I could save the page_load data in the global variables section. the cookie would get lost each time i close the server, but it could be a first-step version of my soluiton.
+
+So which pages count as 'loads'? Whenver I see a new page on the browser (via a .ejs page), or each time a new section on server is pinged? I think starting out I only want to keep track of 'physical' pages that I see loaded or refreshed on the web browser. but maybe i could later include server-side / express pings for some of the behind-the-scenes brains that get pinged when i perform certain actions... So which URL handlers does that include? 
+	router.get('/form'...)
+	router.get('/form_update'...)
+	router.get('/'...)
+Wow, just those three, huh? What a simple website I've got!  Yeah, because the other options are router.post's. 
+
+==	==	==	==
+
+check out JSON after Jim helps me out above
+read some here: https://www.w3schools.com/js/js_json_syntax.asp
+
+https://www.w3schools.com/js/js_json_parse.asp
+var obj = JSON.parse('{ "name":"John", "age":30, "city":"New York"}'); 
+
+https://www.w3schools.com/js/js_json_stringify.asp
+Imagine we have this object in JavaScript:
+var obj = { "name":"John", "age":30, "city":"New York"};
+
+Use the JavaScript function JSON.stringify() to convert it into a string.
+var myJSON = JSON.stringify(obj);
+
 
