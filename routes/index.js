@@ -196,6 +196,18 @@ function populate_x_axis_labels(full_date_range, x_time_taken) {
 
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get('/', function(req,res) {
+
+// CE PLAYING W/ COOKIES!!
+var browser_secret_cookie = "bbb222";
+db.all("SELECT page_loads FROM cookie_key_test WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+	// console.log(err);
+	var pg_load = rows_from_select[0].page_loads;
+	pg_load += 1;
+	db.all("UPDATE cookie_key_test SET page_loads=" + pg_load + " WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		// console.log(err);
+
+
+
 	// print onto terminal browser's cache of cookies: 
 	console.log("Cookies from browser: ", req.cookies);
 	// store broswer's cache of cookies onto server variable: 
@@ -249,42 +261,36 @@ router.get('/', function(req,res) {
 
 
 
-						// CE PLAYING W/ COOKIES!!
-						var browser_secret_cookie = "bbb222";
-						db.all("SELECT page_loads FROM cookie_key_test WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
-							console.log(err);
-							var pg_load = rows_from_select[0].page_loads;
-							pg_load += 1;
-							db.all("UPDATE cookie_key_test SET page_loads=" + pg_load + " WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-								console.log(err);
 
-							// res.render sends various variables to index.ejs and its dependent pages:
-							res.render('pages', {
-								title: 'Home', 
-								// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
-								rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
-								//date_temp_object_to_renderer: date_temp_object,
-								// render beginning and end dates of currently displayed cycle to index.ejs:
-								begin_date_to_renderer: begin_date,
-								end_date_to_renderer: end_date,
-								// date_range_int_to_renderer: date_range_int,
-								y_temp_f_to_renderer: y_temp_f, 
-								x_label_values_to_renderer: x_label_values,
-								pg_load_to_renderer: pg_load,
-								cycle_id_to_renderer: {
-									prev: previous_cycle_id, 
-									curr: current_cycle_id, 
-									next: next_cycle_id, 
-									first: first_cycle_id, 
-									last: last_cycle_id
-								}
-							});
-						});
+
+					// res.render sends various variables to index.ejs and its dependent pages:
+					res.render('pages', {
+						title: 'Home', 
+						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
+						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
+						//date_temp_object_to_renderer: date_temp_object,
+						// render beginning and end dates of currently displayed cycle to index.ejs:
+						begin_date_to_renderer: begin_date,
+						end_date_to_renderer: end_date,
+						// date_range_int_to_renderer: date_range_int,
+						y_temp_f_to_renderer: y_temp_f, 
+						x_label_values_to_renderer: x_label_values,
+						pg_load_to_renderer: pg_load,
+						cycle_id_to_renderer: {
+							prev: previous_cycle_id, 
+							curr: current_cycle_id, 
+							next: next_cycle_id, 
+							first: first_cycle_id, 
+							last: last_cycle_id
+						}
 					});
 				});
 			});
 		});
 	});
+
+});
+});
 });
 
 router.post('/formpost', function(req, res) {
