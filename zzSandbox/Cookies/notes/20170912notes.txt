@@ -1,0 +1,30 @@
+
+
+==	==	==	==	==	==	==	==	==	==
+
+Tue 12 Sep 2017 12:18:11 PM CDT 
+
+OK, how to begin today?  I ended yesterday by talking w/ Jim, being reminded about JSON and also fiddling around with the format of my sqlite table. So, as a reminder, my sqlite table should look like: 
+
+	ID | COOKIE_KEY | SESSION_DATA
+	-------------------------------------------------------
+	00 | 'abc123'		| '{"page_loads":00, "key":"value"}'
+
+And I remember enough about my JSON reading to remember that the format of the text needs to look like what I've written above.
+
+--	--	--
+Thinking about the workflow Jim shared with me yesterday.
+
+==	==	==
+
+CREATE TABLE cookie_key_test (
+	id integer PRIMARY KEY, 
+	cookie_key text, 
+	page_loads integer
+);
+
+INSERT INTO cookie_key_test (cookie_key, page_loads) VALUES
+	("aaa111", 01),
+	("bbb222", 02),
+	("ccc333", 300)
+;
