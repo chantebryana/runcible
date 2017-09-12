@@ -29,9 +29,16 @@ var db = new sqlite3.Database(file);
 router.get('/', function(req, res){
 	var browser_secret_cookie = "bbb222";
 	db.all("SELECT page_loads FROM cookie_key_test WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
-		console.log(rows_from_select); // returned [ { page_loads: 2 } ]
-		console.log(rows_from_select[0]); // returned { page_loads: 2 }
-		console.log(rows_from_select[0].page_loads); // returned 2
+		var pg_load = rows_from_select[0].page_loads;
+		pg_load += 1;
+		db.all("UPDATE cookie_key_test SET page_loads=" + pg_load + "WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+			//console.log(rows_from_update); // don't twerk b/c UPDATE query doesn't return anything. duh.
+			console.log("update portion ran"); // that worked.
+			// server error with res.render portion:
+			//res.render( {
+				//pg_load_to_renderer: pg_load
+			//});
+		});
 	});
 });
 
