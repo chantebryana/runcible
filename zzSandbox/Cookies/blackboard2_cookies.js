@@ -31,7 +31,7 @@ router.get('/', function(req, res){
 	db.all("SELECT page_loads FROM cookie_key_test WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
 		var pg_load = rows_from_select[0].page_loads;
 		pg_load += 1;
-		db.all("UPDATE cookie_key_test SET page_loads=" + pg_load + "WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		db.all("UPDATE cookie_key_test SET page_loads=" + pg_load + " WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
 			console.log("update portion ran"); // that worked.
 			// res.send(pg_load); // threw this error: express deprecated res.send(status): Use res.sendStatus(status) instead
 			//res.sendStatus(pg_load); // also didn't work
