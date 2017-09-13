@@ -51,11 +51,14 @@ router.get('/', function(req, res){
 		console.log(stringed_row); // returns {"page_count":223}
 		var re_assembled_row = [{"session_data": '' + stringed_row + ''}] 
 		console.log(re_assembled_row); // returns [ { session_data: '{"page_count":223}' } ]
-
-		// db.all("UPDATE cookie_key_json SET session_data = \"" + re_assembled_row + "\" WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		
+		var query = "";
+		//db.all(query="UPDATE cookie_key_json SET session_data = \"" + re_assembled_row + "\" WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		db.all(query="UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		console.log(query);
 		//db.all("UPDATE cookie_key_json SET session_data = '{\"page_count\" : 223}' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-		var weird_quotes = '\"zword\"';
-		db.all("UPDATE cookie_key_json SET cookie_key = \"" + weird_quotes + "\" WHERE id = 3", function(err, rows_from_update) {
+		//var weird_quotes = 'zword';
+		//db.all("UPDATE cookie_key_json SET cookie_key = \"" + weird_quotes + "\"  WHERE id = 3", function(err, rows_from_update) {
 			if (err) {
 				console.log(err);
 			};
