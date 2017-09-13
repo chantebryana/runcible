@@ -28,3 +28,92 @@ INSERT INTO cookie_key_test (cookie_key, page_loads) VALUES
 	("bbb222", 02),
 	("ccc333", 300)
 ;
+
+==	==	==
+
+Hmm, lots to figure out. i think the next step is to figure out how to get res.render to work correctly, as well as how to connect .ejs file to .js server page. how did i do that before?? plus, my relative folders are different: maybe that has an influence?
+
+Also, maybe this sandbox play area is too much of a distraction? I'm simply trying to play with cookies and how the browser and server interconnect -- not trying to reinvent the whole wheel!  But it's also true that playing with reconnecting the pieces can be a good refresher on setting up some of these server setup steps that i haven't done in a long long time. A consideration. I just don't want to get too lost in the weeds.  Maybe a quick lookup to see if i can find anything of value.
+
+Hey, I connected to a page! just the wrong one! that's ok, i'm remembering and remind-er-ing how this all works and is nested together!
+
+Merg--maybe this is just large enough of a distraction taht I should leave it for now. I was reminded of some fun stuff, but maybe because I'm fiddling with wonky file structures, the exercise has lost its value for now.? maybe i should move my code back to index.js and be done with it.
+
+Huh...I got the stuff to render on the homepage without throwing errors, but the page_load variable won't refresh. i wonder why. why did it increment up to 4, but now it won't do it any more? good question to explore!
+
+--	--	--
+
+Get Jim's input and decode errors in UPDATE: now my page load counter works just as expected. I feel like I need a moment to recover from my emotional reaction to all of this. I felt like I had troubleshooted everything, but in reality i hadn't because of minor typos and difficulties with printing things after an UPDATE query. But Jim quickly helped me find an answer: to insert console.log(err) within my db queries, so taht I could get a printout of what the error might be. I suppose Jim also helped me to interpret the error message: to learn that I was missing a space between the integer (in this case 4) and the WHERE condition within the query string. 
+
+So I suppose I've got the beginnings of something that could work here. I suppose a next step would be to nestle the code towards the beginning of router.get('/'...) instead of near the very end of it: I wouldn't even need to tab-out everything just yet: I could just add more line breaks to separate out my 'test' code and the real code. no huge harm in that i suppose. and then the next step might be to try to JSON-ify my code and my db table to make the setup work more like i'd expect with real cookies. i could maybe use blackboard2_cookies.js as a staging ground for some of that before I add it to index.js??  a consideration.
+
+OK, I've successfully moved my code around and un-nestled my existing code so that things look a little more like I'd want it to when i'm all done. So there's that. So, I suppose the next step is JSON-ifying my shit?
+
+--	--	--
+
+maybe i need a space btwn the components of JSON object?
+nope that didn't work. what's this error all about??? let's take a closer look at it, and maybe also manually parse some JSON to see if i can figure out a hole in the logic.
+Unexpected token o
+where's the syntax borked?
+weird, if i have JSON parse a string literal, it works just fine, but if i have it parse a variable which contains the same string literal, i get all sorts of errors. am i mistyping or do i misunderstand. the example online shows JSON parsing a variable instead of ...oh...i need to say rows_from_select[0].session_data!!
+huzzah! it worked! fumbling around (but with some purposefulness) and trusting my brain did lead me to a solution! 
+Holy shit I motherfucking did it. feels pretty good, but also lots to wrap my head around! I do wonder whether my somewhat literal assignment of re_assembled_row is on the right track, or if there's a more streamlined way to put that together? A question for Jim, I'd imagine. 
+What are my thoughts looking ahead to my next time segments? I'd like to implement this sandbox code into index.js, and make sure it plays nicely and gets rendered onto .ejs correctly and all that. What would I do looking ahead from there? I could try to turn this into (a) separate function(s)? Ooh, I haven't even set up an UPDATE query yet, so that's definitely soemthing to fiddle with in sandbox before I implement in index.js (although I imagine it'll be relatively straightforward compared to this JSON schmiz). Other than all that, I could also attempt to fiddle w/ workflow for verifying that a cookie exists, which of course includes crafting code that creates a cookie if there is none, and then extracts the newly-created or long-existing cookie from the browser to use as a key to gain access to the relevant db table. And blah blah blah blah.
+Other than this whole cookie thing, I could also take a few minutes to explore the idea of crafting a Ruby dice rolling app that pushes a notification for if I get a cup of tea for that day. Sounds just fun and relevant enough to play around with, and could be a way to introduce Ruby into my fun workflow. ;-) 
+But for now, I'm taking a walking break I think. Or meditating. Or something -- I'm taking a longer break regardless!
+
+==	==	==
+
+OK, I'm on the other side of my longer session break, and in the middle of my first 25 minute session, which is part of my final 2 hour block for the day. I spent a little time thinking about Ruby, but now I'm ready to get back to Runcible. Where did I leave things off?
+
+Oh yes, I wanted to re-integrate UPDATE query into my new JSON-friendly code. I remember now!
+
+hmm, my first attempt worked great, but something about my subsequent attempts are failing: I must have broken something the first time, causing problems for future attempts. I'll have to dig into sqlite and the code and any other relevant place during my next time interval.
+
+bummer, I'm getting [object Object] instead of {"page_count" : 223} or whatever number I'd expect. :-(  :-/  What to do? 
+
+Strange (to me) quotation nuances and behavior in Node: 
+	ruby@rubyVM:~/Projects/runcible$ node
+	> var word = "word";
+	undefined
+	> word
+	'word'
+	> var zword = "'zword'";
+	undefined
+	> zword
+	'\'zword\''
+	> var qword = '"qword"';
+	undefined
+	> qword
+	'"qword"'
+
+in blackboard2_cookies.js: 
+	var weird_quotes = "'zword'";
+	db.all("UPDATE cookie_key_json SET cookie_key = \"" + weird_quotes + "\" WHERE id = 3", function(err, rows_from_update) {
+
+results in sqlite:
+	sqlite> SELECT * FROM cookie_key_json;
+	1|aaa111|{"page_count" : 111}
+	2|bbb222|{"page_count" : 223}
+	3|'zword'|{"page_count" : 333}
+
+update to blackboard2_cookies.js: 
+	var weird_quotes = '"zword"';
+	db.all("UPDATE cookie_key_json SET cookie_key = \"" + weird_quotes + "\" WHERE id = 3", function(err, rows_from_update) {
+
+threw error in console: 
+	{ [Error: SQLITE_ERROR: near "zword": syntax error] errno: 1, code: 'SQLITE_ERROR' }
+
+And didn't update anything in sqlite table.
+
+--	--	--
+
+Reset things to the original state after playing around a little more. still haven't found an answer to my bug -- maybe try to dig deeper into that next time. if that doesn't work, then what? i suppose i could play around with some of the other ideas i prattled off earlier: brainstorm workflow and pseudocode for checking for and validating cookies, etc. i suppose if i'm really stuck, i could save session data to local variable and all taht....
+
+==	==	==
+
+JIM
+	api sqlite
+	sqlite connected function
+w/ purpose of escaping data to be query-safe (re JSON formatting, etc)
+
