@@ -54,7 +54,7 @@ router.get('/', function(req, res){
 
 		// db.all("UPDATE cookie_key_json SET session_data = \"" + re_assembled_row + "\" WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
 		//db.all("UPDATE cookie_key_json SET session_data = '{\"page_count\" : 223}' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-		var weird_quotes = '"zword"';
+		var weird_quotes = '\"zword\"';
 		db.all("UPDATE cookie_key_json SET cookie_key = \"" + weird_quotes + "\" WHERE id = 3", function(err, rows_from_update) {
 			if (err) {
 				console.log(err);
