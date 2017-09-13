@@ -35,7 +35,7 @@ CREATE TABLE cookie_key_json (
 router.get('/', function(req, res){
 	// CE PLAYING W/ COOKIES!!
 	var browser_secret_cookie = "bbb222";
-	db.all("SELECT session_data FROM cookie_key_json WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+	db.all("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
 		if (err) {
 			console.log(err);
 		};
@@ -49,8 +49,18 @@ router.get('/', function(req, res){
 		console.log(parsed_rows); // returns { page_count: 223 }
 		var stringed_row = JSON.stringify(parsed_rows);
 		console.log(stringed_row); // returns {"page_count":223}
-		var re_assembled_row = [{"session_data": '' + stringed_row + ''}] // returns [ { session_data: '{"page_count":223}' } ]
-		console.log(re_assembled_row);
+		var re_assembled_row = [{"session_data": '' + stringed_row + ''}] 
+		console.log(re_assembled_row); // returns [ { session_data: '{"page_count":223}' } ]
+
+		// db.all("UPDATE cookie_key_json SET session_data = \"" + re_assembled_row + "\" WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		//db.all("UPDATE cookie_key_json SET session_data = '{\"page_count\" : 223}' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		var weird_quotes = '"zword"';
+		db.all("UPDATE cookie_key_json SET cookie_key = \"" + weird_quotes + "\" WHERE id = 3", function(err, rows_from_update) {
+			if (err) {
+				console.log(err);
+			};
+			console.log("Successfully performed UPLOAD");
+		});
 /*
 		pg_load += 1;
 		rows_from_select[0].page_loads = pg_load;
