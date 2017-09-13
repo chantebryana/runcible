@@ -1,0 +1,53 @@
+
+
+db.all(query_string, function(err, rows){
+  // ...
+  // (do something with rows result here)
+  // ...
+});
+
+BUT WHAT ABOUT ERROR HANDLING?
+
+we want our anonymous function to be called after error conditions are checked
+
+db.all(query_string, function_that_checks_errors(function(err, rows){
+  // ...
+  // (same stuff, only now we know an error has been spotted, at least)
+  // ...
+}));
+
+but we want to simplify the usage even further...
+
+// sqlite3.Database.prototype
+
+db.run_smart = function run_smart(query_string, callback){
+  this.all(query_string, function(err, rows){
+    // ...
+    // (check for errors, handle it how you see fit, here
+    if(err)
+      console.log(err)
+    // ...
+    callback(err, rows);
+  });
+}
+
+db.run_smart(query_string, function(err, rows){
+  // this code only executes AFTER any errors have been logged
+});
+
+---
+
+all of that accomplishes the goal "in general" for all objects of the desired type, a concept called "monkey patching", i.e.: we've changed the behavior of stuff that comes from {{{new sqlite3.Database(filename);}}}
+
+c++
+new Thing(/*send some arguments to the constructor, if you want*/);
+c
+malloc(sizeof(Thing));
+// ... plus some extra behavior ...
+
+// ==	==	==	==
+
+// CE / JE: take-away from all of this magic: 
+// Chante can adapt router.get or router.post to have similar cookie_key-checking magic happen, just like having a policeman in front of Janey's office to check the runner's papers before they're allowed inside.
+
+

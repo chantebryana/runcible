@@ -23,6 +23,16 @@ app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
 var sqlite3 = require('sqlite3').verbose();
 var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
+// Jim's homemade error-checking function that replaces db.all:
+db.run_smart = function run_smart(query_string, callback){
+  this.all(query_string, function(err, rows){
+    if(err) {
+      console.log(err);
+    } else {
+	    callback(err, rows);
+		}
+  });
+}
 
 /*
 CREATE TABLE cookie_key_json (
@@ -54,11 +64,13 @@ router.get('/', function(req, res){
 		// console.log(re_assembled_row); // returns [ { session_data: '{"page_count":223}' } ]
 		
 		var query = "";
-		db.all(query="UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		db.run_smart(query="UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+/*
 		console.log(query);
 			if (err) {
 				console.log(err);
 			};
+*/
 			console.log("Successfully performed UPLOAD");
 		});
 	});

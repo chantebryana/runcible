@@ -23,6 +23,16 @@ app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
 var sqlite3 = require('sqlite3').verbose();
 var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
+// Jim's homemade error-checking function that replaces db.all:
+db.run_smart = function run_smart(query_string, callback){
+  this.all(query_string, function(err, rows){
+    if(err) {
+      console.log(err);
+    } else {
+    	callback(err, rows);
+		}
+  });
+}
 
 router.get('/form', function(req, res) {
 		var current_cycle_id = req.query.cycle;
