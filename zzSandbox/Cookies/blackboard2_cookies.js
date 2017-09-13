@@ -49,28 +49,18 @@ router.get('/', function(req, res){
 		console.log(parsed_rows); // returns { page_count: 223 }
 		var stringed_row = JSON.stringify(parsed_rows);
 		console.log(stringed_row); // returns {"page_count":223}
-		var re_assembled_row = [{"session_data": '' + stringed_row + ''}] 
-		console.log(re_assembled_row); // returns [ { session_data: '{"page_count":223}' } ]
+		// CE don't need re_assembled_row: remember that sqlite table data doesn't look the same as how node js express prints it out on the console after a query: js adds the key (column header) to the value within the object it creates. when I'm updating a db table, i just need the value not the key. blah blah.:
+		// var re_assembled_row = [{"session_data": '' + stringed_row + ''}] 
+		// console.log(re_assembled_row); // returns [ { session_data: '{"page_count":223}' } ]
 		
 		var query = "";
-		//db.all(query="UPDATE cookie_key_json SET session_data = \"" + re_assembled_row + "\" WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
 		db.all(query="UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
 		console.log(query);
-		//db.all("UPDATE cookie_key_json SET session_data = '{\"page_count\" : 223}' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-		//var weird_quotes = 'zword';
-		//db.all("UPDATE cookie_key_json SET cookie_key = \"" + weird_quotes + "\"  WHERE id = 3", function(err, rows_from_update) {
 			if (err) {
 				console.log(err);
 			};
 			console.log("Successfully performed UPLOAD");
 		});
-/*
-		pg_load += 1;
-		rows_from_select[0].page_loads = pg_load;
-		db.all("UPDATE cookie_key_json SET page_loads=" + pg_load + " WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-			// console.log(err);
-		});
-*/
 	});
 });
 
