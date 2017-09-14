@@ -1,49 +1,38 @@
-var dict1 = {'key1':{'vkey1': 'vvalue1', 'vkey2': 'vvalue2', 'vkey3': 'vvalue3'}};
+// generate secret cookie id if one hasn't been defined yet
 
-var dict2 = {'key1': {'vkey1':'vvalue1', 'vkey2':'vvalue2', 'vkey3':'vvalue3'}, 'key2':'value2'};
+'aaa111'
+'bbb222'
+// these of course are silly keys, but they perhaps help to mimic a more real-world style of alphanumeric setup that changes with time. 
 
-hp:firefox				->	session key: 'UUID2300'
-hp:chrome					-> 	session key: 'UUID2400'
-moto:firefos			->	session key: 'UUID2500'
-library:explorer	->	session key: 'UUID2600'
+var alpha = "aaa"
+var numeric = 111;
+var secret_key = alpha + numeric; // returns 'aaa111'
 
-//	//	//	//
-/*
-COOKIE_TABLE
-	ID | COOKIE_KEY | SESSION_DATA
-	-------------------------------------------------------
-	00 | 'abc123'		| '{"page_loads":00, "key":"value"}'
-*/
+var numb_a = Math.floor((Math.random() * 10) + 1);
+var numb_b = Math.floor((Math.random() * 10) + 1);
+var numb_c = Math.floor((Math.random() * 10) + 1);
+numb_a = numb_a.toString();
+numb_b = numb_b.toString();
+numb_c = numb_c.toString();
+var string = numb_a + numb_b + numb_c;
+var numb_d = Math.floor((Math.random() * 10) + 1);
+numb_d = numb_d.toString();
+string = string + numb_d; // append new random number to end of string
 
-// pseudocode for parsing and manipulating session data (page loads), assuming that the cookie key received from the browser is legit (as per discussion w/ Jim 2017-09-11):
-db.all("SELECT session_data FROM cookie_table WHERE cookie_key =\"" + browser_secret_cookie + "\"", function(err, rows){ // rows variable should be a long string
-	// parsing long JSON string and saving to pg_load variable:
-	var pg_load = JSON.parse(rows[0]);
-	// increment pg_load by 1, since presumably I've loaded or refreshed a page to get to this portion of code:
-	pg_load += 1;
-	
-});
+// ok, so the above code is the beginnings of my own mental processes, but the below code is a direct copy of someone else's more sophisticated and streamlined solution to my problem. still a simple solution, and i'm glad that i thought through some of the things on my own, but i'm also glad that i found a pre-assembled function that i can pull!
+// i suppose i'm glad that i worked through the problem a little bit on my own first, because i messed with most of the elements of more elegant solution below, and thereby got to think through it on my own terms before having the solution spoon-fed to me. kinda like a science experiment: i need to be unbiased to generate a hypothesis and conduct some experiments, but after that i could talk to other people...or something.
+// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 6; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+	};
+  return text;
+}
+
+console.log(makeid());
 
 
-// how would I do this w/o JSON, but rather with more structured db rows?
-/*
-COOKIE_TABLE
-	ID | SESSION_ID | PAGE_LOADS
-	-------------------------------
-	00 | 'abc123'		| 00
-*/
-
-db.all("SELECT page_loads FROM cookie_table WHERE session_id =\"" + browser_secret_cookie + "\"", function(err, rows) {
-	// rows == [{page_loads:00}] 
-	var pg_load = rows[0].page_loads; // should be 00: raw intiger
-	pg_load += 1;
-	db.all("UPDATE cookie_table SET page_loads=" + pg_load + "WHERE session_id=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-		res.render( {
-			pg_load_to_renderer: pg_load
-		});
-	});
-});
-
-// --	--	---
-
-// I feel like I should test this idea out. I suppose I could create a dummy db table, load it with a couple rows of dummy data, then access and manipulate it using my precursor to real workflow pseudocode, and attempt to iron out the kinks. Sounds good to me.
