@@ -49,16 +49,16 @@ router.get('/', function(req, res){
 		if (err) {
 			console.log(err);
 		};
-		console.log(rows_from_select); // returns [ { session_data: '{"page_count" : 222}' } ]
+		//console.log(rows_from_select); // returns [ { session_data: '{"page_count" : 222}' } ]
 		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
-		console.log(parsed_rows); // returns { page_count: 222 }
+		//console.log(parsed_rows); // returns { page_count: 222 }
 		var pg_load = parsed_rows.page_count;
-		console.log(pg_load); // returns 222
+		//console.log(pg_load); // returns 222
 		pg_load += 1;
 		parsed_rows.page_count = pg_load;
-		console.log(parsed_rows); // returns { page_count: 223 }
+		//console.log(parsed_rows); // returns { page_count: 223 }
 		var stringed_row = JSON.stringify(parsed_rows);
-		console.log(stringed_row); // returns {"page_count":223}
+		//console.log(stringed_row); // returns {"page_count":223}
 		// CE don't need re_assembled_row: remember that sqlite table data doesn't look the same as how node js express prints it out on the console after a query: js adds the key (column header) to the value within the object it creates. when I'm updating a db table, i just need the value not the key. blah blah.:
 		// var re_assembled_row = [{"session_data": '' + stringed_row + ''}] 
 		// console.log(re_assembled_row); // returns [ { session_data: '{"page_count":223}' } ]
