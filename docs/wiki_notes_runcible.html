@@ -124,6 +124,12 @@ Error message and password prompt
 
 <li>$:/isEncrypted</li>
 
+<li>$:/state/Link/-1549904697/search</li>
+
+<li>$:/state/showeditpreview</li>
+
+<li>$:/state/tab/sidebar--1835078512</li>
+
 <li>$:/StoryList</li>
 
 <li>$:/temp/info-plugin</li>
@@ -8344,7 +8350,16 @@ Error message and password prompt
 <div title="$:/isEncrypted">
 <pre>no</pre>
 </div>
-<div list="GettingStarted [[14th September 2017]]" title="$:/StoryList">
+<div created="20170914223321422" modified="20170914223326969" title="$:/state/Link/-1549904697/search">
+<pre></pre>
+</div>
+<div created="20170914223401840" modified="20170914224327111" title="$:/state/showeditpreview">
+<pre>yes</pre>
+</div>
+<div created="20170914222713939" modified="20170914222713939" title="$:/state/tab/sidebar--1835078512">
+<pre>$:/core/ui/SideBar/Recent</pre>
+</div>
+<div list="[[14th September 2017]] GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -8502,8 +8517,45 @@ Error message and password prompt
     }
 }</pre>
 </div>
-<div created="20170914222240192" modified="20170914222328608" tags="Journal cookies" title="14th September 2017">
-<pre>Here's hoping that I can get this to work!</pre>
+<div created="20170914222240192" modified="20170914224434868" tags="Journal cookies" title="14th September 2017" type="">
+<pre>Here's hoping that I can get this to work!
+
+Huzzah! it seems to be!
+
+==  ==  ==
+
+Example from Firefox:
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cookie?utm_source=mozilla&amp;utm_medium=devtools-netmonitor&amp;utm_campaign=default
+
+
+```
+  Cookie: &lt;cookie-list&gt;
+  Cookie: name=value
+  Cookie: name=value; name2=value2; name3=value3
+```
+
+
+
+
+Terminal Printout:
+
+
+
+```
+  cookie_var:  { page_loads: 'NaN' }
+```
+
+
+
+
+So I suppose that answers the question of how cookies are formatted on the browser side, and how that formatting looks like after the server takes a peek.  So that's good: checks off one curiosity of mine. 
+
+So I think the next step would be to figure out how to parse out the cookie string into formatable schmiz, -- well, i was going to say to then figure out how to make changes and push those changes back to browser, but i //don't// have to do that since i'm only reading the browser cookie key, not making changes to it -- the only changes are in the page load, which lives on the server, not the browser.
+
+So, yeah, still totally wrapping my head around this whole things. But that's the point, right? The reason why I'm doing this by hand on my own instead of having Jim just plug it in. So, good then!
+
+I don't think i like doing this notetaking on Ubuntu -- I'd rather set it up for Windows side!</pre>
 </div>
 
 </div>
