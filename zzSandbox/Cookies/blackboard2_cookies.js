@@ -44,34 +44,23 @@ CREATE TABLE cookie_key_json (
 
 router.get('/', function(req, res){
 	// CE PLAYING W/ COOKIES!!
+	// pretend authenticated browser cookie key:
 	var browser_secret_cookie = "bbb222";
-	db.all("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
-		if (err) {
-			console.log(err);
-		};
-		//console.log(rows_from_select); // returns [ { session_data: '{"page_count" : 222}' } ]
+	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+		// parse out JSON-style data that db returned:
 		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
-		//console.log(parsed_rows); // returns { page_count: 222 }
+		// save page_count portion of parsed data to its own variable:
 		var pg_load = parsed_rows.page_count;
-		//console.log(pg_load); // returns 222
+		// increment pg_load by 1 (because page loaded or refreshed to get to this portion of code):
 		pg_load += 1;
+		// update page_count portion of parsed_rows to equal the value of the incremented pg_load variable:
 		parsed_rows.page_count = pg_load;
-		//console.log(parsed_rows); // returns { page_count: 223 }
+		// turn updated parsed_rows variable back to a JSON-style string:
 		var stringed_row = JSON.stringify(parsed_rows);
-		//console.log(stringed_row); // returns {"page_count":223}
-		// CE don't need re_assembled_row: remember that sqlite table data doesn't look the same as how node js express prints it out on the console after a query: js adds the key (column header) to the value within the object it creates. when I'm updating a db table, i just need the value not the key. blah blah.:
-		// var re_assembled_row = [{"session_data": '' + stringed_row + ''}] 
-		// console.log(re_assembled_row); // returns [ { session_data: '{"page_count":223}' } ]
 		
-		var query = "";
-		db.run_smart(query="UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-/*
-		console.log(query);
-			if (err) {
-				console.log(err);
-			};
-*/
-			console.log("Successfully performed UPLOAD");
+		// update cookie_key_json table to reflect incremented page count data:
+		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
 		});
 	});
 });
