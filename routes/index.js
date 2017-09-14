@@ -209,7 +209,8 @@ router.get('/', function(req,res) {
 
 // CE PLAYING W/ COOKIES!!
 	// pretend authenticated browser cookie key:
-	var browser_secret_cookie = "bbb222";
+	//var browser_secret_cookie = "bbb222";
+	var browser_secret_cookie = "aaa111";
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
 	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
 		// parse out JSON-style data that db returned:
