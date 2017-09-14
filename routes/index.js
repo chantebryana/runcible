@@ -208,13 +208,25 @@ function populate_x_axis_labels(full_date_range, x_time_taken) {
 router.get('/', function(req,res) {
 
 // CE PLAYING W/ COOKIES!!
-var browser_secret_cookie = "bbb222";
-db.all("SELECT page_loads FROM cookie_key_test WHERE cookie_key= \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
-	// console.log(err);
-	var pg_load = rows_from_select[0].page_loads;
-	pg_load += 1;
-	db.all("UPDATE cookie_key_test SET page_loads=" + pg_load + " WHERE cookie_key=\"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
-		// console.log(err);
+	// pretend authenticated browser cookie key:
+	var browser_secret_cookie = "bbb222";
+	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+		// parse out JSON-style data that db returned:
+		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
+		// save page_count portion of parsed data to its own variable:
+		var pg_load = parsed_rows.page_count;
+		// increment pg_load by 1 (because page loaded or refreshed to get to this portion of code):
+		pg_load += 1;
+		// update page_count portion of parsed_rows to equal the value of the incremented pg_load variable:
+		parsed_rows.page_count = pg_load;
+		// turn updated parsed_rows variable back to a JSON-style string:
+		var stringed_row = JSON.stringify(parsed_rows);
+		
+		// update cookie_key_json table to reflect incremented page count data:
+		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+
+
 
 
 
