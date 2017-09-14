@@ -35,4 +35,8 @@ function makeid() {
 
 console.log(makeid());
 
+// hmm, not sure there's much else i can do with this function: makeid() kind of made itself! but next steps could include a verification step: check the browser for cookie, check it against database, return 1 if matches, return 0 if not. then pass 1 or 0 to determine whether to run makeid(). or something.
 
+/*
+So, let's think about how a verification function would work. it will require arguments to be passed: the JSON-style string cookie key from the browser? how will that be formatted? 
+*/

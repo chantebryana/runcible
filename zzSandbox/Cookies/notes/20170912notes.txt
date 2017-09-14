@@ -117,3 +117,37 @@ JIM
 	sqlite connected function
 w/ purpose of escaping data to be query-safe (re JSON formatting, etc)
 
+
+
+
+==	==	==	==	==	==	==	==	==	==
+Thu 14 Sep 2017 10:55:45 AM CDT 
+
+OK, it's a new day and I'm on it! Yesterday was a jam-packed day of getting life entropy shit done: health blood draw, groceries & on-sale supplements, laundry, figuring out laundry soap solution, field work re backpacks, brainstorming and knocking out a few other errands, and a few fun things like rainbow candles and glasses of wine. And I'm glad I could do it, but today let's get back to the business of coding motherfucker! 
+
+To make up for my lost day on Wednesday but to also be realistic about how much I can get done on a typical and sustainable (for now) day, I think I'll consider putting some hours of work in over a weekend day to makup for for Wednesday. Either Saturday or Sunday -- I kind of have a preference for Saturday (then Sunday's break can act as a break between the two weeks), but I know that Saturday's usually the day that more stuff happens. I'll have to see how things go. As another brief aside (while I'm on this vague line of thought) I'd like to find time for Anna again, and also for parents!!
+
+OK, back to proper coding. Tuesday was filled with lots of things. I did lots of cookie-related tasks, building some functions that take an acceptable cookie and perform a db query and update based on data manipulation. that means that i also created proper db tables in sqlite. As the day progressed I JSON-ified that code, and was kind of in the middle of successfully debugging that code and transferring it over to index.js. Because of some debugging headaches, Jim was inspired to craft an error-check function to replace db.all: he did that at the very end of Tuesday's shift. I'm definitely interested and excited that Jim did that kindness for me, and I got to spend a little time Tuesday exploring the simple code and asking some questions. But I was also TIRED and DONE and couldn't satisfy my curiosity quite as much as I would have liked. So maybe I'll look at that a little bit today too. And after Jim wakes up maybe he could help to explain some more bits, like 'this' and the arguments that get passed to run_smart and other things like that. 
+
+So, I want to explore db.run_smart. and I want to port over my JSON-ified code from blackboard2_cookies.js to index.js. I suppose those are two great starting points. when i get done with those tasks, i can think about where to go from there. i'm apparently not in the mood to do that right now.
+
+--	--	--
+
+OK, woah, so that was a big break. Get distracted by one phone call and turn that into 2 hours of distractions. Some of them were good and inevitable: poop, shower, more food, supplements, etc. Also Austin called, I chatted w/ Jim after he woke up, and I got an urge to sunbathe since I didn't yesterday. But enough with breaks and back to work! I've only got till 6pm today, assuming that gaming's on tonight (and if it isn't, then we'll probably get roped into hanging w/ Austin tonight). So, I need to be better at remembering that Thursdays are special days. Perhaps I should do a better job of evaluating my to-dos at the beginning of any given day (and / or at the end of the day prior), and then sculpting my actions to be as productive as is reasonable within that time allotment. Or something. 
+
+So, I've got from 1:30 till 6pm to code. A decent chunk of time. But I know I'll also want at least one mid-afternoon food break, as well as mini breaks throughout the afternoon, or at least a decent sized break after 2 hours of productive effort. perhaps meditation, since i didn't do that yesterday and maybe even the day before? Anyways, so 4.5 hour window to code, eat, meditate, and perhaps other minor distractions / breaks. Three hours of that will probably be coding, on a positive-thinking-yet-realistic scenario. Not so bad -- 3 hours is much better than 0 hours, and i also know that i'm continuing to navigate the sustainable time management train and that i've got some road bumps to continue to navigate (ie, while i strive for 5 hours 5 days per week, i'm realistic enough to know that i'm not quite there yet, based on my performance so far since the end of june). but i'm making positive progress and this week has been a good one, without a doubt!
+
+ok, enough of all of that! let's get back to it.
+
+--	--	--
+
+ok, that's super rad: i've got a JSON-style string pulled from db table, parsed, manipulated, re-strung, updated back into db table, and printing onto homepage of website. ooh, let me try one little thing. yeah, that's cool: cycling forward or backwards through cycle also updates the page load count. just what i wanted. :-) but right now it'll show me the same number, no matter which browser or computer or session i use. i don't have a way for the browser to talk with the database table / server, nor do i have a way to verify whether the communication is new or old (ie, whether i can use an existing secret cookie key, or whether i need to generate a new one). 
+
+which step should i follow first?? good question!
+
+ok, so i can successfully change the browser_secret_cookie variable to different db table values, and the code responds as expected: no breaks! 
+
+perhaps a simple one-off project i could work on would be a function that generates a new cookie key if one hasn't been set up yet. that's more or less self-contained, and would still bring me closer to the final product (and maybe even help me to figure out ways to figure out more of the final product).
+
+
+
