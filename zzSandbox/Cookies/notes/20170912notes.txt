@@ -149,5 +149,7 @@ ok, so i can successfully change the browser_secret_cookie variable to different
 
 perhaps a simple one-off project i could work on would be a function that generates a new cookie key if one hasn't been set up yet. that's more or less self-contained, and would still bring me closer to the final product (and maybe even help me to figure out ways to figure out more of the final product).
 
+==	==	==
 
+ok, i've kinda lost track of what i'm looking for. maybe pulling out some paper would help me think through my thoughts...this compututer screen is so limiting in so many ways.
 
