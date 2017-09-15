@@ -8357,16 +8357,16 @@ Error message and password prompt
 <div created="20170914223321422" modified="20170914223326969" title="$:/state/Link/-1549904697/search">
 <pre></pre>
 </div>
-<div created="20170914223401840" modified="20170915201721505" title="$:/state/showeditpreview">
-<pre>no</pre>
+<div created="20170914223401840" modified="20170915210750891" title="$:/state/showeditpreview">
+<pre>yes</pre>
 </div>
-<div created="20170915201724879" modified="20170915201724879" title="$:/state/sidebar">
+<div created="20170915201724879" modified="20170915203319801" title="$:/state/sidebar">
 <pre>no</pre>
 </div>
 <div created="20170914222713939" modified="20170914222713939" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="GettingStarted [[15th September 2017]]" title="$:/StoryList">
+<div list="[[14th September 2017]] [[15th September 2017]] GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -8564,8 +8564,97 @@ So, yeah, still totally wrapping my head around this whole things. But that's th
 
 I don't think i like doing this notetaking on Ubuntu -- I'd rather set it up for Windows side!</pre>
 </div>
-<div created="20170915201715304" modified="20170915201736991" tags="Journal" title="15th September 2017">
-<pre>Holy shit, did I get it to work??!  Let's check!</pre>
+<div created="20170915201715304" modified="20170915212131353" tags="cookies Journal" title="15th September 2017">
+<pre>Holy shit, did I get it to work??!  Let's check!
+
+Yes indeed. what a great feeling! A new digi notetaking system, and hopefully with fewer kinks than my many other attempts! :-) This is pretty rad. //Plus// I managed to figure out setting up my own Git repository on the windows side without any outside help: just my own online research coupled with reviewing my own notes. What a great feeling! It does seem a little lame that my Git files are saved twice on one computer: once on the Linux side and another on the Windows side. But such is life: it's just a bit of storage space, and that's why I got an over-souped-up machine, was to handle inefficiencies like that! 
+
+Man, I feel surprisingly stoked up and self assured and proud of myself. What small wins can have such big effects. 
+
+But enough about personal wins and trifles. Onto cookies and coding? 
+
+Where was I when I ended yesterday? I mean, what actual work was I working on? Do I still have my notebook opened? Are my thoughts jotted down on paper instead of digital notepad? Good questions. (oh yeah, look at yesterday's tiddlywiki entry)
+
+Here's some terminal printouts after running the 'cookies' pages on index.js web router:
+
+
+```
+ruby@rubyVM:~/Projects/runcible$ node routes/index.js 
+Example app listening on port 3000!
+Cookies from browser:  {}
+cookie_var:  {}
+Cookies from browser:  { page_loads: 'NaN' }
+cookie_var:  { page_loads: 'NaN' }
+
+```
+
+That printout was helpful because it showed me the format of cookies as gleaned from the browser onto the server. and this will be helpful as I parse the data out and decide that I //don't// need to string-ify and put it back in again: read only, no writing!
+
+Yeah, yeah, my brain's slowly getting it!
+
+OK, back from break. Now what? 
+
+Evaluating cookies from the browser to the server, and messing with JSON: 
+
+
+```
+ruby@rubyVM:~/Projects/runcible$ node
+&gt; var browser_cookie = '{&quot;page_loads&quot;: 5}';
+undefined
+&gt; browser_cookie;
+'{&quot;page_loads&quot;: 5}'
+&gt; var parsed_cookie = JSON.parse(browser_cookie);
+undefined
+&gt; parsed_cookie;
+{ page_loads: 5 }
+&gt; var stringed_cookie = JSON.stringify(parsed_cookie);
+undefined
+&gt; stringed_cookie;
+'{&quot;page_loads&quot;:5}'
+&gt; 
+
+```
+
+
+Cool.
+
+So, I want to create some sort of cookie-checking function. check to see if there's a cookie, and whether it matches an entry in db. or something. I think it's pretty clear that there either is or isn't a browser cookie.
+
+* check browser for cookie: 
+
+```
+var browser_cookie_key = req.cookies;
+```
+
+* check the db to see if browser_cookie_key matches any of the entries there: 
+
+```
+SELECT session_data FROM cookie_key_json WHERE cookie_key = browser_cookie_key, function(err, rows_from_select){} 
+
+if (rows_from_select.length != 0) {do stuff};
+```
+
+
+* if the cookie doesn't match (if rows_from_select.length == 0) then run makeid()
+
+```
+browser_cookie_key = makeid();
+// how to push browser_cookie_key to browser? 
+res.setHeader('Set-Cookie', cookie.serialize('browser cookie key', browser_cookie_key));
+// or something like that. i'd definitely want to test it out to make sure i'm not missing any fiddly bits
+// also create new entry in sqlite db table 
+INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (browser_cookie_key, '{&quot;page_count&quot; : 1}');
+// again, test this to make sure i'm not missing any fiddly bits
+// set session_data.page_loads to 1 as the initial default because, presumably, to get to this point in code (checking for browser cookie and creating new entry in db), I'd have loaded the web page once
+
+```
+* after checking the browser for a cookie, and completing a possible step of generating a new browser cookie, setting that cookie to the browser's local cache, and generating a new entry in sqlite db table, THEN I want to continue with pg_load-incrementing workflow that I already wrote and copied over to index.js
+
+
+Whew! that's a lot of pseudo-steps that feel really good to spell out specifically but also have lots of fiddly bits to verify I haven't screwed up (and to inevitably fix). But a great place to begin, and much more progress than I've made yet! Wins wins!
+
+(I like having this monospace formatting because it works so well with pseudocode and thinking out a problem!)
+</pre>
 </div>
 
 </div>
