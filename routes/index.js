@@ -385,7 +385,8 @@ router.get('/cookie', function(req,res){
 	var browser_cookie_key = req.cookies;
 	console.log("browser_cookie_key: ", browser_cookie_key);
 	// convert temp string variable into an iteratable integer: 
-	var cookie_var = parseInt(browser_cookie_key);
+	//var cookie_var = parseInt(browser_cookie_key);
+	var cookie_var = browser_cookie_key.cookie_key;
 	console.log("cookie_var: ",cookie_var);
 	// check db to see if browser_cookie_key matches any entries there:
 	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows) {
