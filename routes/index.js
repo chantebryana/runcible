@@ -388,6 +388,7 @@ router.get('/cookie', function(req,res){
 	//cookie_var = parseInt(cookie_temp_var);
 	// iterate cookie_var by one: 
 	//cookie_var += 1;
+/*
 	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_key + "\"", function(err, rows) {
 		console.log("rows: ", rows);
 		// if cookie doesn't match any db table entries, for now, print to console a message saying so:
@@ -399,6 +400,7 @@ router.get('/cookie', function(req,res){
 			console.log(rows);
 		}
 	});
+*/
 	// send the iterated integer cookie_var back to the browser's cookie storage, being sure to convert the integer back to a string: 
 	//res.setHeader('Set-Cookie', cookie.serialize('page_loads', cookie_var.toString()));
 	// send a message to the web page to let the user know something happened: 
