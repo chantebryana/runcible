@@ -389,7 +389,8 @@ router.get('/cookie', function(req,res){
 	var cookie_var = browser_cookie_key.cookie_key;
 	console.log("cookie_var: ",cookie_var);
 	// check db to see if browser_cookie_key matches any entries there:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows) {
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_var + "\"", function(err, rows) {
+		console.log("rows: ", rows);
 		// if cookie doesn't match any db table entries, for now, print to console a message saying so:
 		if (rows.length == 0) {
 			console.log("rows.length == 0: no match");
