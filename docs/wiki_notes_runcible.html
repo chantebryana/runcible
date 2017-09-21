@@ -8699,7 +8699,7 @@ OK, so I've successfully deleted the unwanted cookie, but my db query still isn'
 
 Whew, so I'm back after a longer-than-intended break and hopefully I can resume some coding magic! I ended last session trying to figure out how to parse a string instead of parsing to output an int.</pre>
 </div>
-<div created="20170921155540101" modified="20170921163802525" tags="Journal" title="21st September 2017">
+<div created="20170921155540101" modified="20170921184938686" tags="cookies Journal" title="21st September 2017">
 <pre>Oh. My. God. My brain is SO SLOW to catch up to reality. How to handle situations like this??? 
 
 This whole time I'm looking for a string-output version of parseInt(), because what I have now just isn't working. Between today and yesterday, it took me nearly an hour of active thought and research to realize that I'm looking at the problem completely wrong. And that in a different situation I had already //solved// the problem!! 
@@ -8735,7 +8735,32 @@ Huh, ok, so I deleted the original cookie and tried to reset the cookie to somet
 
 Bhwwwww. What is the what, am I right? I don't want to get stuck down a rabbit hole -- I should forget about the dumb and silly 'NaN' nonsense and get back to trying to figure out how to set a cookie with my updated code. Breathe. Distance myself. Focus on the important bits and throw the rest away. Whewwwwww.
 
-Hmm, interesting. My old code I was allowed to delete and reassign cookies as many times as I wanted, even if the cookie was the exact same as before. This time I can't do that. I wonder what the differences are: the two sets of code are pretty similar, and I would think the changes I've made don't have much of an impact. Apparently //something// is different!</pre>
+Hmm, interesting. My old code I was allowed to delete and reassign cookies as many times as I wanted, even if the cookie was the exact same as before. This time I can't do that. I wonder what the differences are: the two sets of code are pretty similar, and I would think the changes I've made don't have much of an impact. Apparently //something// is different!
+
+---
+
+OK, I've figured out the cause of the cookie confusion. I haven't figured out exactly //why// or //how to solve it and retain my db query// but at least I've pinpointed the reason. Does any of that matter? That's essentially unknown to me just now. But at least I can move ahead, and maybe table this consideration as a question for Jim later (who's working valiantly towards figuring out our cell phone plans: talk about headaches!). 
+
+Also, I've got some dandy blend. Yummy bumbly dandy blend!
+
+The whole //reason// I fell down this rabbit hole of cookie assignment and deletion was because I idly wanted to test how the db query worked if the cookie was correct versus incorrect (ie, in the db or not). And because it didn't work as I expected I got lost in the weeds a bit. But it does seem a relevant question: does the asyncronous db query workflow actually have an impact on my intended code: if a browser's cookie changes or updates, will my workflow break? ~BUUuuUUT, I need to remember that contingencies like that should be solved __down the road__! I don't need to get bogged down with them at this point. Simple simple simple!
+
+So what is simple simple? I suppose the next step is to create smarter if/else statement? if the cookie does match, insert the iteration workflow? If the cookie doesn't match, insert the random-key-assignment workflow and then move onto the iteration workflow? And perhaps all of this would be simplified by putting each workflow in its own black box -- even at the get-go. It actually seems like it would be easier to work with a bunch of black boxes from the very start, rather than fumbling with writing them all out manually...
+
+Whew. One step at a time. Peel each layer one by one, don't grab giant chuncks all at once!
+
+---
+
+Hmm, so what //is// the next step? I know I need bunches of black boxes, but I also know that my code is kind of all spread out. I've got cookie-generating (and checking) infrastructure set up in a random /cookie webpage, but that setup isn't established on the home page. I've also got plenty of bits and pieces spread out around various blackboard files, but some of them don't live in their own functions, and they're definitely not all assembled and put together. 
+
+A couple of angles I could explore. One would be to put the page_load functionality in its own black box (create a function). I could set up the cookie-generation lines of code in the router.get('/'...) section of index.js. I could attempt to outline the hierarchy of everything: how the pieces all fit together on a higher level. That final thought is probably where I should begin. It architects more of the overall picture, which I could then check off as I parse through my list... Hopefully it's not stepping back too far: I don't want to lose sight of progress and continue spinning my wheels on the same concepts in the background.
+
+# check web browser for cookie (`res.cookies`)
+# check browser cookie against db table (`db.run_smart(&quot;SELECT session_data FROM cookie_key_json WHERE cookie_key = \&quot;&quot; + browser_cookie_key.cookie_key + &quot;\&quot;&quot;, function(err, rows) { })`)
+# if the browser cookie doesn't match, call `makeid()` function (generates random alphanumeric 6-character key); 'push' the new cookie onto the browser (`res.setHeader('Set-Cookie', cookie.serialize('cookie_key', makeid_var));`) --&gt; and this is where there may be some headache if the db table query doesn't permit me to assign a new cookie back to the browser?
+# after checking and possibly generating (and assigning) a new cookie, pull the `page_load` data from db table, iterate it by one, then push the updated data back into the db (and onto the browser screen). (turn this functionality into its own function)
+
+Later on I imagine I'd want features to delete a cookie key? I'd also want to play with the idea of different browser sessions and multiple entries on table, etc.</pre>
 </div>
 
 </div>
