@@ -8370,7 +8370,7 @@ Error message and password prompt
 <div created="20170914222713939" modified="20170914222713939" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="[[14th September 2017]] [[21st September 2017]] [[15th September 2017]] GettingStarted [[20th September 2017]]" title="$:/StoryList">
+<div list="[[21st September 2017]] GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -8699,7 +8699,7 @@ OK, so I've successfully deleted the unwanted cookie, but my db query still isn'
 
 Whew, so I'm back after a longer-than-intended break and hopefully I can resume some coding magic! I ended last session trying to figure out how to parse a string instead of parsing to output an int.</pre>
 </div>
-<div created="20170921155540101" modified="20170921184938686" tags="cookies Journal" title="21st September 2017">
+<div created="20170921155540101" modified="20170921190824299" tags="cookies Journal" title="21st September 2017">
 <pre>Oh. My. God. My brain is SO SLOW to catch up to reality. How to handle situations like this??? 
 
 This whole time I'm looking for a string-output version of parseInt(), because what I have now just isn't working. Between today and yesterday, it took me nearly an hour of active thought and research to realize that I'm looking at the problem completely wrong. And that in a different situation I had already //solved// the problem!! 
@@ -8760,7 +8760,9 @@ A couple of angles I could explore. One would be to put the page_load functional
 # if the browser cookie doesn't match, call `makeid()` function (generates random alphanumeric 6-character key); 'push' the new cookie onto the browser (`res.setHeader('Set-Cookie', cookie.serialize('cookie_key', makeid_var));`) --&gt; and this is where there may be some headache if the db table query doesn't permit me to assign a new cookie back to the browser?
 # after checking and possibly generating (and assigning) a new cookie, pull the `page_load` data from db table, iterate it by one, then push the updated data back into the db (and onto the browser screen). (turn this functionality into its own function)
 
-Later on I imagine I'd want features to delete a cookie key? I'd also want to play with the idea of different browser sessions and multiple entries on table, etc.</pre>
+Later on I imagine I'd want features to delete a cookie key? I'd also want to play with the idea of different browser sessions and multiple entries on table, etc.
+
+(a minor change for git purposes)</pre>
 </div>
 
 </div>
