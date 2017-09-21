@@ -380,7 +380,26 @@ router.post('/form_post_update', function(req, res) {
 router.get('/cookie', function(req,res){
 	// CE: after discussion w/ Jim, set up proto-code for creating a more dynamic cookie that iterates with each page load: 
 	// sets the initial cookie, with default value of 0: 
-	res.setHeader('Set-Cookie', cookie.serialize('page_loads', '0'));
+	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', 'aaa111'));
+
+	var browser_cookie_key = req.cookies;
+	console.log("browser_cookie_key: ", browser_cookie_key);
+	// convert temp string variable into an iteratable integer: 
+	var cookie_var = parseInt(browser_cookie_key);
+	console.log("cookie_var: ",cookie_var);
+	// check db to see if browser_cookie_key matches any entries there:
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows) {
+		// if cookie doesn't match any db table entries, for now, print to console a message saying so:
+		if (rows.length == 0) {
+			console.log("rows.length == 0: no match");
+		// if cookie does match a db table entry, for now, print to console a message saying so:
+		} else { // if (rows.length != 0)
+			console.log("there's a match!");
+			console.log(rows);
+		}
+	});
+
+/*
 	// creates a temp variable that stores the value of the key page_loads: 
 	var cookie_temp_var = req.cookies.page_loads;
 	// convert temp string variable into an iteratable integer: 
@@ -391,6 +410,7 @@ router.get('/cookie', function(req,res){
 	res.setHeader('Set-Cookie', cookie.serialize('page_loads', cookie_var.toString()));
 	// send a message to the web page to let the user know something happened: 
 	res.send('Cookie\'s sent!');
+*/
 });
 
 router.get('/clearcookie', function(req,res){
@@ -401,7 +421,7 @@ router.get('/clearcookie', function(req,res){
 });
 
 app.listen(3000, function() {
-	console.log('Example app listening on port 3000!');
+	console.log('index.js listening on port 3000!');
 });
 
 
