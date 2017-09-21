@@ -378,18 +378,13 @@ router.post('/form_post_update', function(req, res) {
 });
 
 router.get('/cookie', function(req,res){
-	// CE: after discussion w/ Jim, set up proto-code for creating a more dynamic cookie that iterates with each page load: 
-	// sets the initial cookie, with default value of 0: 
+	// sets the initial cookie by hand for testing purposes: 
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', 'aaa111'));
-
+	// save browser's cookie to browser_cookie_key via req.cookies:
 	var browser_cookie_key = req.cookies;
 	console.log("browser_cookie_key: ", browser_cookie_key);
-	// convert temp string variable into an iteratable integer: 
-	//var cookie_var = parseInt(browser_cookie_key);
-	var cookie_var = browser_cookie_key.cookie_key;
-	console.log("cookie_var: ",cookie_var);
-	// check db to see if browser_cookie_key matches any entries there:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_var + "\"", function(err, rows) {
+	// access db table to verify whether browser_cookie_key.cookie_key matches any entries:
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
 		console.log("rows: ", rows);
 		// if cookie doesn't match any db table entries, for now, print to console a message saying so:
 		if (rows.length == 0) {
