@@ -45,24 +45,40 @@ CREATE TABLE cookie_key_json (
 );
 */
 
-router.get('/', function(req, res){
-	// check browser for cookie
-	var browser_cookie_temp = req.cookies;
-	console.log("browser_cookie_temp: ", browser_cookie_temp);
-	var browser_cookie_key = "aaa111";
+function iterate_pg_load(cookie_key, callback) {
+	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+		// parse out JSON-style data that db returned:
+		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
+		// save page_count portion of parsed data to its own variable:
+		var pg_load = parsed_rows.page_count;
+		// increment pg_load by 1 (because page loaded or refreshed to get to this portion of code):
+		pg_load += 1;
+		// update page_count portion of parsed_rows to equal the value of the incremented pg_load variable:
+		parsed_rows.page_count = pg_load;
+		// turn updated parsed_rows variable back to a JSON-style string:
+		var stringed_row = JSON.stringify(parsed_rows);
+		// update cookie_key_json table to reflect incremented page count data:
+		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
 
-	// check db to see if browser_cookie_key matches any entries there:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows) {
-		// if cookie doesn't match any db table entries, for now, print to console a message saying so:
-		if (rows.length == 0) {
-			console.log("rows.length == 0: no match");
-		// if cookie does match a db table entry, for now, print to console a message saying so:
-		} else { // if (rows.length != 0)
-			console.log("there's a match!");
-			console.log(rows);
-		}
+			callback(pg_load);
+		});
 	});
+};
 
+router.get('/', function(req, res){
+	// pretend authenticated browser cookie key:
+	var browser_secret_cookie = "aaa111";
+	iterage_pg_load(browser_secret_cookie, function(pg_load){
+
+		//...//
+
+		res.render('pages', {
+			//...//
+			pg_load_to_renderer: pg_load;
+			//...//
+		});
+	});
 });
 
 

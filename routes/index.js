@@ -377,35 +377,7 @@ router.post('/form_post_update', function(req, res) {
 	});
 });
 
-router.get('/cookie', function(req,res){
-	// CE: after discussion w/ Jim, set up proto-code for creating a more dynamic cookie that iterates with each page load: 
-	// sets the initial cookie, with default value of 0: 
-	//res.setHeader('Set-Cookie', cookie.serialize('page_loads', 0));
-	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', 'aaa111'));
-	// creates a temp variable that stores the value of the key page_loads: 
-	var cookie_key = req.cookies.cookie_key;
-	// convert temp string variable into an iteratable integer: 
-	//cookie_var = parseInt(cookie_temp_var);
-	// iterate cookie_var by one: 
-	//cookie_var += 1;
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_key + "\"", function(err, rows) {
-		console.log("rows: ", rows);
-		// if cookie doesn't match any db table entries, for now, print to console a message saying so:
-		if (rows.length == 0) {
-			console.log("rows.length == 0: no match");
-		// if cookie does match a db table entry, for now, print to console a message saying so:
-		} else { // if (rows.length != 0)
-			console.log("there's a match!");
-			console.log(rows);
-		}
-	});
-	// send the iterated integer cookie_var back to the browser's cookie storage, being sure to convert the integer back to a string: 
-	//res.setHeader('Set-Cookie', cookie.serialize('page_loads', cookie_var.toString()));
-	// send a message to the web page to let the user know something happened: 
-	res.send('Cookie\'s sent!');
-});
 
-/*
 router.get('/cookie', function(req,res){
 	// sets the initial cookie by hand for testing purposes: 
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', 'aaa111'));
@@ -424,21 +396,8 @@ router.get('/cookie', function(req,res){
 			console.log(rows);
 		}
 	});
-*/
-
-/*
-	// creates a temp variable that stores the value of the key page_loads: 
-	var cookie_temp_var = req.cookies.page_loads;
-	// convert temp string variable into an iteratable integer: 
-	cookie_var = parseInt(cookie_temp_var);
-	// iterate cookie_var by one: 
-	cookie_var += 1;
-	// send the iterated integer cookie_var back to the browser's cookie storage, being sure to convert the integer back to a string: 
-	res.setHeader('Set-Cookie', cookie.serialize('page_loads', cookie_var.toString()));
-	// send a message to the web page to let the user know something happened: 
 	res.send('Cookie\'s sent!');
-*/
-//});
+});
 
 router.get('/clearcookie', function(req,res){
 	// remove page_loads cookie from browser cache (and subsequently from the server's attempts to access browser's cache): 
