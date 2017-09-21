@@ -144,6 +144,8 @@ Error message and password prompt
 
 <li>15th September 2017</li>
 
+<li>20th September 2017</li>
+
 </ul>
 </p>
 
@@ -8357,16 +8359,16 @@ Error message and password prompt
 <div created="20170914223321422" modified="20170914223326969" title="$:/state/Link/-1549904697/search">
 <pre></pre>
 </div>
-<div created="20170914223401840" modified="20170915210750891" title="$:/state/showeditpreview">
-<pre>yes</pre>
+<div created="20170914223401840" modified="20170920170258798" title="$:/state/showeditpreview">
+<pre>no</pre>
 </div>
-<div created="20170915201724879" modified="20170915203319801" title="$:/state/sidebar">
+<div created="20170915201724879" modified="20170920161827106" title="$:/state/sidebar">
 <pre>no</pre>
 </div>
 <div created="20170914222713939" modified="20170914222713939" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="[[14th September 2017]] [[15th September 2017]] GettingStarted" title="$:/StoryList">
+<div list="[[14th September 2017]] [[15th September 2017]] GettingStarted [[20th September 2017]]" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -8655,6 +8657,45 @@ Whew! that's a lot of pseudo-steps that feel really good to spell out specifical
 
 (I like having this monospace formatting because it works so well with pseudocode and thinking out a problem!)
 </pre>
+</div>
+<div created="20170920161447345" modified="20170921000323175" tags="Journal" title="20th September 2017">
+<pre>hmm, but this won't work because i need to access live data from browser to check to see if my code works. i suppose i could do a quick verification by creating a dummy browser_cookie_key for now. but i also need to create code that generates a new cookie and saves that to the browser and to the db table! 
+
+ok, my code works, assuming that i can access the cookie key from the browser. maybe I'll play with that really quick.
+
+why does req.cookies return 
+
+```
+{ page_loads: 'NaN' } 
+```
+??
+
+I haven't assigned anything to the browser, and nothing prints off onto the browser. the browser is an empty shell in my blackboard3_cookies.js experiment. where's it getting this page_loads:~NaN info??
+
+---
+
+oy! why am i feeling so much friction? why is this so painful??? sigh sigh sigh. maybe i feel like i'm moving like molasses despite all my efforts otherwise? maybe i feel like i need time to clear my head and move my body, despite the fact that i've just spent the past 5 or 6 days attempting to do just that?! of course, folks say that i shouldn't wait for things to 'feel right' because then i'll never get any work done. I just need to dive in and kind of force myself back into it -- comfort will come later.
+
+But how can I feel like I'm making better headway?? I suppose there are just so many areas to question and wonder and focus on. But very few of them focus on the things I actually need to be working on. So parsing down the problem to the fine tune nitty gritty that I need to focus on to make any progress. Right now that's accessing cookies from the browser and reading the db table to see if it matches or not. I'm SO CLOSE to reaching that goal! And I think all I need to do is copy my blackboard code to index.js -&gt; cookie to have a better ability to practice with that concept. Just one simple copy and paste, with maybe a small tweek to a line or two of supporting code. Simple and easy. Why does it feel so painful, then? I suppose partially because of the problem mentioned earlier: there are just so many things to focus on and get distracted by: it can be difficult to know which ones to focus on. And being able to define the core problem requires a greater overall understanding of the bits, which does require more brain work. 
+
+Brain brain, you're ok. Just please cooperate a little? Have faith in my so I can have faith in you? Or something??
+
+---
+
+ok ok ok ok ok ok. slow but steady... easy on the thrust... 
+
+how to parse out multiple cookies from one json-ified variable? how to know where to find it? i suppose i could do a for loop. but is that adding too many layers of complexity?? because i don't fully understand enough of the ins and outs of cookies, i honestly don't know. and i that there's a lot of confusion and heartache around that lack of understanding. BUT i can tell myself some things now. I'M the one defining cookies, which means that I'M the one dictating how many there are and how they're defined and all of that good-type stuff. So for now I can ignore the idea that there may be multiple cookies and that I would need to insert extra layers of brain to account for all of that. It's just me and my cookies and no more or no less. 
+
+So, for now, remove the unneeded cookie: 
+
+```
+{ page_loads: 'NaN' }
+```
+OK, so I've successfully deleted the unwanted cookie, but my db query still isn't working correctly. what do i need to do? parse out the JSON-style string? that seems likely.  boo, now I'm getting the same ~NaN value that page_loads was getting. :-( How to fix? How to compensate? Ah! likely because I'm using parseInt(), when really I probably want some sort of parse function that can output a string. clever girl! see, take each individual problem as they come and try to solve them one by one! success and fuzzy feelings often result.
+
+---
+
+Whew, so I'm back after a longer-than-intended break and hopefully I can resume some coding magic! I ended last session trying to figure out how to parse a string instead of parsing to output an int.</pre>
 </div>
 
 </div>
