@@ -37,6 +37,17 @@ db.run_smart = function run_smart(query_string, callback){
   });
 }
 
+
+function make_id() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 6; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+	};
+  return text;
+}
+
 /*
 CREATE TABLE cookie_key_json (
 	id integer PRIMARY KEY,
@@ -45,9 +56,14 @@ CREATE TABLE cookie_key_json (
 );
 */
 
+// Jim: iterate_pg_load() has one step, and it's db.run_smart() call, which then piggy-backs to this functionality:
+function ipl_result_handler(err, select_rows) {
+	// ...
+}
+
 function iterate_pg_load(cookie_key, callback) {
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", ipl_result_handler);/*function(err, rows_from_select) {
 		// parse out JSON-style data that db returned:
 		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
 		// save page_count portion of parsed data to its own variable:
@@ -62,15 +78,19 @@ function iterate_pg_load(cookie_key, callback) {
 		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
 
 			callback(pg_load);
+return pg_load;
 		});
 	});
+*/
 };
 
 router.get('/', function(req, res){
-	// pretend authenticated browser cookie key:
+	// pretend authenticated browser cookie key (temporary):
 	var browser_secret_cookie = "aaa111";
-	iterage_pg_load(browser_secret_cookie, function(pg_load){
-
+	// or actual code to access browser's cookie: 
+	// verify_browser_cookie() {
+//	iterage_pg_load(browser_secret_cookie, function(pg_load){
+var pg_load_var = iterate_pg_load(browser_secret_cookie) {}
 		//...//
 
 		res.render('pages', {
