@@ -33,6 +33,8 @@ db.run_smart = function run_smart(query_string, callback){
       console.log(err);
     } else {
 	    callback(err, rows);
+			// JE: imagine this instead of line 35: 
+			// return callback(err, rows);
 		}
   });
 }
@@ -55,15 +57,16 @@ CREATE TABLE cookie_key_json (
 	session_data text
 );
 */
-
+/*
 // Jim: iterate_pg_load() has one step, and it's db.run_smart() call, which then piggy-backs to this functionality:
 function ipl_result_handler(err, select_rows) {
 	// ...
 }
+*/
 
 function iterate_pg_load(cookie_key, callback) {
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", ipl_result_handler);/*function(err, rows_from_select) {
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
 		// parse out JSON-style data that db returned:
 		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
 		// save page_count portion of parsed data to its own variable:
@@ -75,13 +78,14 @@ function iterate_pg_load(cookie_key, callback) {
 		// turn updated parsed_rows variable back to a JSON-style string:
 		var stringed_row = JSON.stringify(parsed_rows);
 		// update cookie_key_json table to reflect incremented page count data:
-		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		/* JE: return db.run_smart(...)*/db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
 
 			callback(pg_load);
-return pg_load;
+return pg_load; // JE: similar activies as mentioned for "ipl_request_handler is done"
 		});
+return "ipl_request_handler is done" // JE: return value handed back to the inside of db.run_smart; because run_smart doesn't pass this return value (in else section), it just gets dropped on the floor.
 	});
-*/
+return "ipl is done"; // JE: return value handed to var pg_load_var in router.get below
 };
 
 router.get('/', function(req, res){
