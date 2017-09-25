@@ -23,7 +23,7 @@ string = string + numb_d; // append new random number to end of string
 // i suppose i'm glad that i worked through the problem a little bit on my own first, because i messed with most of the elements of more elegant solution below, and thereby got to think through it on my own terms before having the solution spoon-fed to me. kinda like a science experiment: i need to be unbiased to generate a hypothesis and conduct some experiments, but after that i could talk to other people...or something.
 // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
 
-function makeid() {
+function make_id() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -33,7 +33,7 @@ function makeid() {
   return text;
 }
 
-console.log(makeid());
+console.log(make_id());
 
 // hmm, not sure there's much else i can do with this function: makeid() kind of made itself! but next steps could include a verification step: check the browser for cookie, check it against database, return 1 if matches, return 0 if not. then pass 1 or 0 to determine whether to run makeid(). or something.
 
