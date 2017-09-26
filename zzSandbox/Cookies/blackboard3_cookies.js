@@ -37,6 +37,31 @@ db.run_smart = function run_smart(query_string, callback){
   });
 }
 
+/*
+CREATE TABLE cookie_key_json (
+	id integer PRIMARY KEY,
+	cookie_key text,
+	session_data text
+);
+*/
+
+function check_browser_cookie(callback) {
+	// save browser's cookie to browser_cookie_key via req.cookies:
+	var browser_cookie_key = req.cookies;
+	// access db table to verify whether browser_cookie_key matches any entries: 
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
+		// section below: 
+		//var db_check = 1;
+		if (rows.length == 0) {
+			//db_check = 0;
+			// browser_cookie_key = make_id() // CE: will this work? 
+			// tell_browser_server()
+		}
+		//callback(db_check);
+		// pass forward browser_cookie_key, regardless of whether it was accessed from an existing cookie on the browser or whether it had to be generated within this function workflow:
+		callback(browser_cookie_key);
+	});
+}
 
 function make_id() {
   var text = "";
@@ -48,17 +73,9 @@ function make_id() {
   return text;
 }
 
-/*
-CREATE TABLE cookie_key_json (
-	id integer PRIMARY KEY,
-	cookie_key text,
-	session_data text
-);
-*/
-
-function iterate_pg_load(cookie_key, callback) {
+function increment_pg_load(secret_cookie, callback) {
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + secret_cookie + "\"", function(err, rows_from_select) {
 		// parse out JSON-style data that db returned:
 		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
 		// save page_count portion of parsed data to its own variable:
@@ -70,7 +87,7 @@ function iterate_pg_load(cookie_key, callback) {
 		// turn updated parsed_rows variable back to a JSON-style string:
 		var stringed_row = JSON.stringify(parsed_rows);
 		// update cookie_key_json table to reflect incremented page count data:
-		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_update) {
+		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + secret_cookie + "\"", function(err, rows_from_update) {
 
 			callback(pg_load);
 		});
@@ -81,8 +98,8 @@ router.get('/', function(req, res){
 	// pretend authenticated browser cookie key (temporary):
 	var browser_secret_cookie = "aaa111";
 	// or actual code to access browser's cookie: 
-	// verify_browser_cookie() {
-	iterage_pg_load(browser_secret_cookie, function(pg_load){
+	// verify_browser_cookie() { }
+	increment_pg_load(browser_secret_cookie, function(pg_load){
 
 		//...//
 
