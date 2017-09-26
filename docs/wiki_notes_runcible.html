@@ -162,6 +162,8 @@ Error message and password prompt
 
 <li>25th September 2017</li>
 
+<li>26th September 2017</li>
+
 <li>powersuitsm.png</li>
 
 </ul>
@@ -8406,7 +8408,7 @@ Error message and password prompt
 <div created="20170914222713939" modified="20170914222713939" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="$:/Import [[21st September 2017]] [[25th September 2017]] GettingStarted" title="$:/StoryList">
+<div list="$:/Import [[21st September 2017]] [[25th September 2017]] GettingStarted [[26th September 2017]]" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -8821,6 +8823,58 @@ I think I had plenty more to do to set up pseudocode or actual code or notes abo
 
 re callback async: see notes on github commit. also consider researching about the callback concept in general.
 
+</pre>
+</div>
+<div created="20170926154030764" modified="20170926170331820" tags="Journal [[node js]] express callbacks research" title="26th September 2017">
+<pre>Whew, I just exponentially increased the number of tags available on this wiki. hopefully things don't get out of hand. ;-)
+
+Researching callbacks because they continue to be confusing and my incomplete understanding is frustrating as I create new code that I also only partially understand. Yesterday was some talks with Jim, today's a little internet research. One detail that I never got before was that callbacks are //functions// that permit asynchronous flow  and junk. I don't know why I didn't understand the function detail before -- I guess it was confusing because when you pass a function to another function it just looks like any other variable -- but it's //not//, it's a //function//. And that's how the variable 'callback' is used at the end of each asynchronous helper function that I create: it's `callback(xyz);`, not just `callback;`.  So anyways, a small thing, but an interesting detail nonetheless. 
+
+https://docs.nodejitsu.com/articles/getting-started/control-flow/what-are-callbacks/
+
+https://www.tutorialspoint.com/nodejs/nodejs_callbacks_concept.htm
+
+http://www.theprojectspot.com/tutorial-post/nodejs-for-beginners-callbacks/4
+
+
+&quot;A callback is a function called at the completion of a given task&quot;. I suppose the same can be said about return statements: they're declared at the end of a given task too. It's just that returns work better for blocking environment / languages, whereas callbacks work best for asynchronous environments or something like that.  I guess the difference is that one's a function and the other is, well, just a statement I guess. 
+
+How can I try to understand this better? What if there was this: 
+
+
+```
+function do_something(input_var, callback) {
+  // ... do something w/ input_var ...
+  callback(output_var);
+};
+
+function callback_func(output_var) {
+  // ... process callback's output_var...
+};
+
+router.get('/', function(req, res){
+  do_something(input_var, callback_func(output_var)) {
+    // ... even more nested activity maybe...
+  };
+};
+```
+The difference between my example above and the type of callback code I write for real is that instead of relying on an anonymous function, I instead have a pre-defined function for my callback. But would it work correctly? Perhaps it's worth asking around for...
+
+Hmm, I've read a bit more and feel like I'm kind of losing the thread of my question. :-\ Maybe I'll have to continue running on faith a little, and slowly gleaning more info from Jim and my own work as I go? Frustrating but the way it is I guess. 
+
+---
+
+So, moving forward: what to work on at this point? I should definitely clean up my blackboard code since my discussion w/ Jim yesterday junked it all up. Sigh. In a way I don't really know what to do after that, though. I suppose continue to try working on pseudocode and black boxes and all that.
+
+---
+
+OK, I've got a function that increments pg_load variable and returns a callback function. Within the anonymous callback function of increment_pg_load, I pass the pg_load variable to res.render, which then allows the pg_load variable to be rendered on the web page (and updated with each page refresh). BUT I need a function that checks the browser fora  cookie and one that also verifies that that cookie exists in the db and that if it doesn't, to generate a new cookie key and also to save the new cookie key to the db and to the browser...all //before// incrementing the pg_load variable. Whew! So, I guess one thing at a time? Beginning w/ checking the browser I guess.
+
+---
+
+How to craft `if/else` statement in `check_browser_cookie()` ? If my db query comes up with results (if `rows` returns an array of values) then I don't need to generate a new browser cookie. But if `rows` is empty, then I will need to generate a new browser cookie. So my if/else statement only really needs to check for if `rows == 0`, because that's the only condition that requires extra steps, namely, to generate a new secret browser key and to push that to db table and to browser. So that's great! Distilling the purpose of my code and turning it into actual lines I can type. :-)
+
+Hmm, do I need a callback? or should I just call the `make_id` / `tell_browser_server` functions if `rows==0`? 
 </pre>
 </div>
 <div title="powersuitsm.png" type="image/png">
