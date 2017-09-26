@@ -66,7 +66,7 @@ function ipl_result_handler(err, select_rows) {
 
 function iterate_pg_load(cookie_key, callback) {
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
+	/* JE: return db.run_smart(...) */db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_secret_cookie + "\"", function(err, rows_from_select) {
 		// parse out JSON-style data that db returned:
 		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
 		// save page_count portion of parsed data to its own variable:
