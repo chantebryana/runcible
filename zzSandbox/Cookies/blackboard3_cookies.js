@@ -56,6 +56,8 @@ function check_browser_cookie(callback) {
 			//db_check = 0;
 			// browser_cookie_key = make_id() // CE: will this work? 
 			// tell_browser_server()
+			// call create_and_save_cookie_id, which calls some helper functions which will A) create a new alpha-numeric 6-character string; B) create new db table for new cookie id and 1 page load; and C) save secret cookie key to browser's cookie cache:
+			create_and_save_cookie_id();
 		}
 		//callback(db_check);
 		// pass forward browser_cookie_key, regardless of whether it was accessed from an existing cookie on the browser or whether it had to be generated within this function workflow:
@@ -77,6 +79,17 @@ function insert_new_id_to_db_table(secret_id) {
 	// insert new secret cookie id into db table: create new entry with a page_count value of 1 (b/c I've loaded the page 1 time to even make this cookie key):
 	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + secret_id + "\", '{\"page_count\":1}')", function(err, rows) {	});
 }
+
+function save_new_cookie_id_to_browser(secret_id) {
+	// exactly what the function name suggests: use res.setHeader to save newly-created cookie to browser's cache:
+	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', secret_id));
+}
+
+function create_and_save_cookie_id() {
+	var secret_cookie_id = make_id();
+	insert_new_id_to_db_table(secret_cookie_id);
+	save_new_cookie_id_to_browser(secret_cookie_id);
+};
 
 function increment_pg_load(secret_cookie, callback) {
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
