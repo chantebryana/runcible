@@ -73,6 +73,11 @@ function make_id() {
   return text;
 }
 
+function insert_new_id_to_db_table(secret_id) {
+	// insert new secret cookie id into db table: create new entry with a page_count value of 1 (b/c I've loaded the page 1 time to even make this cookie key):
+	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + secret_id + "\", '{\"page_count\":1}')", function(err, rows) {	});
+}
+
 function increment_pg_load(secret_cookie, callback) {
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
 	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + secret_cookie + "\"", function(err, rows_from_select) {
