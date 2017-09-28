@@ -164,6 +164,8 @@ Error message and password prompt
 
 <li>26th September 2017</li>
 
+<li>28th September 2017</li>
+
 <li>powersuitsm.png</li>
 
 </ul>
@@ -8408,7 +8410,7 @@ Error message and password prompt
 <div created="20170914222713939" modified="20170914222713939" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="$:/Import [[21st September 2017]] [[25th September 2017]] GettingStarted [[26th September 2017]]" title="$:/StoryList">
+<div list="$:/Import [[21st September 2017]] [[25th September 2017]] GettingStarted [[26th September 2017]] [[28th September 2017]]" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -8875,6 +8877,22 @@ OK, I've got a function that increments pg_load variable and returns a callback 
 How to craft `if/else` statement in `check_browser_cookie()` ? If my db query comes up with results (if `rows` returns an array of values) then I don't need to generate a new browser cookie. But if `rows` is empty, then I will need to generate a new browser cookie. So my if/else statement only really needs to check for if `rows == 0`, because that's the only condition that requires extra steps, namely, to generate a new secret browser key and to push that to db table and to browser. So that's great! Distilling the purpose of my code and turning it into actual lines I can type. :-)
 
 Hmm, do I need a callback? or should I just call the `make_id` / `tell_browser_server` functions if `rows==0`? 
+</pre>
+</div>
+<div created="20170928161621243" modified="20170928162602034" tags="Journal" title="28th September 2017">
+<pre>Piggybacking on the ending notes of 26 September: re if/else statement in `check_browser_cookies`.
+
+I only need to check `if (rows.length == 0)` and I don't need to set any variables to 1 or 0 (true or false). Instead, if `rows.length == 0` then I need to call one or two functions (well, I suppose just one function, but that called function may have one or two nested helper functions that //it// calls). And I think //that// step(s) is confounding me. Time to break it down I guess!
+
+Part of the problem is that I haven't written these functions in their own black boxes yet. So I need to do that before I know exactly what actions to perform within `if` statement. Also, I may not even really have the functionality written at all: I'm not sure. I know I've got `make_id` written: that's easy and straightforward and amazing. What other steps am I missing / can I fill in??
+
+* `make_id` to create a new id
+* function that updates db table, creating a new entry with the new secret id, and filling the table row with other data: id, cookie_key, session_data (all formatted appropriately). --&gt; This function //also// seems pretty straightforward. Maybe I should tackle this one next?
+* function that updates the browser cookie to save the new secret id that was just created. This way, any future times that this browser session is accessed or refreshed, it'll have the appropriate secret key saved to it, and it can link back up with the db table.
+* maybe one more function that glues all of the separate functionalities together? That way I only have to call a single item within the `if` statement of `check_browser_cookie` instead of calling and defining three separate functions, all with possibly different APIs.
+
+OK, I know I've known these steps forever, but I guess it's helpful to have them all written down and quantified like this, and broken down into discrete functionalities. Now to attempt to make it happen!
+
 </pre>
 </div>
 <div title="powersuitsm.png" type="image/png">
