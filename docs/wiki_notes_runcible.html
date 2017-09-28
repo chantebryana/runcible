@@ -148,6 +148,8 @@ Error message and password prompt
 
 <li>$:/temp/info-plugin</li>
 
+<li>$:/temp/search</li>
+
 <li>$:/themes/tiddlywiki/snowwhite</li>
 
 <li>$:/themes/tiddlywiki/vanilla</li>
@@ -8395,8 +8397,8 @@ Error message and password prompt
 <div created="20170914223401840" modified="20170920170258798" title="$:/state/showeditpreview">
 <pre>no</pre>
 </div>
-<div created="20170915201724879" modified="20170925183342778" title="$:/state/sidebar">
-<pre>no</pre>
+<div created="20170915201724879" modified="20170928163417478" title="$:/state/sidebar">
+<pre>yes</pre>
 </div>
 <div created="20170921222007702" modified="20170921222007702" title="$:/state/tab--1963855381">
 <pre>$:/core/ui/ControlPanel/Palette</pre>
@@ -8410,7 +8412,7 @@ Error message and password prompt
 <div created="20170914222713939" modified="20170914222713939" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="$:/Import [[21st September 2017]] [[25th September 2017]] GettingStarted [[26th September 2017]] [[28th September 2017]]" title="$:/StoryList">
+<div list="$:/Import GettingStarted [[26th September 2017]] [[28th September 2017]]" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -8458,6 +8460,9 @@ Error message and password prompt
         }
     }
 }</pre>
+</div>
+<div created="20170928163423837" modified="20170928205915259" title="$:/temp/search">
+<pre></pre>
 </div>
 <div author="JeremyRuston" core-version="&gt;=5.0.0" dependents="$:/themes/tiddlywiki/vanilla" description="Emphasises individual tiddlers" name="Snow White" plugin-type="theme" title="$:/themes/tiddlywiki/snowwhite" type="application/json" version="5.1.14">
 <pre>{
@@ -8879,7 +8884,7 @@ How to craft `if/else` statement in `check_browser_cookie()` ? If my db query co
 Hmm, do I need a callback? or should I just call the `make_id` / `tell_browser_server` functions if `rows==0`? 
 </pre>
 </div>
-<div created="20170928161621243" modified="20170928162602034" tags="Journal" title="28th September 2017">
+<div created="20170928161621243" modified="20170928221436147" tags="[[node js]] express callbacks cookies Journal" title="28th September 2017">
 <pre>Piggybacking on the ending notes of 26 September: re if/else statement in `check_browser_cookies`.
 
 I only need to check `if (rows.length == 0)` and I don't need to set any variables to 1 or 0 (true or false). Instead, if `rows.length == 0` then I need to call one or two functions (well, I suppose just one function, but that called function may have one or two nested helper functions that //it// calls). And I think //that// step(s) is confounding me. Time to break it down I guess!
@@ -8892,6 +8897,32 @@ Part of the problem is that I haven't written these functions in their own black
 * maybe one more function that glues all of the separate functionalities together? That way I only have to call a single item within the `if` statement of `check_browser_cookie` instead of calling and defining three separate functions, all with possibly different APIs.
 
 OK, I know I've known these steps forever, but I guess it's helpful to have them all written down and quantified like this, and broken down into discrete functionalities. Now to attempt to make it happen!
+
+---
+
+I've created some new functionality, but I think it'll need some modification. Right now I have three functions living side by side on the same layer of logic, but I think they'll actually need to be nested in on each other, at least a little bit. I want to save new new id to `secret_cookie_id` //before// calling the next two functions to `insert_new_id_to_db_table` and `save_new_cookie_id_to_browser`. 
+
+How to do that? Perhaps a question for Jim? Can I find a way to break it down for my own internet search? Am I actually right with this assumption or am I looking at it from the wrong angle? 
+
+Begin by looking at existing callback-based code in index.js
+
+I //know// that `insert_new_id_to_db_table` is properly asynchronous, because it's accessing another file (fam.db). I'm not so sure about `save_new_cookie_id_to_browser`. Does the browser count as another file? I'm not entirely sure.
+
+---
+
+OK, I think I'm stuck more than a little bit. How to get unstuck? How to prepare myself for Q&amp;A time with Jim?
+
+* _Jim_ ask about how to nest asynchronous functions
+* _Jim_ ask about problem with resetting browser cookie while also accessing db table
+* _Jim_ reexamine asynchronous vs return topic from before
+*  research more about cookies: try to gain some context (maybe with security and logging in?)
+*  perhaps branch out to other research: try to learn more about the basics of Express and Node.js?
+* maybe diverge a bit more entirely: play w/ Ruby? C++?
+* more thoughts on how to re-size the chart: if the chart's super small, make fewer labels show up, etc
+
+Well, that's a lot of little things already.
+
+
 
 </pre>
 </div>
