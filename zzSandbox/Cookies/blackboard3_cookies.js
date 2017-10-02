@@ -77,18 +77,19 @@ function make_id() {
 
 function insert_new_id_to_db_table(secret_id) {
 	// insert new secret cookie id into db table: create new entry with a page_count value of 1 (b/c I've loaded the page 1 time to even make this cookie key):
-	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + secret_id + "\", '{\"page_count\":1}')", function(err, rows) {	});
+	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + secret_id + "\", '{\"page_count\":1}')", function(err, rows) { /* JE: put code that I want to run AFTER this INSERT query within this anonymous callback function: this makes sure that clashing queries don't happen at the same time / out of order. */	});
 }
 
-function save_new_cookie_id_to_browser(secret_id) {
+// JE: this function needs to have `res` object passed through it:
+function save_new_cookie_id_to_browser(res, secret_id) {
 	// exactly what the function name suggests: use res.setHeader to save newly-created cookie to browser's cache:
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', secret_id));
 }
 
 function create_and_save_cookie_id() {
-	var secret_cookie_id = make_id();
-	insert_new_id_to_db_table(secret_cookie_id);
-	save_new_cookie_id_to_browser(secret_cookie_id);
+	var secret_cookie_id = make_id(); // JE: this gets assigned synchronously: no worries about secret_cookie_id not getting assigned before next two functions run
+	insert_new_id_to_db_table(secret_cookie_id); // JE: make sure that this is all the way complete before anything else needs to access db table: don't want to update page_count variable before this INSERT query is finalized; need to find a way to halt future actions until this one is finished. also consider functionality in multi-user use cases (ie, real world). (or other unusual use cases like hitting refresh really fast).
+	save_new_cookie_id_to_browser(secret_cookie_id); // JE: synchronous action, not asynchronous. res.setHeader changes internal data structure that will be part of res.render later (or, as for the case of router.get('/cookie'...), res.send -- same action).
 };
 
 function increment_pg_load(secret_cookie, callback) {
