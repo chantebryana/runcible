@@ -280,6 +280,8 @@ router.get('/', function(req,res) {
 
 						var dates_logged = logged_dates(rows_from_db);
 						var full_date_range = auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db);
+						console.log('full_date_range: ');
+						console.log(full_date_range);
 						var a_match = comparison_key(full_date_range, dates_logged);
 						var y_temp_f = populate_y_axis_data(a_match, rows_from_db);
 						var x_time_taken = logged_time_taken(a_match, rows_from_db);
