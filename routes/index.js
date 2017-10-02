@@ -127,9 +127,13 @@ function logged_dates(rows_from_db) {
 	return dates_logged	
 }
 // pull begin and end datetimes from cycles table and auto-populate a series of dates into full_date_range array: 
-function auto_compute_date_range(dates_from_db) {
+function auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db) {
 	var begin_datetime = new Date(dates_from_db[0].begin_datetime);
-	var end_datetime = new Date(dates_from_db[1].end_datetime);
+	if(next_cycle_id){
+		var end_datetime = new Date(dates_from_db[1].end_datetime);
+	} else {
+		var end_datetime = new Date(rows_from_db[rows_from_db.length-1].datetime);
+	}
 	var full_date_range = [];
 	var mil = (1000*60*60*24)// 24 hr in miliseconds
 	// add mil to end_datetime.getTime() to add one more day to the iteration range:
@@ -275,7 +279,7 @@ router.get('/', function(req,res) {
 
 
 						var dates_logged = logged_dates(rows_from_db);
-						var full_date_range = auto_compute_date_range(dates_from_db);
+						var full_date_range = auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db);
 						var a_match = comparison_key(full_date_range, dates_logged);
 						var y_temp_f = populate_y_axis_data(a_match, rows_from_db);
 						var x_time_taken = logged_time_taken(a_match, rows_from_db);
