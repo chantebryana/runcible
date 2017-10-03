@@ -43,11 +43,13 @@ function check_browser_cookie(callback){
 			// call helper functions that will create new id, create new db table entry, and save new id to browser cookie cache. afterwards, declare callback with new_cookie_key to pass value forward to future functions: 
 			create_and_save_cookie_id(res, function(new_cookie_key) {
 				// JE: ... anything else "check_browser_cookie()" needs to do before "calling foward" is done here ...
+				
 				callback(new_cookie_key);
 			});
-		};
-		// pass browser_cookie_key forward to future functions:
-		callback(browser_cookie_key);
+		} else {
+			// pass browser_cookie_key forward to future functions:
+			callback(browser_cookie_key);
+		}
 	});
 }
 
@@ -77,7 +79,8 @@ function save_new_cookie_id_to_browser(res, new_cookie_key){
 function create_and_save_cookie_id(res, callback) {
 	var secret_cookie_id = make_id();
 	insert_new_id_to_db_table(secret_cookie_id, function(){
-		save_new_cookie_id_to_browser(res, new_cookie_id);
+		save_new_cookie_id_to_browser(res, secret_cookie_id);
+		callback(secret_cookie_id);
 	});
 }
 
@@ -105,10 +108,10 @@ function increment_pg_load(browser_cookie_key, callback) {
 
 router.get('/', function(req, res){
 	// ????
-	check_browser_cookie(function() {
+	check_browser_cookie(function(secret_cookie) {
 		// do stuff?
-		increment_pg_load(/*secret_cookie*/, function() {
-			// do stuff???
+		increment_pg_load(secret_cookie, function(pg_load) {
+			// do unrelated stuff???
 			res.render('pages', {
 				// ... 
 				pg_load_to_renderer: pg_load;
