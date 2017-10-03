@@ -33,17 +33,17 @@ db.run_smart = function run_smart(query_string, callback){
   });
 }
 
-function check_browser_cookie(callback){
+function check_browser_cookie(req, res, callback){
 	// save browser's cookie to browser_cookie_key via req.cookies:
 	var browser_cookie_key = req.cookies;
 	// access db table to verify whether browser_cookie_key matches any entries: 
+	// JE: MUST FIX: sql injection attack:
 	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
 		// if query returns no results (ie, no browser cookie or browser cookie doesn't match any table entries): 
 		if (rows.length == 0) {
 			// call helper functions that will create new id, create new db table entry, and save new id to browser cookie cache. afterwards, declare callback with new_cookie_key to pass value forward to future functions: 
 			create_and_save_cookie_id(res, function(new_cookie_key) {
-				// JE: ... anything else "check_browser_cookie()" needs to do before "calling foward" is done here ...
-				
+				// CE/JE: FIX: datatypes within each callback (new_cookie_key and browser_cookie_key) are different: make them the same!
 				callback(new_cookie_key);
 			});
 		} else {
@@ -62,10 +62,10 @@ function make_id() {
 	};
   return text;
 }
-
-// CE: incomplete and/or incorrect: 
-function insert_new_id_to_db_table(new_cookie_key, res, callback){
+ 
+function insert_new_id_to_db_table(new_cookie_key, callback){
 	// insert new secret cookie id into db table: create new entry with a page_count value of 1 (b/c I've loaded the page 1 time to even make this cookie key):
+	//JE: no sql injection attack risk b/c query is based off of just-made new cookie key. BUT if i change the datatype of new_cookie_key in earlier function ,then this dependent function will need to be changed:
 	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + new_cookie_key + "\", '{\"page_count\":1}')", function(err, rows) { /* JE: put code that I want to run AFTER this INSERT query within this anonymous callback function: this makes sure that clashing queries don't happen at the same time / out of order. */	
 		callback(); // CE/JE: no need to pass new_cookie_key to this callback function --> this callback function comes from the one within 'if' statement of check_browser_cookie (within create_and_save_cookie_id)
 	});
@@ -73,6 +73,7 @@ function insert_new_id_to_db_table(new_cookie_key, res, callback){
 
 function save_new_cookie_id_to_browser(res, new_cookie_key){
 	// exactly what the function name suggests: use res.setHeader to save newly-created cookie to browser's cache:
+	// CE: if i change the datatype of new_cookie_key in earlier function ,then this dependent function will need to be changed:
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
 }
 
@@ -107,9 +108,8 @@ function increment_pg_load(browser_cookie_key, callback) {
 
 
 router.get('/', function(req, res){
-	// ????
-	check_browser_cookie(function(secret_cookie) {
-		// do stuff?
+	// do unrelated stuff? 
+	check_browser_cookie(req, res, function(secret_cookie) {
 		increment_pg_load(secret_cookie, function(pg_load) {
 			// do unrelated stuff???
 			res.render('pages', {
