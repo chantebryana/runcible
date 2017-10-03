@@ -57,6 +57,7 @@ function check_browser_cookie(callback) {
 			// browser_cookie_key = make_id() // CE: will this work? 
 			// tell_browser_server()
 			// call create_and_save_cookie_id, which calls some helper functions which will A) create a new alpha-numeric 6-character string; B) create new db table for new cookie id and 1 page load; and C) save secret cookie key to browser's cookie cache:
+			// JE: (17:00 of '20171002 Jim cookies and callbacks 02.amr'): create_and_save_cookie_id contains another layer of asynchronisity (first layer was db.run_smart), and it must have its own callback or else it'll get lost forever. there's no way to get back: this line executes but returns without a desitnation unless it has its own callback.
 			create_and_save_cookie_id(
 
 			);
@@ -65,7 +66,7 @@ function check_browser_cookie(callback) {
 // 2 - regain "program flow" and handle the callback here
 			create_and_save_cookie_id(res, function(new_cookie_key){
 				//browser_cookie_key = new_cookie_key;
-				// ... anything else "check_browser_cookie()" needs to do before "calling forward" is done here ...
+				// JE (25:00 of second audio file) ... anything else "check_browser_cookie()" needs to do before "calling forward" is done here ...
 				callback(new_cookie_key);
 			});
 		}
@@ -88,7 +89,7 @@ function make_id() {
 function insert_new_id_to_db_table(secret_id, callback) {
 	// insert new secret cookie id into db table: create new entry with a page_count value of 1 (b/c I've loaded the page 1 time to even make this cookie key):
 	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + secret_id + "\", '{\"page_count\":1}')", function(err, rows) { /* JE: put code that I want to run AFTER this INSERT query within this anonymous callback function: this makes sure that clashing queries don't happen at the same time / out of order. */	
-		callback();
+		callback(); // CE/JE: this line isn't necessarily just garbage code: inserted via coaxing from Jim to try to fit insert_new_id_to_db_table into wider call-forward machinery (minute 4 of '20171002 Jim cookies and callbacks 02.amr') --> no need to pass secret_id variable into arguments list of callback (redundant or something -- already part of name space I guess...). this callback comes from the one within 'if' statement of check_browser_cookie (within create_and_save_cookie_id)
 	});
 }
 
@@ -101,7 +102,7 @@ function save_new_cookie_id_to_browser(res, secret_id) {
 function create_and_save_cookie_id(/*arguments missing...*/) {
 	var secret_cookie_id = make_id(); // JE: this gets assigned synchronously: no worries about secret_cookie_id not getting assigned before next two functions run
 	insert_new_id_to_db_table(secret_cookie_id, function(){
-		save_new_cookie_id_to_browser(/*argument,*/ secret_cookie_id); // JE: I could put this function BEFORE insert_new_id_to_db_table, OR I can place it within the anonymous callback function, which is more standard for javascript/nodejs and is what I'm doing here.
+		save_new_cookie_id_to_browser(/*argument,*/ secret_cookie_id); // JE: I could put this function BEFORE insert_new_id_to_db_table, OR I can place it within the anonymous callback function, which is more standard for javascript/nodejs and is what I'm doing here. (minute 9 of '20171002 Jim cookies and callbacks 02.amr')
 // JE follow-up line for option 1 in check_browser_cookie:
 		callback(secret_cookie_id);
 	}); // JE: make sure that this is all the way complete before anything else needs to access db table: don't want to update page_count variable before this INSERT query is finalized; need to find a way to halt future actions until this one is finished. also consider functionality in multi-user use cases (ie, real world). (or other unusual use cases like hitting refresh really fast).
