@@ -128,7 +128,9 @@ function logged_dates(rows_from_db) {
 }
 // pull begin and end datetimes from cycles table and auto-populate a series of dates into full_date_range array: 
 function auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db) {
+	// define beginning datetime based on db query results:
 	var begin_datetime = new Date(dates_from_db[0].begin_datetime);
+	// define ending datetime based on db query results, with conditions based on whether it's accessing a complete or incomplete cycle (if complete, get end_datetime from 'cycles' table query results, else get from 'time_temp' table query restuls):
 	if(next_cycle_id){
 		var end_datetime = new Date(dates_from_db[1].end_datetime);
 	} else {
@@ -136,11 +138,13 @@ function auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db) {
 	}
 	var full_date_range = [];
 	var mil = (1000*60*60*24)// 24 hr in miliseconds
+	// create for loop to push full date range (based on beginning and end datetimes) into array full_date_range:
 	// add mil to end_datetime.getTime() to add one more day to the iteration range:
 	// CE: I don't think this for() logic works for time changes:
 	for (var i = begin_datetime.getTime(); i < (end_datetime.getTime() + mil); i = i + mil) {
 		full_date_range.push(new Date(i));
 	}
+	// return the date range array for future use elsewhere:
 	return full_date_range;
 }
 // compare dates_logged against full_date_range, and populate a new a_match array with 0's or 1's, depending on whether there's a match (0 == false, 1 == true):
