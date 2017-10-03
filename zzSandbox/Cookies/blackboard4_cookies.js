@@ -42,6 +42,7 @@ function check_browser_cookie(callback){
 		if (rows.length == 0) {
 			// call helper functions that will create new id, create new db table entry, and save new id to browser cookie cache. afterwards, declare callback with new_cookie_key to pass value forward to future functions: 
 			create_and_save_cookie_id(res, function(new_cookie_key) {
+				// JE: ... anything else "check_browser_cookie()" needs to do before "calling foward" is done here ...
 				callback(new_cookie_key);
 			});
 		};
@@ -61,10 +62,10 @@ function make_id() {
 }
 
 // CE: incomplete and/or incorrect: 
-function insert_new_id_to_db_table(new_cookie_key, res, save_new_cookie_id_to_browser){
+function insert_new_id_to_db_table(new_cookie_key, res, callback){
 	// insert new secret cookie id into db table: create new entry with a page_count value of 1 (b/c I've loaded the page 1 time to even make this cookie key):
 	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + new_cookie_key + "\", '{\"page_count\":1}')", function(err, rows) { /* JE: put code that I want to run AFTER this INSERT query within this anonymous callback function: this makes sure that clashing queries don't happen at the same time / out of order. */	
-		save_new_cookie_id_to_browser(res, new_cookie_key);
+		callback(); // CE/JE: no need to pass new_cookie_key to this callback function --> this callback function comes from the one within 'if' statement of check_browser_cookie (within create_and_save_cookie_id)
 	});
 }
 
@@ -80,9 +81,41 @@ function create_and_save_cookie_id(res, callback) {
 	});
 }
 
+function increment_pg_load(browser_cookie_key, callback) {
+	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_select) {
+		// parse out JSON-style data that db returned:
+		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
+		// save page_count portion of parsed data to its own variable:
+		var pg_load = parsed_rows.page_count;
+		// increment pg_load by 1 (because page loaded or refreshed to get to this portion of code):
+		pg_load += 1;
+		// update page_count portion of parsed_rows to equal the value of the incremented pg_load variable:
+		parsed_rows.page_count = pg_load;
+		// turn updated parsed_rows variable back to a JSON-style string:
+		var stringed_row = JSON.stringify(parsed_rows);
+		// update cookie_key_json table to reflect incremented page count data:
+		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_update) {
+
+			callback(pg_load);
+		});
+	});
+};
+
 
 router.get('/', function(req, res){
-
+	// ????
+	check_browser_cookie(function() {
+		// do stuff?
+		increment_pg_load(/*secret_cookie*/, function() {
+			// do stuff???
+			res.render('pages', {
+				// ... 
+				pg_load_to_renderer: pg_load;
+				// ...
+			});
+		});
+	});
 });
 
 
