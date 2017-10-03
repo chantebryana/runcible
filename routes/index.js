@@ -249,9 +249,9 @@ function make_id() {
 }
  
 function insert_new_id_to_db_table(new_cookie_key, callback){
-	// insert new secret cookie id into db table: create new entry with a page_count value of 1 (b/c I've loaded the page 1 time to even make this cookie key):
+	// insert new secret cookie id into db table: create new entry with a page_count value of 0 (this value will increment up to 1 in increment_pg_load function):
 	//JE: no sql injection attack risk b/c query is based off of just-made new cookie key:
-	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + new_cookie_key + "\", '{\"page_count\":1}')", function(err, rows) { 
+	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + new_cookie_key + "\", '{\"page_count\":0}')", function(err, rows) { 
 		// since this was asynchronous, declare callback to direct traffic back to the calling function (rather than getting lost in space):	
 		callback(); 
 	});
