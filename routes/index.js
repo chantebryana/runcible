@@ -137,7 +137,7 @@ router.get('/form', function(req, res) {
 	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is can be passed forward to res.render, where the page count could be printed on the rendered web page; or the final page load variable can be printed onto the console for simplicity / testing purposes:
 	check_browser_cookie(req, res, function(secret_cookie) {
 		increment_pg_load(secret_cookie, function(pg_load) {
-			console.log('Total Page Loads: ', pg_load);
+			console.log('Total Page Loads After Loading New Entry Form Page: ', pg_load);
 
 				var current_cycle_id = req.query.cycle;
 			get_first_and_last_cycle_id(function(first_cycle_id, last_cycle_id){
@@ -419,6 +419,11 @@ router.get('/', function(req,res) {
 });
 
 router.post('/formpost', function(req, res) {
+	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is can be passed forward to res.render, where the page count could be printed on the rendered web page; or the final page load variable can be printed onto the console for simplicity / testing purposes:
+	check_browser_cookie(req, res, function(secret_cookie) {
+		increment_pg_load(secret_cookie, function(pg_load) {
+			console.log('Total Page Loads After Posting New Entry Form Page: ', pg_load);
+
 	console.log("cycle name: ");
 	console.log(req.body["name"]);
 	// if a new cycle is being initiated:
@@ -457,6 +462,8 @@ console.log(err);console.log("<<<<>>>>"); // JE: shows the 'contents' of object 
 		res.redirect('/');
 	});
 */
+		});
+	});
 });
 
 
