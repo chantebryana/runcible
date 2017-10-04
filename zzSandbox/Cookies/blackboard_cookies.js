@@ -43,3 +43,12 @@ router.get_pg_load = function get_pg_load(url_string, callback){
 	});
 }
 
+// in action: 
+router.get_pg_load('/', function(req, res) {
+	// ...
+	res.render('pages', {
+		//...
+		pg_load_to_renderer: pg_load;
+		//...
+	});
+});
