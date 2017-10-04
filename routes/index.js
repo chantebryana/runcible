@@ -23,6 +23,12 @@ app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
 var sqlite3 = require('sqlite3').verbose();
 var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
+
+
+//
+//
+//
+//
 // Jim's homemade error-checking function that replaces db.all:
 db.run_smart = function run_smart(query_string, callback){
   this.all(query_string, function(err, rows){
@@ -34,34 +40,133 @@ db.run_smart = function run_smart(query_string, callback){
   });
 }
 
+
+//
+//
+//
+//
+// 6 new global functions: CE PLAYING WITH COOKIES:
+function check_browser_cookie(req, res, callback){
+	// save browser's cookie to browser_cookie_key via req.cookies:
+	var browser_cookie_key = req.cookies;
+	// access db table to verify whether browser_cookie_key matches any entries: 
+	// JE: MUST FIX: sql injection attack:
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
+		// if query returns no results (ie, no browser cookie or browser cookie doesn't match any table entries): 
+		if (rows.length == 0) {
+			// call helper functions that will create new id, create new db table entry, and save new id to browser cookie cache. afterwards, declare callback with new_cookie_key to pass value forward to future functions: 
+			create_and_save_cookie_id(res, function(new_cookie_key) {
+				// passes newly-generated cookie key string forward to future functions:
+				callback(new_cookie_key);
+			});
+		} else {
+			// pass browser_cookie_key string forward to future functions:
+			callback(browser_cookie_key.cookie_key);
+		}
+	});
+}
+
+function make_id() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 6; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+	};
+  return text;
+}
+ 
+function insert_new_id_to_db_table(new_cookie_key, callback){
+	// insert new secret cookie id into db table: create new entry with a page_count value of 0 (this value will increment up to 1 in increment_pg_load function):
+	//JE: no sql injection attack risk b/c query is based off of just-made new cookie key:
+	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + new_cookie_key + "\", '{\"page_count\":0}')", function(err, rows) { 
+		// since this was asynchronous, declare callback to direct traffic back to the calling function (rather than getting lost in space):	
+		callback(); 
+	});
+}
+
+function save_new_cookie_id_to_browser(res, new_cookie_key){
+	// exactly what the function name suggests: use res.setHeader to save newly-created cookie to browser's cache:
+	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
+}
+
+// create a new cookie key, save it to db table and save to browser's cookie cache; finish by declaring callback (which effectively passes secret_cookie_id forward to next function): 
+function create_and_save_cookie_id(res, callback) {
+	var secret_cookie_id = make_id();
+	insert_new_id_to_db_table(secret_cookie_id, function(){
+		save_new_cookie_id_to_browser(res, secret_cookie_id);
+		callback(secret_cookie_id);
+	});
+}
+
+// access pg load data from db table, increment it by 1, then push to relevant locations (update server and web page renderer): 
+function increment_pg_load(browser_cookie_key, callback) {
+	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_select) {
+		// parse out JSON-style data that db returned:
+		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
+		// save page_count portion of parsed data to its own variable:
+		var pg_load = parsed_rows.page_count;
+		// increment pg_load by 1 (because page loaded or refreshed to get to this portion of code):
+		pg_load += 1;
+		// update page_count portion of parsed_rows to equal the value of the incremented pg_load variable:
+		parsed_rows.page_count = pg_load;
+		// turn updated parsed_rows variable back to a JSON-style string:
+		var stringed_row = JSON.stringify(parsed_rows);
+		// update cookie_key_json table to reflect incremented page count data:
+		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_update) {
+
+			callback(pg_load);
+		});
+	});
+};
+
+
+
+
+/*
+~~~
+~~~~~
+~~~~~~~
+~~~~~~~~~
+~~~~~~~
+~~~~~
+~~~
+*/
 router.get('/form', function(req, res) {
-		var current_cycle_id = req.query.cycle;
-	get_first_and_last_cycle_id(function(first_cycle_id, last_cycle_id){
-		find_next_previous_cycle(current_cycle_id, function(previous_cycle_id, next_cycle_id){
-			// defines the cycle_id to include in db query: if req.query.cycle returns true (ie, if webpage query string passes a cycle variable), then the db query looks up the current_cycle [currently manually set to 2], otherwise, the query defaults to the most recent cycle (last_cycle):
-			var which_cycle_id = last_cycle_id;
-			if (req.query.current_cycle) {
-				which_cycle_id = req.query.current_cycle;
-			}
-			var query = "";
-			db.all (query='SELECT id FROM cycles WHERE id = ' + which_cycle_id, function(err, current_cycle) {
-				console.log('attempted to query db with __ ' + query + ' __');
-				console.log(current_cycle);
-				// 2 temporary lines: 
-				//var last_cycle = 2;
-				//var cycle_id_to_renderer = {last: last_cycle};
-				db.all('SELECT * FROM cycles ORDER BY begin_date DESC', function(err, cycle_value_from_db) {
-					var cycle_id_array = [];
-					for (i = 0; i < cycle_value_from_db.length; i++) {
-						cycle_id_array[i] = cycle_value_from_db[i].id;
-					};
-					res.render('pages/form.ejs', {title: 'Form', 
-						//cycle_names_to_renderer: cycle_names_from_db, 
-						cycle_id_array_to_renderer: cycle_id_array,
-						cycle_id_to_renderer: {
-							//curr: current_cycle
-							curr: current_cycle[0].id
-						}
+	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is passed forward to res.render, where the page count is printed on the rendered web page:
+	check_browser_cookie(req, res, function(secret_cookie) {
+		increment_pg_load(secret_cookie, function(pg_load) {
+
+				var current_cycle_id = req.query.cycle;
+			get_first_and_last_cycle_id(function(first_cycle_id, last_cycle_id){
+				find_next_previous_cycle(current_cycle_id, function(previous_cycle_id, next_cycle_id){
+					// defines the cycle_id to include in db query: if req.query.cycle returns true (ie, if webpage query string passes a cycle variable), then the db query looks up the current_cycle [currently manually set to 2], otherwise, the query defaults to the most recent cycle (last_cycle):
+					var which_cycle_id = last_cycle_id;
+					if (req.query.current_cycle) {
+						which_cycle_id = req.query.current_cycle;
+					}
+					var query = "";
+					db.all (query='SELECT id FROM cycles WHERE id = ' + which_cycle_id, function(err, current_cycle) {
+						console.log('attempted to query db with __ ' + query + ' __');
+						console.log(current_cycle);
+						// 2 temporary lines: 
+						//var last_cycle = 2;
+						//var cycle_id_to_renderer = {last: last_cycle};
+						db.all('SELECT * FROM cycles ORDER BY begin_date DESC', function(err, cycle_value_from_db) {
+							var cycle_id_array = [];
+							for (i = 0; i < cycle_value_from_db.length; i++) {
+								cycle_id_array[i] = cycle_value_from_db[i].id;
+							};
+							res.render('pages/form.ejs', {title: 'Form', 
+								//cycle_names_to_renderer: cycle_names_from_db, 
+								cycle_id_array_to_renderer: cycle_id_array,
+								cycle_id_to_renderer: {
+									//curr: current_cycle
+									curr: current_cycle[0].id
+								}
+							});
+						});
 					});
 				});
 			});
@@ -113,6 +218,8 @@ function find_next_previous_cycle(current_cycle_id, callback) {
 		callback(previous_cycle_id, next_cycle_id);
 	});
 };
+
+
 
 //
 //
@@ -213,85 +320,6 @@ function populate_x_axis_labels(full_date_range, x_time_taken) {
 	return x_label_values;
 }
 
-//
-//
-//
-//
-// 6 new functions: CE PLAYING WITH COOKIES:
-function check_browser_cookie(req, res, callback){
-	// save browser's cookie to browser_cookie_key via req.cookies:
-	var browser_cookie_key = req.cookies;
-	// access db table to verify whether browser_cookie_key matches any entries: 
-	// JE: MUST FIX: sql injection attack:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
-		// if query returns no results (ie, no browser cookie or browser cookie doesn't match any table entries): 
-		if (rows.length == 0) {
-			// call helper functions that will create new id, create new db table entry, and save new id to browser cookie cache. afterwards, declare callback with new_cookie_key to pass value forward to future functions: 
-			create_and_save_cookie_id(res, function(new_cookie_key) {
-				// passes newly-generated cookie key string forward to future functions:
-				callback(new_cookie_key);
-			});
-		} else {
-			// pass browser_cookie_key string forward to future functions:
-			callback(browser_cookie_key.cookie_key);
-		}
-	});
-}
-
-function make_id() {
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (var i = 0; i < 6; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-	};
-  return text;
-}
- 
-function insert_new_id_to_db_table(new_cookie_key, callback){
-	// insert new secret cookie id into db table: create new entry with a page_count value of 0 (this value will increment up to 1 in increment_pg_load function):
-	//JE: no sql injection attack risk b/c query is based off of just-made new cookie key:
-	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES (\"" + new_cookie_key + "\", '{\"page_count\":0}')", function(err, rows) { 
-		// since this was asynchronous, declare callback to direct traffic back to the calling function (rather than getting lost in space):	
-		callback(); 
-	});
-}
-
-function save_new_cookie_id_to_browser(res, new_cookie_key){
-	// exactly what the function name suggests: use res.setHeader to save newly-created cookie to browser's cache:
-	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
-}
-
-// create a new cookie key, save it to db table and save to browser's cookie cache; finish by declaring callback (which effectively passes secret_cookie_id forward to next function): 
-function create_and_save_cookie_id(res, callback) {
-	var secret_cookie_id = make_id();
-	insert_new_id_to_db_table(secret_cookie_id, function(){
-		save_new_cookie_id_to_browser(res, secret_cookie_id);
-		callback(secret_cookie_id);
-	});
-}
-
-// access pg load data from db table, increment it by 1, then push to relevant locations (update server and web page renderer): 
-function increment_pg_load(browser_cookie_key, callback) {
-	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_select) {
-		// parse out JSON-style data that db returned:
-		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
-		// save page_count portion of parsed data to its own variable:
-		var pg_load = parsed_rows.page_count;
-		// increment pg_load by 1 (because page loaded or refreshed to get to this portion of code):
-		pg_load += 1;
-		// update page_count portion of parsed_rows to equal the value of the incremented pg_load variable:
-		parsed_rows.page_count = pg_load;
-		// turn updated parsed_rows variable back to a JSON-style string:
-		var stringed_row = JSON.stringify(parsed_rows);
-		// update cookie_key_json table to reflect incremented page count data:
-		db.run_smart("UPDATE cookie_key_json SET session_data = '" + stringed_row + "' WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_update) {
-
-			callback(pg_load);
-		});
-	});
-};
 
 
 
