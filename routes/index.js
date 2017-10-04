@@ -298,8 +298,10 @@ function increment_pg_load(browser_cookie_key, callback) {
 
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get('/', function(req,res) {
+	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is passed forward to res.render, where the page count is printed on the rendered web page:
 	check_browser_cookie(req, res, function(secret_cookie) {
 		increment_pg_load(secret_cookie, function(pg_load) {
+
 			// print onto terminal browser's cache of cookies: 
 			console.log("Cookies from browser: ", req.cookies);
 			// store broswer's cache of cookies onto server variable: 
