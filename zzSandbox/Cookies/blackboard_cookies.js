@@ -52,3 +52,16 @@ router.get_pg_load('/', function(req, res) {
 		//...
 	});
 });
+
+/*
+tried to implement in index.js and get this error message: 
+
+/home/ruby/Projects/runcible/node_modules/sqlite3/lib/trace.js:27
+throw err;
+^
+
+ReferenceError: pg_load is not defined
+at Statement. (/home/ruby/Projects/runcible/routes/index.js:434:30)
+--> in Database#all('SELECT begin_date, date(begin_date, '-1 day') as 'end_date', strftime('%Y-%m-%d %H:%M:%S', begin_date) as 'begin_datetime', strftime('%Y-%m-%d %H:%M:%S', begin_date, '-1 day') as 'end_datetime' FROM cycles WHERE id = 9 or id = 10 ORDER BY begin_date', [Function])
+at Statement. (/home/ruby/Projects/runcible/routes/index.js:398:11)
+*/
