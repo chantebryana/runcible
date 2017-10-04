@@ -177,11 +177,17 @@ router.get('/form', function(req, res) {
 });
 
 router.get('/form_update', function(req, res) {
-	db.all(query='SELECT * FROM time_temp WHERE id = ' + req.query.id, function(err, rows_from_db) { 
-		console.log("attempted to query database with __" + query + "__");
-		res.render('pages/form_update.ejs', {title: 'Form Update', row_to_renderer: rows_from_db[0]});
+	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is can be passed forward to res.render, where the page count could be printed on the rendered web page; or the final page load variable can be printed onto the console for simplicity / testing purposes:
+	check_browser_cookie(req, res, function(secret_cookie) {
+		increment_pg_load(secret_cookie, function(pg_load) {
+			console.log('Total Page Loads After Loading Update Entry Form Page: ', pg_load);
+
+			db.all(query='SELECT * FROM time_temp WHERE id = ' + req.query.id, function(err, rows_from_db) { 
+				console.log("attempted to query database with __" + query + "__");
+				res.render('pages/form_update.ejs', {title: 'Form Update', row_to_renderer: rows_from_db[0]});
+			});
+		});
 	});
-	//res.render('pages/form_update.ejs', {title: 'Form Update', rows: rows});
 });
 
 // query db for a list of id's from 'cycles' table, ordered by date; pass the array via callback:
@@ -461,21 +467,35 @@ router.post('/formpost', function(req, res) {
 
 
 router.post('/deletepost', function(req, res) {
-	var query = "";
-	db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id_home"], function(err, rows) {
-		console.log("attempted to delete with ((" + query + "))");
-		//res.redirect('/');
-		// redirect to the cycle of the row I just deleted (not defaulting to most recent cycle): 
-		res.redirect('/?cycle=' + req.body["cycle_id"]);
+	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is can be passed forward to res.render, where the page count could be printed on the rendered web page; or the final page load variable can be printed onto the console for simplicity / testing purposes:
+	check_browser_cookie(req, res, function(secret_cookie) {
+		increment_pg_load(secret_cookie, function(pg_load) {
+			console.log('Total Page Loads After Posting Update Entry Form Page: ', pg_load);
+
+			var query = "";
+			db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id_home"], function(err, rows) {
+				console.log("attempted to delete with ((" + query + "))");
+				//res.redirect('/');
+				// redirect to the cycle of the row I just deleted (not defaulting to most recent cycle): 
+				res.redirect('/?cycle=' + req.body["cycle_id"]);
+			});
+		});
 	});
 });
 
 router.post('/form_post_update', function(req, res) {
-	var query = "";
-	db.all(query="UPDATE time_temp SET date=\"" + req.body["date"] + "\", time_taken=\"" + req.body["time_taken"] + "\", temp_f=" + req.body["temp_f"] + ", cycle_id=" + req.body["cycle_id"] + " WHERE id=" + req.body["id"], function(err, rows) {
-		console.log("attempted to update with ((" + query + "))");
-		// redirect to the cycle of the row I just updated (not defaulting to most recent cycle): 
-		res.redirect('/?cycle=' + req.body["cycle_id"]);
+	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is can be passed forward to res.render, where the page count could be printed on the rendered web page; or the final page load variable can be printed onto the console for simplicity / testing purposes:
+	check_browser_cookie(req, res, function(secret_cookie) {
+		increment_pg_load(secret_cookie, function(pg_load) {
+			console.log('Total Page Loads After Posting Update Entry Form Page: ', pg_load);
+
+			var query = "";
+			db.all(query="UPDATE time_temp SET date=\"" + req.body["date"] + "\", time_taken=\"" + req.body["time_taken"] + "\", temp_f=" + req.body["temp_f"] + ", cycle_id=" + req.body["cycle_id"] + " WHERE id=" + req.body["id"], function(err, rows) {
+				console.log("attempted to update with ((" + query + "))");
+				// redirect to the cycle of the row I just updated (not defaulting to most recent cycle): 
+				res.redirect('/?cycle=' + req.body["cycle_id"]);
+			});
+		});
 	});
 });
 
