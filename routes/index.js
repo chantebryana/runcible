@@ -134,9 +134,10 @@ function increment_pg_load(browser_cookie_key, callback) {
 ~~~
 */
 router.get('/form', function(req, res) {
-	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is passed forward to res.render, where the page count is printed on the rendered web page:
+	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is can be passed forward to res.render, where the page count could be printed on the rendered web page; or the final page load variable can be printed onto the console for simplicity / testing purposes:
 	check_browser_cookie(req, res, function(secret_cookie) {
 		increment_pg_load(secret_cookie, function(pg_load) {
+			console.log('Total Page Loads: ', pg_load);
 
 				var current_cycle_id = req.query.cycle;
 			get_first_and_last_cycle_id(function(first_cycle_id, last_cycle_id){
@@ -160,6 +161,7 @@ router.get('/form', function(req, res) {
 							};
 							res.render('pages/form.ejs', {title: 'Form', 
 								//cycle_names_to_renderer: cycle_names_from_db, 
+								// pg_load_to_renderer: pg_load,
 								cycle_id_array_to_renderer: cycle_id_array,
 								cycle_id_to_renderer: {
 									//curr: current_cycle
