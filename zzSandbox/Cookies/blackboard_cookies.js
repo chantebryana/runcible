@@ -67,6 +67,16 @@ router.get_pg_load = function get_pg_load(url_string, callback){
 	});
 }
 
+router.post_pg_load = function post_pg_load(url_string, callback) {
+	this.post(url_string, function(req, res){
+		check_browser_cookie(req, res, function(secret_cookie) {
+			increment_pg_load(secret_cookie, function(pg_load) {
+				callback(req, res, pg_load);
+			});
+		});
+	});
+}
+
 // in action: 
 router.get_pg_load('/', function(req, res) {
 	// ...
