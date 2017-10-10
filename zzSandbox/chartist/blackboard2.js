@@ -92,7 +92,7 @@ function logged_dates(callback) {
 */
 
 logged_dates(function(dates_logged){
-	console.log(dates_logged);
+	console.log('dates_logged: \n', dates_logged);
 
 
 // https://stackoverflow.com/questions/7114152/given-a-start-and-end-date-create-an-array-of-the-dates-between-the-two
@@ -106,7 +106,7 @@ var mil = (1000*60*60*24)// 24 hr in miliseconds
 for (var i = begin_datetime.getTime(); i < (end_datetime.getTime() + mil); i = i + mil) {
 	full_date_range.push(new Date(i));
 }
-console.log(full_date_range);
+console.log('full_date_range: \n', full_date_range);
 /* returns: 
 [ Mon Oct 15 2012 00:00:00 GMT-0500 (CDT),
   Tue Oct 16 2012 00:00:00 GMT-0500 (CDT),
@@ -128,7 +128,7 @@ for (var j = 0; j < full_date_range.length; j++) {
 		a_match[j] = 0; // 0 == 'false' clash
 	}
 }
-console.log(a_match);
+console.log('a_match: ', a_match);
 // returns: 
 // [ 1, 0, 0, 1, 1, 1, 1 ]
 
@@ -143,7 +143,7 @@ for (var i = 0; i < a_match.length; i++) {
 		y_temp_f[i] = undefined;
 	}
 }
-console.log(y_temp_f);
+console.log('y_temp_f: ', y_temp_f);
 // returns: 
 // [ 97.7, undefined, undefined, 98.2, 98.3, 98.3, 98.2 ]
 
@@ -158,7 +158,7 @@ for (var i = 0; i < a_match.length; i++) {
 		x_time_taken[i] = "";
 	}
 }
-console.log(x_time_taken);
+console.log('x_time_taken: ', x_time_taken);
 // returns: 
 // [ '07:30', '', '', '07:30', '09:00', '07:30', '11:30' ]
 
@@ -179,7 +179,7 @@ for (var i = 0; i < full_date_range.length; i++) {
 	x_label_values[i] = cycle_count + "\n" + day + "\n" + month + "-" + date + "\n" + time_taken;
 	cycle_count ++;
 }
-console.log(x_label_values);
+console.log('x_label_values: \n', x_label_values);
 
 });
 // returns: 
