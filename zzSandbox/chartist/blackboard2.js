@@ -8,12 +8,12 @@
 var dates_from_db = [
   { begin_date: '2012-11-01', 
     end_date: '2012-10-31', 
-    begin_datetime: '2012-11-01 00:00:00', 
-    end_datetime: '2012-10-31 00:00:00' }, 
+    begin_datetime: '2012-11-01 12:00:00', 
+    end_datetime: '2012-10-31 12:00:00' }, 
   { begin_date: '2012-11-07', 
     end_date: '2012-11-06', 
-    begin_datetime: '2012-11-07 00:00:00', 
-    end_datetime: '2012-11-06 00:00:00' } 
+    begin_datetime: '2012-11-07 12:00:00', 
+    end_datetime: '2012-11-06 12:00:00' } 
 ];
 
 /* datetime created from this query: 
@@ -28,7 +28,7 @@ var rows = [
     notes: '',
     entry_created: '2017-08-25 16:20:00',
     month_day: '11/02',
-    datetime: '2012-11-02 00:00:00' },
+    datetime: '2012-11-02 12:00:00' },
   { id: 212,
     date: '2012-11-04',
     time_taken: '09:45',
@@ -37,7 +37,7 @@ var rows = [
     notes: 'Standard Time Change: CST',
     entry_created: '2017-08-25 16:20:00',
     month_day: '11/04',
-    datetime: '2012-11-04 00:00:00' },
+    datetime: '2012-11-04 12:00:00' },
   { id: 213,
     date: '2012-11-05',
     time_taken: '07:30',
@@ -46,7 +46,7 @@ var rows = [
     notes: '',
     entry_created: '2017-08-25 16:20:00',
     month_day: '11/05',
-    datetime: '2012-11-05 00:00:00' },
+    datetime: '2012-11-05 12:00:00' },
   { id: 214,
     date: '2012-11-06',
     time_taken: '07:30',
@@ -55,7 +55,7 @@ var rows = [
     notes: '',
     entry_created: '2017-08-25 16:20:00',
     month_day: '11/06',
-    datetime: '2012-11-06 00:00:00' }
+    datetime: '2012-11-06 12:00:00' }
 ];
 // helpful resources: 
 // https://www.toptal.com/software/definitive-guide-to-datetime-manipulation:
