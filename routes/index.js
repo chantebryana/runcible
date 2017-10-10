@@ -255,11 +255,9 @@ function auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db) {
 		var end_datetime = new Date(rows_from_db[rows_from_db.length-1].datetime);
 	}
 	var full_date_range = [];
-	var mil = (1000*60*60*24)// 24 hr in miliseconds
-	// create for loop to push full date range (based on beginning and end datetimes) into array full_date_range:
-	// add mil to end_datetime.getTime() to add one more day to the iteration range:
-	// CE: I don't think this for() logic works for time changes:
-	for (var i = begin_datetime.getTime(); i < (end_datetime.getTime() + mil); i = i + mil) {
+	// create for loop to push full date range (based on beginning and end datetimes) into array full_date_range (this loop does work for time change):
+	for (var i = begin_datetime; i <= end_datetime; i.setDate(i.getDate() + 1)) {
+	full_date_range.push(new Date(i));
 		full_date_range.push(new Date(i));
 	}
 	// return the date range array for future use elsewhere:
