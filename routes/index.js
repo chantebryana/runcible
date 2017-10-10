@@ -236,7 +236,7 @@ function find_next_previous_cycle(current_cycle_id, callback) {
 // 6 functions that find and define the values of y-axis and labels for x-axis for chartist chart:
 // to be used in router.get('/'...): 
 
-// pull the dates logged in time_temp table and populate into array dates_logged:
+// pull the dates logged in time_temp table and populate into array dates_logged (used in comparison_key() ):
 function logged_dates(rows_from_db) {
 	var dates_logged = [];
 	for (var i = 0; i < rows_from_db.length; i++) {
@@ -244,7 +244,7 @@ function logged_dates(rows_from_db) {
 	}
 	return dates_logged	
 }
-// pull begin and end datetimes from cycles table and auto-populate a series of dates into full_date_range array: 
+// pull begin and end datetimes from cycles table and auto-populate a series of dates into full_date_range array (used in comparison_key() and populate_x_axis_labels() ): 
 function auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db) {
 	// define beginning datetime based on db query results:
 	var begin_datetime = new Date(dates_from_db[0].begin_datetime);
@@ -255,17 +255,15 @@ function auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db) {
 		var end_datetime = new Date(rows_from_db[rows_from_db.length-1].datetime);
 	}
 	var full_date_range = [];
-	var mil = (1000*60*60*24)// 24 hr in miliseconds
-	// create for loop to push full date range (based on beginning and end datetimes) into array full_date_range:
-	// add mil to end_datetime.getTime() to add one more day to the iteration range:
-	// CE: I don't think this for() logic works for time changes:
-	for (var i = begin_datetime.getTime(); i < (end_datetime.getTime() + mil); i = i + mil) {
+	// create for loop to push full date range (based on beginning and end datetimes) into array full_date_range (this loop does work for time change):
+	for (var i = begin_datetime; i <= end_datetime; i.setDate(i.getDate() + 1)) {
+	full_date_range.push(new Date(i));
 		full_date_range.push(new Date(i));
 	}
 	// return the date range array for future use elsewhere:
 	return full_date_range;
 }
-// compare dates_logged against full_date_range, and populate a new a_match array with 0's or 1's, depending on whether there's a match (0 == false, 1 == true):
+// compare dates_logged against full_date_range, and populate a new a_match array with 0's or 1's, depending on whether there's a match (0 == false, 1 == true). this is a helper function for many of the other methods below:
 function comparison_key(full_date_range, dates_logged) {
 	var a_match = [];
 	var count = 0;
@@ -279,7 +277,7 @@ function comparison_key(full_date_range, dates_logged) {
 	}
 	return a_match;
 }
-// pull temp_f data from time_temp table; iterate over a_match: if element is 1, then fill the same-indexed element of y_temp_f array with the temp_f data from time_temp table; else, fill y_temp_f with 'undefined'. y_temp_f feeds directly to chartist chart, and the undefined elements show up as gaps in the chart: 
+// pull temp_f data from time_temp table; iterate over a_match (from comparison_key() ): if element is 1, then fill the same-indexed element of y_temp_f array with the temp_f data from time_temp table; else, fill y_temp_f with 'undefined'. y_temp_f feeds directly to chartist chart, and the undefined elements show up as gaps in the chart: 
 function populate_y_axis_data(a_match, rows_from_db) {
 	var y_temp_f = [];
 	var count = 0;
@@ -293,7 +291,7 @@ function populate_y_axis_data(a_match, rows_from_db) {
 	}
 	return y_temp_f;
 }
-// pull time_taken data from time_temp table; iterate over a_match: if element is 1, then fill the same-indexed element of x_time_taken array with the time_taken data from time_temp table; else, fill x_time_taken with '' empty string. x_time_taken array will be used later to populate the labels for the x-axis of chartist chart:  
+// pull time_taken data from time_temp table; iterate over a_match(from comparison_key() ): if element is 1, then fill the same-indexed element of x_time_taken array with the time_taken data from time_temp table; else, fill x_time_taken with '' empty string. x_time_taken array will be used later in populate_x_axis_labels() to populate the labels for the x-axis of chartist chart:  
 function logged_time_taken(a_match, rows_from_db) {
 	var x_time_taken = [];
 	var count = 0;
@@ -307,7 +305,7 @@ function logged_time_taken(a_match, rows_from_db) {
 	}
 	return x_time_taken;
 }
-// populate the labels for the x-axis of chartist chart with array x_label_values.  Include data from full_date_range and time_taken, with gaps in data as appropriate (the time_taken value is just an empty string '' if there's no y-axis temp_f, for instance): 
+// populate the labels for the x-axis of chartist chart with array x_label_values.  Include data from full_date_range (from auto_compute_date_range() ) and x_time_taken (from logged_time_taken() ), with gaps in data as appropriate (the time_taken value is just an empty string '' if there's no y-axis temp_f, for instance): 
 function populate_x_axis_labels(full_date_range, x_time_taken) {
 	var x_label_values = []
 	var cycle_count = 1;
@@ -391,8 +389,8 @@ router.get('/', function(req,res) {
 
 								var dates_logged = logged_dates(rows_from_db);
 								var full_date_range = auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db);
-								console.log('full_date_range: ');
-								console.log(full_date_range);
+								//console.log('full_date_range: ');
+								//console.log(full_date_range);
 								var a_match = comparison_key(full_date_range, dates_logged);
 								var y_temp_f = populate_y_axis_data(a_match, rows_from_db);
 								var x_time_taken = logged_time_taken(a_match, rows_from_db);
