@@ -40,6 +40,17 @@ db.run_smart = function run_smart(query_string, callback){
   });
 }
 
+// here goes nothing: 
+router.get_pg_load = function get_pg_load(url_string, callback){
+	this.get(url_string, function(req, res){
+		check_browser_cookie(req, res, function(secret_cookie) {
+			increment_pg_load(secret_cookie, function(pg_load) {
+				callback(req, res, pg_load);
+			});
+		});
+	});
+}
+
 
 //
 //
@@ -339,10 +350,11 @@ function populate_x_axis_labels(full_date_range, x_time_taken) {
 ~~~
 */
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
-router.get('/', function(req,res) {
+//router.get('/', function(req,res) {
+router.get_pg_load('/', function(req, res, pg_load) {
 	// next two functions check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is passed forward to res.render, where the page count is printed on the rendered web page:
-	check_browser_cookie(req, res, function(secret_cookie) {
-		increment_pg_load(secret_cookie, function(pg_load) {
+	//check_browser_cookie(req, res, function(secret_cookie) {
+		//increment_pg_load(secret_cookie, function(pg_load) {
 
 			// print onto terminal browser's cache of cookies: 
 			console.log("Cookies from browser: ", req.cookies);
@@ -426,8 +438,8 @@ router.get('/', function(req,res) {
 					});
 				});
 			});
-		});
-	});
+//		});
+//	});
 });
 
 router.post('/formpost', function(req, res) {
