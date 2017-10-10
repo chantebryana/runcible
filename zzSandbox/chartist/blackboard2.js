@@ -29,15 +29,6 @@ var rows = [
     entry_created: '2017-08-25 16:20:00',
     month_day: '11/02',
     datetime: '2012-11-02 00:00:00' },
-  { id: 211,
-    date: '2012-11-03',
-    time_taken: '09:30',
-    temp_f: 97.7,
-    cycle_id: 8,
-    notes: '',
-    entry_created: '2017-08-25 16:20:00',
-    month_day: '11/03',
-    datetime: '2012-11-03 00:00:00' },
   { id: 212,
     date: '2012-11-04',
     time_taken: '09:45',
@@ -120,11 +111,14 @@ console.log('full_date_range: \n', full_date_range);
 // compare full_date_range against dates_logged, and populate an array that says whether the match is true (1) or false(0): 
 var a_match = [];
 var count = 0;
+console.log('a_match parameters: ');
 for (var j = 0; j < full_date_range.length; j++) {
 	if (full_date_range[j] - dates_logged[count] == 0) { // can't directly compare two date objects, but I can indirectly manipulate their results for comparison
+		console.log(full_date_range[j], dates_logged[count]);
 		a_match[j] = 1; // 1 == 'true' match
 		count ++;
 	} else {
+		console.log(full_date_range[j], dates_logged[count]);
 		a_match[j] = 0; // 0 == 'false' clash
 	}
 }
