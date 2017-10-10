@@ -252,6 +252,7 @@ function logged_dates(rows_from_db) {
 	for (var i = 0; i < rows_from_db.length; i++) {
 		dates_logged[i] = new Date(rows_from_db[i].datetime);
 	}
+	//console.log('dates_logged: \n', dates_logged);
 	return dates_logged	
 }
 // pull begin and end datetimes from cycles table and auto-populate a series of dates into full_date_range array (used in comparison_key() and populate_x_axis_labels() ): 
@@ -267,9 +268,9 @@ function auto_compute_date_range(next_cycle_id, dates_from_db, rows_from_db) {
 	var full_date_range = [];
 	// create for loop to push full date range (based on beginning and end datetimes) into array full_date_range (this loop does work for time change):
 	for (var i = begin_datetime; i <= end_datetime; i.setDate(i.getDate() + 1)) {
-	full_date_range.push(new Date(i));
 		full_date_range.push(new Date(i));
 	}
+	//console.log('full_date_range: \n', full_date_range);
 	// return the date range array for future use elsewhere:
 	return full_date_range;
 }
@@ -285,6 +286,7 @@ function comparison_key(full_date_range, dates_logged) {
 			a_match[j] = 0; // 0 == 'false' clash
 		}
 	}
+	//console.log('a_match: ', a_match);
 	return a_match;
 }
 // pull temp_f data from time_temp table; iterate over a_match (from comparison_key() ): if element is 1, then fill the same-indexed element of y_temp_f array with the temp_f data from time_temp table; else, fill y_temp_f with 'undefined'. y_temp_f feeds directly to chartist chart, and the undefined elements show up as gaps in the chart: 
@@ -299,6 +301,7 @@ function populate_y_axis_data(a_match, rows_from_db) {
 			y_temp_f[i] = undefined;
 		}
 	}
+	//console.log('y_temp_f: ', y_temp_f);
 	return y_temp_f;
 }
 // pull time_taken data from time_temp table; iterate over a_match(from comparison_key() ): if element is 1, then fill the same-indexed element of x_time_taken array with the time_taken data from time_temp table; else, fill x_time_taken with '' empty string. x_time_taken array will be used later in populate_x_axis_labels() to populate the labels for the x-axis of chartist chart:  
@@ -313,6 +316,7 @@ function logged_time_taken(a_match, rows_from_db) {
 			x_time_taken[i] = "_____";
 		}
 	}
+	//console.log('x_time_taken: ', x_time_taken);
 	return x_time_taken;
 }
 // populate the labels for the x-axis of chartist chart with array x_label_values.  Include data from full_date_range (from auto_compute_date_range() ) and x_time_taken (from logged_time_taken() ), with gaps in data as appropriate (the time_taken value is just an empty string '' if there's no y-axis temp_f, for instance): 
@@ -333,6 +337,7 @@ function populate_x_axis_labels(full_date_range, x_time_taken) {
 		// x_label_values[i] = "\"" + month + "-" + date + "\\n" + time_taken + "\"";
 		cycle_count ++;
 	}
+	//console.log('x_label_values: \n', x_label_values);
 	return x_label_values;
 }
 
