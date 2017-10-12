@@ -25,7 +25,7 @@ var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
 
-var run_smart = require('./routes/test_module_export');
+var run_smart = require('./test_module_export');
 app.use('/', run_smart);
 /*
 //
