@@ -9,7 +9,11 @@ var cookie = require('cookie');  // https://www.npmjs.com/package/cookie
 var cookie_var = ""; // CE: temporary cookie variable
 var bodyParser = require('body-parser');
 
+var run_smart = require('./test_module_export');
+
 var app = express();
+
+app.use('/', run_smart);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,8 +29,7 @@ var file = 'fam_beta.db';
 var db = new sqlite3.Database(file);
 
 
-var run_smart = require('./test_module_export');
-app.use('/', run_smart);
+
 /*
 //
 //
