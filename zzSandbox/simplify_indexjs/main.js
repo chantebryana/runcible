@@ -3,7 +3,7 @@
 var fs = require("fs");
 
 // Asynchronous read
-fs.readFile('./zzSandbox/simplify_indexjs/input.txt', function (err, data) {
+fs.readFile('./input.txt', function (err, data) {
   if (err) {
     return console.error('<<<>>>', err);
   }
@@ -11,7 +11,7 @@ fs.readFile('./zzSandbox/simplify_indexjs/input.txt', function (err, data) {
 });
 
 // Synchronous read
-var data = fs.readFileSync('./zzSandbox/simplify_indexjs/input.txt');
+var data = fs.readFileSync('./input.txt');
 console.log("Synchronous read: " + data.toString());
 
 console.log('Program ended');
