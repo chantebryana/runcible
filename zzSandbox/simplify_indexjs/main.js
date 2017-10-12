@@ -11,7 +11,7 @@ fs.readFile('input.txt', function (err, data) {
 });
 */
 // Synchronous read
-var data = fs.readFileSync('./input.txt');
+var data = fs.readFileSync('./zzSandbox/simplify_indexjs/input.txt');
 console.log("Synchronous read: " + data.toString());
 
 console.log('Program ended');
