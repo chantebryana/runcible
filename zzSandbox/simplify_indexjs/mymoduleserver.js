@@ -4,15 +4,14 @@
 var http = require('http');
 var dt = require('./myfirstmodule');
 var fs = require('fs');
+// synchronous fs: 
 var data = fs.readFileSync('demofile1.html');
 
 http.createServer(function(req,res) {
-	//fs.readFile('demofile1.html', function(err, data) {
-		res.writeHead(200, {'Content-Type': 'text/html'});
-		res.write(eval('data'));
-		res.write('The date and time are currently: ' + dt.myDateTime());
-		res.end();
-	//});
+	res.writeHead(200, {'Content-Type': 'text/html'});
+	res.write(eval('data'));
+	res.write('The date and time are currently: ' + dt.myDateTime());
+	res.end();
 }).listen(8080);
 
 
