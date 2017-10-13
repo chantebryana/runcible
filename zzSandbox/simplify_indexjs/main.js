@@ -2,23 +2,26 @@
 
 var fs = require("fs");
 
-// remove a directory 'test'
-console.log("Going to delete directory /tmp/test");
-fs.rmdir("/tmp/test",function(err){
+var fs = require("fs");
+
+// Chauncy's adaptation of reading directory:
+// save contents to array then print out the array to console:  
+console.log("Going to read directory /home/ruby/Projects/runcible/zzSandbox/simplify_indexjs");
+fs.readdir("/home/ruby/Projects/runcible/zzSandbox/simplify_indexjs",function(err, files){
   if (err) {
     return console.error(err);
   }
-  console.log("Going to read directory /tmp");
-   
-  fs.readdir("/tmp/",function(err, files){
-    if (err) {
-      return console.error(err);
-    }
-    files.forEach( function (file){
-      console.log( file );
-    });
+	var file_array = [];
+  files.forEach( function (file){
+    //console.log( file );
+		file_array.push(file);
+	  //return file_array;
   });
+	for (var i = 0; i < file_array.length; i++) {
+		console.log(file_array[i]);
+	}
 });
+
 
 /*
 // Asynchronous read
