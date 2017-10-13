@@ -20,7 +20,7 @@ fs.readdir("/home/ruby/Projects/runcible/routes",function(err, files){
 });
 
 
-/*
+
 // Asynchronous read
 fs.readFile('./input.txt', function (err, data) {
   if (err) {
@@ -38,8 +38,10 @@ console.log("Synchronous read: " + data.toString());
 //eval line here
 
 console.log('Program ended');
-*/
 
+//https://nodejs.org/api/fs.html
+var directory_path = fs.readdirSync("/home/ruby/Projects/runcible/routes");
+console.log("syncrounous directory read: " + directory_path.toString());
 
 
 
