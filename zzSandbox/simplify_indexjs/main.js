@@ -2,12 +2,10 @@
 
 var fs = require("fs");
 
-var fs = require("fs");
-
 // Chauncy's adaptation of reading directory:
 // save contents to array then print out the array to console:  
-console.log("Going to read directory /home/ruby/Projects/runcible/zzSandbox/simplify_indexjs");
-fs.readdir("/home/ruby/Projects/runcible/zzSandbox/simplify_indexjs",function(err, files){
+console.log("Going to read directory /home/ruby/Projects/runcible/routes");
+fs.readdir("/home/ruby/Projects/runcible/routes",function(err, files){
   if (err) {
     return console.error(err);
   }
@@ -15,11 +13,10 @@ fs.readdir("/home/ruby/Projects/runcible/zzSandbox/simplify_indexjs",function(er
   files.forEach( function (file){
     //console.log( file );
 		file_array.push(file);
-	  //return file_array;
   });
-	for (var i = 0; i < file_array.length; i++) {
-		console.log(file_array[i]);
-	}
+	file_array.forEach( function (file_array) {
+		console.log(file_array);
+	});
 });
 
 
