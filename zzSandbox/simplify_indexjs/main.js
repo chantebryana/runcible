@@ -2,6 +2,22 @@
 
 var fs = require("fs");
 
+// asynchronously open a file using fs
+console.log('Going to get file info!');
+
+fs.stat('input.txt', function(err, stats) {
+	if (err) {
+		return console.error(err);
+	}
+	console.log(stats);
+	console.log('Got file info successfully!');
+
+	// check file type: 
+	console.log('isFile ? ' + stats.isFile());
+	console.log('isDirectory ? ' + stats.isDirectory());
+});
+
+/*
 // Asynchronous read
 fs.readFile('./input.txt', function (err, data) {
   if (err) {
@@ -19,7 +35,7 @@ console.log("Synchronous read: " + data.toString());
 //eval line here
 
 console.log('Program ended');
-
+*/
 
 
 
