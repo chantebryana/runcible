@@ -5,8 +5,3 @@ exports.myDateTime = function() {
 	return Date();
 }
 
-/*
-myDateTime = function() {
-	return Date();
-}
-*/
