@@ -2,31 +2,23 @@
 
 var fs = require("fs");
 
-// asynchronously create a directory using fs (creates directory at root: tricky because 'tmp' already existed: I don't want to mess that up!)
-// if I try to create a new directory 'test' in another new directory 'chompy', I get error messages. apparently i need to create a new directory within an existing framework, an additional already existing directory. playing more with this.
-console.log('Going to create directory /tmp/test');
-
-//fs.mkdir('/tmp/test', function(err) {
-fs.mkdir('/chompy/test', function(err) {
-	if (err) {
-		return console.error(err);
-	}
-	console.log('Directory created successfully!');
+// remove a directory 'test'
+console.log("Going to delete directory /tmp/test");
+fs.rmdir("/tmp/test",function(err){
+  if (err) {
+    return console.error(err);
+  }
+  console.log("Going to read directory /tmp");
+   
+  fs.readdir("/tmp/",function(err, files){
+    if (err) {
+      return console.error(err);
+    }
+    files.forEach( function (file){
+      console.log( file );
+    });
+  });
 });
-
-// asynchronously open a directory using fs
-console.log('Going to read directory /tmp');
-
-// fs.readdir('/tmp/', function(err, files) {
-fs.readdir('/chompy/', function(err, files) {
-	if (err) {
-		return console.error(err);
-	}
-	files.forEach( function (file) {
-		console.log(file);
-	});
-});
-
 
 /*
 // Asynchronous read
