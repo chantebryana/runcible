@@ -1,44 +1,38 @@
 // https://expressjs.com/en/starter/hello-world.html
 // https://scotch.io/tutorials/use-ejs-to-template-your-node-application
 
-var express = require('express');
-var path = require('path'); // makes app.use(express.static ... work down below
+express = require('express');
+path = require('path'); // makes app.use(express.static ... work down below
 
-var cookieParser = require('cookie-parser');
-var cookie = require('cookie');  // https://www.npmjs.com/package/cookie
-var cookie_var = ""; // CE: temporary cookie variable
-var bodyParser = require('body-parser');
+cookieParser = require('cookie-parser');
+cookie = require('cookie');  // https://www.npmjs.com/package/cookie
+cookie_var = ""; // CE: temporary cookie variable
+bodyParser = require('body-parser');
 
-var app = express();
+app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public'))); // accesses public directory
 
-var router = app;//express.Router();
+router = app;//express.Router();
 app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
 
 // global variables to open and access database
-var sqlite3 = require('sqlite3').verbose();
-var file = 'fam_beta.db';
-var db = new sqlite3.Database(file);
+sqlite3 = require('sqlite3').verbose();
+file = 'fam_beta.db';
+db = new sqlite3.Database(file);
+
+//
+//
+//
+//
+//CE: all the requires!
+require('/home/ruby/Projects/runcible/routes/run_smart');
 
 
-//
-//
-//
-//
-// Jim's homemade error-checking function that replaces db.all:
-db.run_smart = function run_smart(query_string, callback){
-  this.all(query_string, function(err, rows){
-    if(err) {
-      console.log(err);
-    } else {
-    	callback(err, rows);
-		}
-  });
-}
+
 
 // .get_pg_load combines the features of .get with the homemade functions check_browser_cookie() and increment_pg_load(), which together do the following: check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is passed forward to res.render, where the page count is printed on the rendered web page:
 router.get_pg_load = function get_pg_load(url_string, callback){
