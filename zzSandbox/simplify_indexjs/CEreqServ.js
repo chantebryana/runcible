@@ -5,7 +5,7 @@ require('./myfirstmodule');
 http.createServer(function(req,res) {
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.write('Hello World!');
-	res.write(myDateTime);
+	res.write(myDateTime); // CE: use variable / namespace WITHIN file, not one assigned here,like on line 2. different paradigm.
 	//res.write(dt); // CE with line 2: error. JE: doesn't work b/c dt is undefined b/c there's no module.exports in included file
 	//res.write(require('./myfirstmodule')); // CE error
 	//res.write(Date()); // CE this worked
