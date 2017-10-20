@@ -10,5 +10,5 @@ for (var i = 0; i < dir.length; i++) {
 
 // print elements of dir_js array to ensure that everything's working: 
 for (var i = 0; i < dir_js.length; i++) {
-	console.log(dir_js[i]);
+	console.log('/usr/dir1/dir2/project/' + dir_js[i]);
 };
