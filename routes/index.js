@@ -33,7 +33,7 @@ require('/home/ruby/Projects/runcible/routes/helper_func/run_smart');
 //require('/home/ruby/Projects/runcible/routes/helper_func/get_pg_load');
 //require('/home/ruby/Projects/runcible/routes/cookie_pg_load_helpers');
 
-
+/*
 // .post_pg_load combines the features of .post with the homemade functions check_browser_cookie() and increment_pg_load(), which together do the following: check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is passed forward to res.render, where the page count is printed on the rendered web page:
 router.post_pg_load = function post_pg_load(url_string, callback) {
 	this.post(url_string, function(req, res){
@@ -44,7 +44,7 @@ router.post_pg_load = function post_pg_load(url_string, callback) {
 		});
 	});
 }
-
+*/
 
 //
 //
@@ -129,6 +129,7 @@ increment_pg_load = function increment_pg_load(browser_cookie_key, callback) {
 
 
 require('/home/ruby/Projects/runcible/routes/helper_func/get_pg_load');
+require('/home/ruby/Projects/runcible/routes/helper_func/post_pg_load');
 
 /*
 ~~~
