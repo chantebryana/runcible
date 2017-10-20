@@ -29,6 +29,7 @@ db = new sqlite3.Database(file);
 //
 //
 //CE: all the requires!
+// require helper functions: 
 require('/home/ruby/Projects/runcible/routes/helper_func/run_smart');
 require('/home/ruby/Projects/runcible/routes/helper_func/cookie_pg_load_helpers');
 require('/home/ruby/Projects/runcible/routes/helper_func/get_pg_load');
@@ -36,14 +37,13 @@ require('/home/ruby/Projects/runcible/routes/helper_func/post_pg_load');
 require('/home/ruby/Projects/runcible/routes/helper_func/id_date_range_helpers');
 require('/home/ruby/Projects/runcible/routes/helper_func/x-y_axis_helpers');
 
-
+// require URL handlers: 
+require('/home/ruby/Projects/runcible/routes/URL_handlers/home_pg');
 require('/home/ruby/Projects/runcible/routes/URL_handlers/form');
 require('/home/ruby/Projects/runcible/routes/URL_handlers/form_update');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/home_pg');
 require('/home/ruby/Projects/runcible/routes/URL_handlers/form_post');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/delete_post');
 require('/home/ruby/Projects/runcible/routes/URL_handlers/form_post_update');
-
+require('/home/ruby/Projects/runcible/routes/URL_handlers/delete_post');
 
 
 
