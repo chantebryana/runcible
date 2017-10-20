@@ -24,10 +24,7 @@ sqlite3 = require('sqlite3').verbose();
 file = 'fam_beta.db';
 db = new sqlite3.Database(file);
 
-//
-//
-//
-//
+
 //CE: all the requires!
 // require helper functions: 
 require('/home/ruby/Projects/runcible/routes/helper_func/run_smart');
@@ -45,35 +42,10 @@ require('/home/ruby/Projects/runcible/routes/URL_handlers/form_post');
 require('/home/ruby/Projects/runcible/routes/URL_handlers/form_post_update');
 require('/home/ruby/Projects/runcible/routes/URL_handlers/delete_post');
 
+// temporary URL handlers: 
+require('/home/ruby/Projects/runcible/routes/URL_handlers/cookie');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/clear_cookie');
 
-
-router.get('/cookie', function(req,res){
-	// sets the initial cookie by hand for testing purposes: 
-	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', 'aaa111'));
-	// save browser's cookie to browser_cookie_key via req.cookies:
-	var browser_cookie_key = req.cookies;
-	console.log("browser_cookie_key: ", browser_cookie_key);
-	// access db table to verify whether browser_cookie_key.cookie_key matches any entries:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
-		console.log("rows: ", rows);
-		// if cookie doesn't match any db table entries, for now, print to console a message saying so:
-		if (rows.length == 0) {
-			console.log("rows.length == 0: no match");
-		// if cookie does match a db table entry, for now, print to console a message saying so:
-		} else { // if (rows.length != 0)
-			console.log("there's a match!");
-			console.log(rows);
-		}
-	});
-	res.send('Cookie\'s sent!');
-});
-
-router.get('/clearcookie', function(req,res){
-	// remove page_loads cookie from browser cache (and subsequently from the server's attempts to access browser's cache): 
-	res.clearCookie('cookie_key');
-	// send a message to the web page to let the user know something happened: 
-	res.send('Cookie deleted');
-});
 
 app.listen(3000, function() {
 	console.log('index.js listening on port 3000!');
