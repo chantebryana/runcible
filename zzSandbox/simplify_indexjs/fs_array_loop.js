@@ -1,18 +1,14 @@
 dir = ['a.js', 'b.js', 'c.html', 'd.js', 'e.jpg'];
+dir_js = [];
 
 for (var i = 0; i < dir.length; i++) {
-	// if last three characters of string is '.js', then console.log:
+	// if last three characters of string is '.js', then push elements to dir_js array:
 	if (dir[i].slice(-3) == '.js') {
-		console.log(dir[i]);
+		dir_js.push(dir[i]);
 	}
 };
 
-//var lastChar = myString[myString.length -1];
-
-//console.log(dir[0].length -3);
-//console.log(dir[0].charAt(dir[0].length -3));
-//subst = dir[0].substring(3, -1);
-//subst = dir[0].substr(-1, 4);
-//subst = dir[0].includes('.js');
-subst = dir[0].slice(-3);
-console.log(subst)
+// print elements of dir_js array to ensure that everything's working: 
+for (var i = 0; i < dir_js.length; i++) {
+	console.log(dir_js[i]);
+};
