@@ -1,5 +1,5 @@
 // 6 new global functions: CE PLAYING WITH COOKIES:
-function check_browser_cookie(req, res, callback){
+check_browser_cookie = function check_browser_cookie(req, res, callback){
 	// save browser's cookie to browser_cookie_key via req.cookies:
 	var browser_cookie_key = req.cookies;
 	// access db table to verify whether browser_cookie_key matches any entries: 
@@ -53,7 +53,7 @@ function create_and_save_cookie_id(res, callback) {
 }
 
 // access pg load data from db table, increment it by 1, then push to relevant locations (update server and web page renderer): 
-function increment_pg_load(browser_cookie_key, callback) {
+increment_pg_load = function increment_pg_load(browser_cookie_key, callback) {
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
 	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_select) {
 		// parse out JSON-style data that db returned:
@@ -73,5 +73,3 @@ function increment_pg_load(browser_cookie_key, callback) {
 		});
 	});
 };
-
-
