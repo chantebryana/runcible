@@ -2,10 +2,7 @@
 // https://www.w3schools.com/nodejs/nodejs_filesystem.asp
 // CE: includes some personal adaptations as I try to merge the ideas of fs and eval together!
 var http = require('http');
-
-// CE: removing var to play with global variables like Jim described
-//var dt = require('./myfirstmodule');
-//dt = require('./myfirstmodule');
+//require Jim's way:
 require('./myfirstmodule');
 
 var fs = require('fs');
@@ -23,9 +20,8 @@ for (var i = 0; i < dir.length; i++) {
 http.createServer(function(req,res) {
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.write(eval('data'));
-	// res.write('The date and time are currently: ' + dt.myDateTime());
-	//res.write(dt);
-	res.write(myDateTime);
+	// access myDateTime variable as made available via require('./myfirstmodule') above:
+	res.write('The date and time are currently: ' + myDateTime);
 	res.end();
 }).listen(8080);
 
