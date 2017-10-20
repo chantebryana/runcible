@@ -34,18 +34,6 @@ require('/home/ruby/Projects/runcible/routes/helper_func/run_smart');
 //require('/home/ruby/Projects/runcible/routes/cookie_pg_load_helpers');
 
 
-
-// .get_pg_load combines the features of .get with the homemade functions check_browser_cookie() and increment_pg_load(), which together do the following: check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is passed forward to res.render, where the page count is printed on the rendered web page:
-router.get_pg_load = function get_pg_load(url_string, callback){
-	this.get(url_string, function(req, res){
-		check_browser_cookie(req, res, function(secret_cookie) {
-			increment_pg_load(secret_cookie, function(pg_load) {
-				callback(req, res, pg_load);
-			});
-		});
-	});
-}
-
 // .post_pg_load combines the features of .post with the homemade functions check_browser_cookie() and increment_pg_load(), which together do the following: check browser for secret cookie id (and creates and saves [to browser cookie cache and to db table on server side] a new one if needed), and then accesses the page load variable and increments it up by 1. the final page load variable is passed forward to res.render, where the page count is printed on the rendered web page:
 router.post_pg_load = function post_pg_load(url_string, callback) {
 	this.post(url_string, function(req, res){
@@ -118,7 +106,7 @@ function create_and_save_cookie_id(res, callback) {
 }
 
 // access pg load data from db table, increment it by 1, then push to relevant locations (update server and web page renderer): 
-function increment_pg_load(browser_cookie_key, callback) {
+increment_pg_load = function increment_pg_load(browser_cookie_key, callback) {
 	// based on secret browser key, look up appropriate row from cookie_key_json db table using Jim's db.run_smart instead of db.all:
 	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_select) {
 		// parse out JSON-style data that db returned:
@@ -140,7 +128,7 @@ function increment_pg_load(browser_cookie_key, callback) {
 };
 
 
-//require('/home/ruby/Projects/runcible/routes/helper_func/get_pg_load');
+require('/home/ruby/Projects/runcible/routes/helper_func/get_pg_load');
 
 /*
 ~~~
