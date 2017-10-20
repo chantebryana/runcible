@@ -63,7 +63,8 @@ router.post_pg_load = function post_pg_load(url_string, callback) {
 //
 //
 // 6 new global functions: CE PLAYING WITH COOKIES:
-function check_browser_cookie(req, res, callback){
+//JEJEJEJEJE:
+check_browser_cookie = function check_browser_cookie(req, res, callback){
 	// save browser's cookie to browser_cookie_key via req.cookies:
 	var browser_cookie_key = req.cookies;
 	// access db table to verify whether browser_cookie_key matches any entries: 
