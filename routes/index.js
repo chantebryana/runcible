@@ -27,24 +27,24 @@ db = new sqlite3.Database(file);
 
 //CE: all the requires!
 // require helper functions: 
-require('/home/ruby/Projects/runcible/routes/helper_func/010_run_smart');
-require('/home/ruby/Projects/runcible/routes/helper_func/020_cookie_pg_load_helpers');
-require('/home/ruby/Projects/runcible/routes/helper_func/030_get_pg_load');
-require('/home/ruby/Projects/runcible/routes/helper_func/040_post_pg_load');
-require('/home/ruby/Projects/runcible/routes/helper_func/050_id_date_range_helpers');
-require('/home/ruby/Projects/runcible/routes/helper_func/060_x-y_axis_helpers');
+require('/home/ruby/Projects/runcible/routes/helper_func/run_smart');
+require('/home/ruby/Projects/runcible/routes/helper_func/cookie_pg_load_helpers');
+require('/home/ruby/Projects/runcible/routes/helper_func/get_pg_load');
+require('/home/ruby/Projects/runcible/routes/helper_func/post_pg_load');
+require('/home/ruby/Projects/runcible/routes/helper_func/id_date_range_helpers');
+require('/home/ruby/Projects/runcible/routes/helper_func/x-y_axis_helpers');
 
 // require URL handlers: 
-require('/home/ruby/Projects/runcible/routes/URL_handlers/010_home_pg');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/020_form');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/030_form_update');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/040_form_post');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/050_form_post_update');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/060_delete_post');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/home_pg');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/form');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/form_update');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/form_post');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/form_post_update');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/delete_post');
 
 // temporary URL handlers: 
-require('/home/ruby/Projects/runcible/routes/URL_handlers/070_cookie');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/080_clear_cookie');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/cookie');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/clear_cookie');
 
 
 app.listen(3000, function() {
@@ -52,7 +52,7 @@ app.listen(3000, function() {
 });
 
 /*
-after renaming files I get this error: 
+shoot, got the same error after I reverted the names. Maybe I accidentally modified some other code which is breaking index.js?
 
 ruby@rubyVM:~/Projects/runcible$ node routes/index.js 
 index.js listening on port 3000!
@@ -71,6 +71,6 @@ Error: listen EADDRINUSE :::3000
     at Module._compile (module.js:409:26)
     at Object.Module._extensions..js (module.js:416:10)
     at Module.load (module.js:343:32)
+ruby@rubyVM:~/Projects/runcible$ 
 
 */
-
