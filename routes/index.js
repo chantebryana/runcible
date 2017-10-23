@@ -30,6 +30,7 @@ dir_url_handlers = fs.readdirSync('/home/ruby/Projects/runcible/routes/URL_handl
 js_helper_func = [];
 js_url_handlers = [];
 
+// next 2 for loops: access file system using fs, push .js files into an array which will be required in the next segment below:
 for (var i = 0; i < dir_helper_func.length; i++) {
 	if (dir_helper_func[i].slice(-3) == '.js') {
 		js_helper_func.push(dir_helper_func[i]);
@@ -42,36 +43,16 @@ for (var i = 0; i < dir_url_handlers.length; i++) {
 	}
 };
 
-// print elements of js_helper_func and js_url_handlers arrays to ensure that everything's working: 
-console.log('\njs_helper_func files: ');
+//CE: all the requires, now in concentrate!
+// require helper functions:
 for (var i = 0; i < js_helper_func.length; i++) {
-	console.log('/home/ruby/Projects/runcible/routes/helper_func/' + js_helper_func[i]);
+	require('/home/ruby/Projects/runcible/routes/helper_func/' + js_helper_func[i]);
 };
-console.log('\njs_url_handlers files: ');
-for (var i = 0; i < js_url_handlers.length; i++) {
-	console.log('/home/ruby/Projects/runcible/routes/URL_handlers/' + js_url_handlers[i]);
-};
-
-//CE: all the requires!
-// require helper functions: 
-require('/home/ruby/Projects/runcible/routes/helper_func/010_run_smart');
-require('/home/ruby/Projects/runcible/routes/helper_func/020_cookie_pg_load_helpers');
-require('/home/ruby/Projects/runcible/routes/helper_func/030_get_pg_load');
-require('/home/ruby/Projects/runcible/routes/helper_func/040_post_pg_load');
-require('/home/ruby/Projects/runcible/routes/helper_func/050_id_date_range_helpers');
-require('/home/ruby/Projects/runcible/routes/helper_func/060_x-y_axis_helpers');
 
 // require URL handlers: 
-require('/home/ruby/Projects/runcible/routes/URL_handlers/010_home_pg');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/020_form');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/030_form_update');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/040_form_post');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/050_form_post_update');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/060_delete_post');
-
-// temporary URL handlers: 
-require('/home/ruby/Projects/runcible/routes/URL_handlers/070_cookie');
-require('/home/ruby/Projects/runcible/routes/URL_handlers/080_clear_cookie');
+for (var i = 0; i < js_url_handlers.length; i++) {
+	require('/home/ruby/Projects/runcible/routes/URL_handlers/' + js_url_handlers[i]);
+};
 
 
 app.listen(3000, function() {
