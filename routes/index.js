@@ -8,6 +8,7 @@ cookieParser = require('cookie-parser');
 cookie = require('cookie');  // https://www.npmjs.com/package/cookie
 cookie_var = ""; // CE: temporary cookie variable
 bodyParser = require('body-parser');
+fs = require('fs'); // CE: set this up for file system access (use for all the requires below)
 
 app = express();
 
@@ -24,6 +25,18 @@ sqlite3 = require('sqlite3').verbose();
 file = 'fam_beta.db';
 db = new sqlite3.Database(file);
 
+dir_helper_func = fs.readdirSync('/home/ruby/Projects/runcible/routes/helper_func');
+dir_url_handlers = fs.readdirSync('/home/ruby/Projects/runcible/routes/URL_handlers');
+
+console.log('dir_helper_func files: ');
+for (var i = 0; i < dir_helper_func.length; i++) {
+	console.log(dir_helper_func[i]);
+};
+
+console.log('dir_url_handlers files: ');
+for (var i = 0; i < dir_url_handlers.length; i++) {
+	console.log(dir_url_handlers[i]);
+};
 
 //CE: all the requires!
 // require helper functions: 
