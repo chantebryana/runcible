@@ -25,6 +25,7 @@ sqlite3 = require('sqlite3').verbose();
 file = 'fam_beta.db';
 db = new sqlite3.Database(file);
 
+// synchronously access files in two directories, plus prep a couple of empty arrays for the 2 for loops below: 
 dir_helper_func = fs.readdirSync('/home/ruby/Projects/runcible/routes/helper_func');
 dir_url_handlers = fs.readdirSync('/home/ruby/Projects/runcible/routes/URL_handlers');
 js_helper_func = [];
