@@ -43,7 +43,7 @@ require('/home/ruby/Projects/runcible/routes/URL_handlers/form_post_update');
 require('/home/ruby/Projects/runcible/routes/URL_handlers/delete_post');
 
 // temporary URL handlers: 
-//require('/home/ruby/Projects/runcible/routes/URL_handlers/cookie');
+require('/home/ruby/Projects/runcible/routes/URL_handlers/cookie');
 require('/home/ruby/Projects/runcible/routes/URL_handlers/clear_cookie');
 
 
