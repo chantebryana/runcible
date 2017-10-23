@@ -25,34 +25,32 @@ sqlite3 = require('sqlite3').verbose();
 file = 'fam_beta.db';
 db = new sqlite3.Database(file);
 
-// synchronously access files in two directories, plus prep a couple of empty arrays for the 2 for loops below: 
+
+//CE: all the requires, now in concentrate!
+
+// synchronously access files in two directories, plus prep a couple of empty arrays for the requires in the next two for loops: 
 dir_helper_func = fs.readdirSync('/home/ruby/Projects/runcible/routes/helper_func');
 dir_url_handlers = fs.readdirSync('/home/ruby/Projects/runcible/routes/URL_handlers');
 js_helper_func = [];
 js_url_handlers = [];
 
-// next 2 for loops: access file system using fs, push .js files into an array which will be required in the next segment below:
+// next 2 for loops: access file system using fs, push .js files into an array, then require them all:
+count = 0;
 for (var i = 0; i < dir_helper_func.length; i++) {
 	if (dir_helper_func[i].slice(-3) == '.js') {
-		js_helper_func.push(dir_helper_func[i]);
+		count ++;
+		js_helper_func[count] = dir_helper_func[i];
+		require('/home/ruby/Projects/runcible/routes/helper_func/' + js_helper_func[count]);
 	}
 };
 
+count = 0; // reset count to 0
 for (var i = 0; i < dir_url_handlers.length; i++) {
 	if (dir_url_handlers[i].slice(-3) == '.js') {
-		js_url_handlers.push(dir_url_handlers[i]);
+		count ++;
+		js_url_handlers[count] = dir_url_handlers[i];
+		require('/home/ruby/Projects/runcible/routes/URL_handlers/' + js_url_handlers[count]);
 	}
-};
-
-//CE: all the requires, now in concentrate!
-// require helper functions:
-for (var i = 0; i < js_helper_func.length; i++) {
-	require('/home/ruby/Projects/runcible/routes/helper_func/' + js_helper_func[i]);
-};
-
-// require URL handlers: 
-for (var i = 0; i < js_url_handlers.length; i++) {
-	require('/home/ruby/Projects/runcible/routes/URL_handlers/' + js_url_handlers[i]);
 };
 
 
