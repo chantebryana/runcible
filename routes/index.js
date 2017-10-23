@@ -27,15 +27,29 @@ db = new sqlite3.Database(file);
 
 dir_helper_func = fs.readdirSync('/home/ruby/Projects/runcible/routes/helper_func');
 dir_url_handlers = fs.readdirSync('/home/ruby/Projects/runcible/routes/URL_handlers');
+js_helper_func = [];
+js_url_handlers = [];
 
-console.log('dir_helper_func files: ');
 for (var i = 0; i < dir_helper_func.length; i++) {
-	console.log(dir_helper_func[i]);
+	if (dir_helper_func[i].slice(-3) == '.js') {
+		js_helper_func.push(dir_helper_func[i]);
+	}
 };
 
-console.log('dir_url_handlers files: ');
 for (var i = 0; i < dir_url_handlers.length; i++) {
-	console.log(dir_url_handlers[i]);
+	if (dir_url_handlers[i].slice(-3) == '.js') {
+		js_url_handlers.push(dir_url_handlers[i]);
+	}
+};
+
+// print elements of js_helper_func and js_url_handlers arrays to ensure that everything's working: 
+console.log('\njs_helper_func files: ');
+for (var i = 0; i < js_helper_func.length; i++) {
+	console.log('/home/ruby/Projects/runcible/routes/helper_func/' + js_helper_func[i]);
+};
+console.log('\njs_url_handlers files: ');
+for (var i = 0; i < js_url_handlers.length; i++) {
+	console.log('/home/ruby/Projects/runcible/routes/URL_handlers/' + js_url_handlers[i]);
 };
 
 //CE: all the requires!
