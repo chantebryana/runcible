@@ -4,7 +4,8 @@ router.get('/clearcookie', function(req,res){
 	// send a message to the web page to let the user know something happened: 
 	res.send('Cookie deleted');
 });
-
+/*
 app.listen(3000, function() {
 	console.log('index.js listening on port 3000!');
 });
+*/
