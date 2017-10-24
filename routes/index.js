@@ -15,7 +15,9 @@ app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, '../public'))); // accesses public directory; here's some info on __dirname variable: https://stackoverflow.com/questions/8131344/what-is-the-difference-between-dirname-and-in-node-js
+// in this case, __dirname returns: /home/ruby/Projects/runcible/routes
+// here's some info on __dirname variable: https://stackoverflow.com/questions/8131344/what-is-the-difference-between-dirname-and-in-node-js
+app.use(express.static(path.join(__dirname, '../public'))); // accesses public directory
 
 router = app;//express.Router();
 app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
