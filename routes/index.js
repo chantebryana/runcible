@@ -16,7 +16,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../public'))); // accesses public directory; here's some info on __dirname variable: https://stackoverflow.com/questions/8131344/what-is-the-difference-between-dirname-and-in-node-js
-console.log('__dirname: ', __dirname);
 
 router = app;//express.Router();
 app.set('view engine', 'ejs');  // line 16 of app.js in Lionheart
@@ -30,9 +29,7 @@ db = new sqlite3.Database(file);
 //CE: all the requires, now in concentrate!
 
 // synchronously access files in two directories, plus prep a couple of empty arrays for the requires in the next two for loops: 
-//dir_helper_func = fs.readdirSync('/home/ruby/Projects/runcible/routes/helper_func');
 dir_helper_func = fs.readdirSync(__dirname + '/helper_func');
-//dir_url_handlers = fs.readdirSync('/home/ruby/Projects/runcible/routes/URL_handlers');
 dir_url_handlers = fs.readdirSync(__dirname + '/URL_handlers');
 js_helper_func = [];
 js_url_handlers = [];
@@ -43,7 +40,6 @@ for (var i = 0; i < dir_helper_func.length; i++) {
 	if (dir_helper_func[i].slice(-3) == '.js') {
 		count ++;
 		js_helper_func[count] = dir_helper_func[i];
-		//require('/home/ruby/Projects/runcible/routes/helper_func/' + js_helper_func[count]);
 		require(__dirname + '/helper_func/' + js_helper_func[count]);
 	}
 };
@@ -53,7 +49,6 @@ for (var i = 0; i < dir_url_handlers.length; i++) {
 	if (dir_url_handlers[i].slice(-3) == '.js') {
 		count ++;
 		js_url_handlers[count] = dir_url_handlers[i];
-		//require('/home/ruby/Projects/runcible/routes/URL_handlers/' + js_url_handlers[count]);
 		require(__dirname + '/URL_handlers/' + js_url_handlers[count]);
 	}
 };
