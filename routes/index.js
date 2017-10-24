@@ -33,7 +33,7 @@ db = new sqlite3.Database(file);
 // synchronously access files in two directories, plus prep a couple of empty arrays for the requires in the next two for loops: 
 dir_helper_func = fs.readdirSync(__dirname + '/helper_func');
 dir_url_handlers = fs.readdirSync(__dirname + '/URL_handlers');
-js_helper_func = [];
+js_helper_func = []; // JE: get rid of these!
 js_url_handlers = [];
 
 // next 2 for loops: access file system using fs, push .js files into an array, then require them all:
