@@ -36,19 +36,12 @@ dir_url_handlers = fs.readdirSync(__dirname + '/URL_handlers');
 js_helper_func = [];
 js_url_handlers = [];
 
-/*
-relative file paths within require() method: 
-  source: https://stackoverflow.com/questions/8131344/what-is-the-difference-between-dirname-and-in-node-js
-use ./file instead of __dirname + '/file' within require() because the path inside require() is always relative to the file in which you are calling it. It has nothing to do with the working directory.
-*/
-
 // next 2 for loops: access file system using fs, push .js files into an array, then require them all:
 count = 0;
 for (var i = 0; i < dir_helper_func.length; i++) {
 	if (dir_helper_func[i].slice(-3) == '.js') {
 		count ++;
 		js_helper_func[count] = dir_helper_func[i];
-		//require(__dirname + '/helper_func/' + js_helper_func[count]);
 		require('./helper_func/' + js_helper_func[count]);
 	}
 };
@@ -58,7 +51,6 @@ for (var i = 0; i < dir_url_handlers.length; i++) {
 	if (dir_url_handlers[i].slice(-3) == '.js') {
 		count ++;
 		js_url_handlers[count] = dir_url_handlers[i];
-		//require(__dirname + '/URL_handlers/' + js_url_handlers[count]);
 		require('./URL_handlers/' + js_url_handlers[count]);
 	}
 };
