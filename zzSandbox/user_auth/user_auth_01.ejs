@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<% include ../../views/partials/metadata_template %>
+<main>
+	<div class="jumbotron">
+		<h1>Login!</h1>
+		<p>Login or stay out!</p>
+		<form action='/loginpost' method='post'> <% //CE: action location temporary %>
+			Username: <br>
+			<input type='text' name='username' placeholder='username' autofocus><br>
+			Password: <br>
+			<input type ='text' name='password' placeholder='password'><br>
+			<br>
+			<input type='submit' value='Submit'>
+		</form>
+	</div>
+</main>
+<% include ../../views/partials/footer_template %>
