@@ -9,11 +9,11 @@ check_browser_cookie = function check_browser_cookie(req, res, callback){
 		if (rows.length == 0) {
 			// call helper functions that will create new id, create new db table entry, and save new id to browser cookie cache. afterwards, declare callback with new_cookie_key to pass value forward to future functions: 
 			create_and_save_cookie_id(res, function(new_cookie_key) {
-				// passes newly-generated cookie key string forward to future functions:
+				// passes newly-generated cookie key string forward to future functions (increment_pg_load()):
 				callback(new_cookie_key);
 			});
 		} else {
-			// pass browser_cookie_key string forward to future functions:
+			// pass browser_cookie_key string forward to future functions (increment_pg_load()):
 			callback(browser_cookie_key.cookie_key);
 		}
 	});
