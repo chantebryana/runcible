@@ -16,7 +16,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 // in this case, __dirname returns: /home/ruby/Projects/runcible/routes
-// here's some info on __dirname variable: https://stackoverflow.com/questions/8131344/what-is-the-difference-between-dirname-and-in-node-js
 app.use(express.static(path.join(__dirname, '../public'))); // accesses public directory
 
 router = app;//express.Router();
@@ -28,30 +27,18 @@ file = 'fam_beta.db';
 db = new sqlite3.Database(file);
 
 
-//CE: all the requires, now in concentrate!
-
-// synchronously access files in two directories, plus prep a couple of empty arrays for the requires in the next two for loops: 
+// CE: all the requires, now in concentrate!
+// synchronously access file system using fs (results saved to an array), then require all of the .js files that were pulled up:
 dir_helper_func = fs.readdirSync(__dirname + '/helper_func');
 dir_url_handlers = fs.readdirSync(__dirname + '/URL_handlers');
-js_helper_func = []; // JE: get rid of these!
-js_url_handlers = [];
-
-// next 2 for loops: access file system using fs, push .js files into an array, then require them all:
-count = 0;
 for (var i = 0; i < dir_helper_func.length; i++) {
 	if (dir_helper_func[i].slice(-3) == '.js') {
-		count ++;
-		js_helper_func[count] = dir_helper_func[i];
-		require('./helper_func/' + js_helper_func[count]);
+		require('./helper_func/' + dir_helper_func[i]);
 	}
 };
-
-count = 0; // reset count to 0
 for (var i = 0; i < dir_url_handlers.length; i++) {
 	if (dir_url_handlers[i].slice(-3) == '.js') {
-		count ++;
-		js_url_handlers[count] = dir_url_handlers[i];
-		require('./URL_handlers/' + js_url_handlers[count]);
+		require('./URL_handlers/' + dir_url_handlers[i]);
 	}
 };
 
