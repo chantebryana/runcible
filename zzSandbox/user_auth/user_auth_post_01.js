@@ -23,6 +23,15 @@ router.post_pg_load('/loginpost', function(req, res, pg_load){
 		db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows_session) {
 			if (rows_session.length == 0) { // if there's no match
 				// I want to create a new session data for this browser, and set user_auth field to true
+				// callback-based: call something like this function, found in 020_cookie_pg_load_helpers.js: 
+				create_and_save_cookie_id(res, function(new_cookie_key) {
+					// contains the following functions: 
+					// make_id(); insert_new_id_to_db_table(...); save_new_cookie_id_to_browser(...);
+					// CE: also set user_auth to true! Do that by parsing the rows_session json string into an object. Then update user_auth to equal true, then convert the object back into a json string and then update db table. The specific steps are similar to what's done in increment_pg_load() function.
+					set_user_to_true(browser_cookie_key, function () {
+						callback(new_cookie_key, parsed_rows); // CE: ?? I'm not sure the exact syntax to pass elements from multiple functions and queries forward...
+					});
+				});
 			} else { // if db table query returns some results, ie, if there's a match
 				// I want to set user_auth to true (there's already a previously unauthorized logged session data for this browser, so no need to create a new one)
 			}
@@ -46,3 +55,18 @@ router.post_pg_load('/loginpost', function(req, res, pg_load){
 			user_auth = false; // this explicit step may not be needed, probably user_auth is already false
 	}
 })
+
+
+// initial pseudocode for workflow to set user_auth to true:
+function set_user_auth_to_true(browser_cookie_key, callback) {
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_select) {
+		// parse out JSON-style data that db returned: 
+		var parsed_rows = JSON.parse(rows_from_select[0].session_data);
+		// set user_auth to true: 
+		parsed_rows.user_auth = true; // CE: user_auth not a current session data object; need to create it
+		var stringed_row = JSON.stringify(parsed_rows);
+		db.run_smart("UPDATE cookie_key_json SET session_data = \"" + stringed_row + "\" WHERE cookie_key = \"" + browser_cookie_key + "\"", function(err, rows_from_update) {
+			callback(parsed_rows); // CE: ?? pass forward some sort of variable from this whole mess: perhaps the parsed object from the db table query: that way I'd have access to all of the session data that's relevant for this particular browser_cookie_key?
+		});
+	});
+}
