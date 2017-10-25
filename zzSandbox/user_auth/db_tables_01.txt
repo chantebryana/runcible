@@ -19,6 +19,16 @@ CREATE TABLE session_data (
 );
 
 //example insert; I'm pretty sure the JSON syntax is correct:
-INSERT INTO session_data (cookie_key, session_data) VALUES ('abc123', '{"page_count":0, "user_auth":"true"}')
+INSERT INTO session_data (cookie_key, session_data) VALUES ('abc123', '{"page_count":0, "user_auth":"true"}');
+
+// indeed, the JSON-string works!
+	ruby@rubyVM:~/Projects/runcible$ node
+	> var ce_json = '{"page_count":0, "user_auth": "false"}';
+	undefined
+	> ce_json
+	'{"page_count":0, "user_auth": "false"}'
+	> JSON.parse(ce_json);
+	{ page_count: 0, user_auth: 'false' }
+
 
 
