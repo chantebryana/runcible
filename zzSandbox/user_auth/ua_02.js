@@ -56,7 +56,7 @@ function check_browser_cookie(req, res, callback){
 		} else {
 			var parsed_session_data = JSON.parse(rows[0].session_data);
 			// if unauthorized browser session
-			if (parsed_session_data.user_auth == false) {
+			if (parsed_session_data.user_auth == 'false') {
 				res.redirect("/login?key=\"" + rows[0].cookie_key + "\"");
 			} else { // if fully authorized browser session; ie, if parsed_session_data.user_auth == true
 				// proceed to page as normal!
@@ -70,9 +70,9 @@ function check_browser_cookie(req, res, callback){
 // (CE don't copy and paste this whole chunk of code to node terminal: just the lines you're interested in)
 //function check_browser_cookie() {
 	//var browser_cookie_key = { cookie_key: 'abc123' };
-	var browser_cookie_key = {};
-	//var rows_from_db = [{session_data:'{"user_auth":"false"}'}];
-	//var rows_from_db = [{session_data:'{"user_auth":"true"}'}];
+	var browser_cookie_key = {}; 
+	//var rows_from_db = [{session_data:'{"user_auth":"false"}'}]; // passes
+	//var rows_from_db = [{session_data:'{"user_auth":"true"}'}]; // passes
 	//var rows_from_db = undefined;
 	var rows_from_db = []; // passes
 	if (rows_from_db.length == 0) { // passes
