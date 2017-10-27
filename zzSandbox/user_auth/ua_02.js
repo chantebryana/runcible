@@ -13,21 +13,46 @@ function user_auth_true(browser_cookie_key, callback) {
 };
 
 
-// what if this browser_session already exists in the db table? how do the two functions nest together? the callbacks are all wrong I'm sure: how to make them do what they're supposed to do? how do adapt these functions as the session_data field gets more complicated (I'd need to store and pass that variable around, just like the cookie_key variable). 
+// how do the two functions nest together? the callbacks are all wrong I'm sure: how to make them do what they're supposed to do? how do adapt these functions as the session_data field gets more complicated (I'd need to store and pass that variable around, just like the cookie_key variable). 
 // all good questions, but don't get lost in the minutia just yet.
 
-// i suppose if there's already a browser_cookie_key, then I wouldn't even perform new_session_row, because that's already been done! I'd just perform user_auth_true, which, incidentally, is how I outlined it yesterday. I suppose it can take a while for my brain to catch up.
-
-function stuff(/*arg?*/) {
+// hmm, that doesn't quite work. variable browser_cookie works as a true/false message forward, but it doesn't save the actual browser if there is one. how to account for this???????? right now the uses of 'browser_cookie' won't work!
+function stuff(browser_cookie) {
 	if (browser_cookie == false) { // or however I decide to save and pass that data forward from check_browser_cookie()
 		var new_key = make_id();
 		save_new_cookie_id_to_browser(res, new_key);
 		new_session_row(new_key, function(/*arg?*/){
-			callback(/*arg?*/);
+			user_auth_true(new_key, function(/*arg?*/) {
+				callback(/*arg?*/);
+			});
 		});
 	} else { // if there's already an inauthenticated browser session
-		user_auth_true(browser_cookie_key, function (/*arg?*/) {
+		user_auth_true(browser_cookie, function (/*arg?*/) {
 			callback(/*arg?*/);
 		});
 	}
 };
+
+//
+//
+//
+//
+// maybe I should draft an updated check_browser_cookie function, since the variables passed forward there affects all of the following functions (and has got me kinda stuck, to be honest).
+// check_browser_cookie function will be performed in outside URL handler. If I pass certain criteria, then the user will get res.redirect-ed to the login page (along with some data getting passed forward too)
+// this function will probably even live within router.get and router.post, but one thing at a time.
+function check_browser_cookie(req, res, callback){
+	var browser_cookie_key = req.cookies;
+	db.run_smart("SELECT session_data FROM browser_session WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
+		if (rows.length == 0) {
+			res.redirect("/login?key=null&user_auth=false");
+		} else {
+			var parsed_session_data = JSON.parse(rows[0].session_data);
+			// if unauthorized browser session
+			if (parsed_session_data.user_auth == false) {
+				res.redirect("/login?key=\"" + rows[0].cookie_key + "\"&user_auth=false");
+			} else { // if fully authorized browser session; ie, if parsed_session_data.user_auth == true
+				// proceed to page as normal!
+			}
+		}
+	});
+}
