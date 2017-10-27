@@ -17,8 +17,11 @@ function user_auth_true(browser_cookie_key, callback) {
 // all good questions, but don't get lost in the minutia just yet.
 
 // hmm, that doesn't quite work. variable browser_cookie works as a true/false message forward, but it doesn't save the actual browser if there is one. how to account for this???????? right now the uses of 'browser_cookie' won't work!
-function stuff(browser_cookie) {
-	if (browser_cookie == false) { // or however I decide to save and pass that data forward from check_browser_cookie()
+//function stuff(browser_cookie) {
+// don't need to pass req.query.key to this func, since it should already exist in the namespace via the URL handler:
+function stuff(/*arg?*/) {
+	//if (browser_cookie == false) { // or however I decide to save and pass that data forward from check_browser_cookie()
+	if (req.query.key == null) {
 		var new_key = make_id();
 		save_new_cookie_id_to_browser(res, new_key);
 		new_session_row(new_key, function(/*arg?*/){
@@ -27,7 +30,8 @@ function stuff(browser_cookie) {
 			});
 		});
 	} else { // if there's already an inauthenticated browser session
-		user_auth_true(browser_cookie, function (/*arg?*/) {
+		//user_auth_true(browser_cookie, function (/*arg?*/) {
+		user_auth_true(req.query.key, function(/*arg?*/)) {
 			callback(/*arg?*/);
 		});
 	}
@@ -44,12 +48,14 @@ function check_browser_cookie(req, res, callback){
 	var browser_cookie_key = req.cookies;
 	db.run_smart("SELECT session_data FROM browser_session WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
 		if (rows.length == 0) {
-			res.redirect("/login?key=null&user_auth=false");
+			//res.redirect("/login?key=null&user_auth=false");
+			res.redirect("/login?key=null"); // don't need to pass user_auth b/c it'll automatically be false if I'm redirecting to login page!
 		} else {
 			var parsed_session_data = JSON.parse(rows[0].session_data);
 			// if unauthorized browser session
 			if (parsed_session_data.user_auth == false) {
-				res.redirect("/login?key=\"" + rows[0].cookie_key + "\"&user_auth=false");
+				//res.redirect("/login?key=\"" + rows[0].cookie_key + "\"&user_auth=false");
+				res.redirect("/login?key=\"" + rows[0].cookie_key + "\"");// don't need to pass user_auth b/c it'll automatically be false if I'm redirecting to login page!
 			} else { // if fully authorized browser session; ie, if parsed_session_data.user_auth == true
 				// proceed to page as normal!
 			}
