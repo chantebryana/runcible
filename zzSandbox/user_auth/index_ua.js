@@ -29,6 +29,7 @@ db = new sqlite3.Database(file);
 router.get('/login', function(req, res) {
 	var username = "named_user";
 	var password = "pass0word!";
+	res.render('
 });
 
 router.post('/loginpost', function(req, res) {
