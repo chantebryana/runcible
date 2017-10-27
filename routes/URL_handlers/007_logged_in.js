@@ -1,3 +1,39 @@
+// I've already ran check_browser_cookie() in an earlier stage of events (before switching over to login page). So remove that function from the box.
+// I already know that (for simplicity / a starting point) that there is no browser session or browser cookie, but that I did log in successfully. So what next? 
+
+function make_id_b() {
+	var text = "";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+	for (var i = 0; i < 6; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	};
+	console.log("make_id() return value: ", text);
+	return text;
+}
+
+function insert_new_id_and_user_auth_to_db_table(new_cookie_key, user_auth, callback) {
+	db.run_smart("INSERT INTO ce_session_data (cookie_key, session_data) VALUES (\"" + new_cookie_key + "\", '{\"user_auth\":\"" + user_auth + "\"}')", function(err, rows) {
+		console.log("insert_new_id_and_user_auth_to_db_table() ran!");
+		callback();
+	});
+}
+
+function save_new_cookie_id_to_browser_b(res, new_cookie_key) {
+	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
+	console.log("save_new_cookie_id_to_browser() ran!");
+}
+
+create_and_save_session_data = function create_and_save_session_data(res, user_auth, callback) {
+	var secret_cookie_id = make_id_b();
+	insert_new_id_and_user_auth_to_db_table(secret_cookie_id, user_auth, function() {
+		save_new_cookie_id_to_browser_b(res, secret_cookie_id);
+		callback(secret_cookie_id);
+	});
+}
+
+
+
 router.get_pg_load('/logged_in', function(req, res, pg_load) {
 	console.log('Total Page Loads After Loading Login Page: ', pg_load); // not needed for future workflow, but maintaining it for now just because
 	var is_logged_in = "[[not yet attempted]]";
@@ -15,27 +51,4 @@ router.get_pg_load('/logged_in', function(req, res, pg_load) {
 	});
 });
 
-/*
-debugging some flaws. Here's the current terminal report for line 14 above: 
 
-ruby@rubyVM:~/Projects/runcible$ node routes/index.js 
-index.js listening on port 3000!
-Total Page Loads After Loading Login Page:  258
-Total Page Loads After Posting Login Form Page:  259
-Total Page Loads After Loading Login Page:  260
-make_id() return value:  uhwwkJ
-/home/ruby/Projects/runcible/node_modules/sqlite3/lib/trace.js:27
-                    throw err;
-                    ^
-
-ReferenceError: new_cookie_key is not defined
-    at /home/ruby/Projects/runcible/routes/URL_handlers/007_logged_in.js:14:27
-    at /home/ruby/Projects/runcible/routes/helper_func/030_get_pg_load.js:6:5
-    at /home/ruby/Projects/runcible/routes/helper_func/020_cookie_pg_load_helpers.js:72:4
-    at Statement.<anonymous> (/home/ruby/Projects/runcible/routes/helper_func/010_run_smart.js:7:6)
---> in Database#all('UPDATE cookie_key_json SET session_data = \'{"page_count":260}\' WHERE cookie_key = "dBj6Xp"', [Function])
-    at Database.run_smart (/home/ruby/Projects/runcible/routes/helper_func/010_run_smart.js:3:8)
-    at /home/ruby/Projects/runcible/routes/helper_func/020_cookie_pg_load_helpers.js:70:6
-    at Statement.<anonymous> (/home/ruby/Projects/runcible/routes/helper_func/010_run_smart.js:7:6)
-
-*/
