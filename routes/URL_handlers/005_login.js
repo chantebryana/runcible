@@ -7,6 +7,7 @@ router.get('/login', function(req, res) {
 	}
 	res.render('pages/login.ejs', {
 		title: 'Login',
+		key_to_renderer: req.query.key,
 		is_logged_in_to_renderer: is_logged_in
 	});
 });
