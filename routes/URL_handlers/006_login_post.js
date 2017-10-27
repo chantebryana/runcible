@@ -10,7 +10,8 @@ router.post_pg_load('/loginpost', function(req, res, pg_load) {
 		} else {
 			user_auth = true;
 		};
-		res.redirect('/login?user_auth=' + user_auth);
+		//res.redirect('/login?user_auth=' + user_auth);
+		res.redirect('logged_in?user_auth=' + user_auth);
 		// i could pass data forward w/ res.redirect and a query string that passes user_auth variable.
 	});
 });

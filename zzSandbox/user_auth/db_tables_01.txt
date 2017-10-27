@@ -19,6 +19,14 @@ CREATE TABLE session_data (
 	entry_created DATETIME DEFAULT (DATETIME('NOW', 'LOCALTIME'))
 );
 
+CREATE TABLE ce_session_data (
+id INTEGER PRIMARY KEY, 
+cookie_key TEXT, 
+session_data TEXT, 
+entry_created DATETIME DEFAULT(DATETIME('NOW', 'LOCALTIME'))
+);
+
+
 //example insert; I'm pretty sure the JSON syntax is correct:
 INSERT INTO session_data (cookie_key, session_data) VALUES ('abc123', '{"page_count":0, "user_auth":"true"}');
 

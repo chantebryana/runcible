@@ -34,11 +34,13 @@ dir_url_handlers = fs.readdirSync(__dirname + '/URL_handlers');
 for (var i = 0; i < dir_helper_func.length; i++) {
 	if (dir_helper_func[i].slice(-3) == '.js') {
 		require('./helper_func/' + dir_helper_func[i]);
+		//console.log(dir_helper_func[i]);
 	}
 };
 for (var i = 0; i < dir_url_handlers.length; i++) {
 	if (dir_url_handlers[i].slice(-3) == '.js') {
 		require('./URL_handlers/' + dir_url_handlers[i]);
+		//console.log(dir_url_handlers[i]);
 	}
 };
 
