@@ -7,6 +7,7 @@ CREATE TABLE user_acct (
 	entry_created DATETIME DEFAULT (DATETIME('NOW', 'LOCALTIME'))
 );
 
+INSERT INTO user_acct(username, password) VALUES ('named_user', 'pass0word!');
 
 
 __SESSION_DATA (former name: cookie_key_json)__
