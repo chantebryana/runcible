@@ -1,5 +1,6 @@
-router.post_pg_load('/loginpost', function(req, res, pg_load) {
-	console.log('Total Page Loads After Posting Login Form Page: ', pg_load);
+//router.post_pg_load('/loginpost', function(req, res, pg_load) {
+router.post('/loginpost', function(req, res) {
+	//console.log('Total Page Loads After Posting Login Form Page: ', pg_load);
 	// query against user_acct table
 	// check if true or false
 	// pass forward true or false results to dummy page for now so I don't have to manipulate home page.

@@ -42,8 +42,9 @@ create_and_save_session_data = function create_and_save_session_data(res, user_a
 
 
 
-router.get_pg_load('/logged_in', function(req, res, pg_load) {
-	console.log('Total Page Loads After Loading Login Page: ', pg_load); // not needed for future workflow, but maintaining it for now just because
+//router.get_pg_load('/logged_in', function(req, res, pg_load) {
+router.get('/logged_in', function(req, res) {
+	//console.log('Total Page Loads After Loading Login Page: ', pg_load); // not needed for future workflow, but maintaining it for now just because
 	var is_logged_in = "[[not yet attempted]]";
 	if (req.query.user_auth) {
 		is_logged_in = req.query.user_auth;

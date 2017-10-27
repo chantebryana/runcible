@@ -1,5 +1,6 @@
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
-router.get_pg_load('/', function(req, res, pg_load) {
+//router.get_pg_load('/', function(req, res, pg_load) {
+router.get('/', function(req, res) {
 	// print onto terminal browser's cache of cookies: 
 	console.log("Cookies from browser: ", req.cookies);
 	// store broswer's cache of cookies onto server variable: 
@@ -53,7 +54,7 @@ router.get_pg_load('/', function(req, res, pg_load) {
 						end_date_to_renderer: end_date,
 						y_temp_f_to_renderer: y_temp_f, 
 						x_label_values_to_renderer: x_label_values,
-						pg_load_to_renderer: pg_load,
+						//pg_load_to_renderer: pg_load,
 						cycle_id_to_renderer: {
 							prev: previous_cycle_id, 
 							curr: current_cycle_id, 

@@ -1,5 +1,6 @@
-router.post_pg_load('/formpost', function(req, res, pg_load) {
-	console.log('Total Page Loads After Posting New Entry Form Page: ', pg_load);
+//router.post_pg_load('/formpost', function(req, res, pg_load) {
+router.post('/formpost', function(req, res) {
+	//console.log('Total Page Loads After Posting New Entry Form Page: ', pg_load);
 	console.log("cycle name: ");
 	console.log(req.body["name"]);
 	// if a new cycle is being initiated:
