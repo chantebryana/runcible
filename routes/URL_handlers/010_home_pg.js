@@ -13,7 +13,8 @@ router.get('/', function(req, res) {
 db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_var.cookie_key + "\"", function(err, rows) {
 	if (rows.length == 0) {
 		//console.log("Your search was fruitless!");
-		res.redirect("/login?key=null");
+		return res.redirect("/login?key=null");
+		//return res.redirect('/login');
 	} else {
 		var parsed_session_data = JSON.parse(rows[0].session_data);
 		if (parsed_session_data.user_auth == 'false') {
@@ -24,27 +25,7 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 	};
 //
 //
-/*
-successfully redirected to login page, but got this error report on console. Didn't crash server, though.
 
-ruby@rubyVM:~/Projects/runcible$ node routes/index.js 
-index.js listening on port 3000!
-Cookies from browser:  {}
-cookie_var:  {}
-Error: Can't set headers after they are sent.
-    at ServerResponse.OutgoingMessage.setHeader (_http_outgoing.js:356:11)
-    at ServerResponse.header (/home/ruby/Projects/runcible/node_modules/express/lib/response.js:725:10)
-    at ServerResponse.send (/home/ruby/Projects/runcible/node_modules/express/lib/response.js:170:12)
-    at done (/home/ruby/Projects/runcible/node_modules/express/lib/response.js:962:10)
-    at tryHandleCache (/home/ruby/Projects/runcible/node_modules/ejs/lib/ejs.js:208:10)
-    at View.exports.renderFile [as engine] (/home/ruby/Projects/runcible/node_modules/ejs/lib/ejs.js:412:10)
-    at View.render (/home/ruby/Projects/runcible/node_modules/express/lib/view.js:128:8)
-    at tryRender (/home/ruby/Projects/runcible/node_modules/express/lib/application.js:640:10)
-    at EventEmitter.render (/home/ruby/Projects/runcible/node_modules/express/lib/application.js:592:3)
-    at ServerResponse.render (/home/ruby/Projects/runcible/node_modules/express/lib/response.js:966:7)
-^C
-
-*/
 
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
