@@ -19,6 +19,14 @@ function insert_new_id_and_user_auth_to_db_table(new_cookie_key, user_auth, call
 	});
 }
 
+// CE: if I've already got an assigned browser session then this is the only function that matters. Unfortunately for me, this is the function that seems to be breaking
+// CE: ugh, nevermind. accessing cookie_key_json table would mean making changes to increment_pg_load() function in 020_cookie_pg_load_helpers.js That sounds like a lot of work.
+function insert_user_auth_to_db_table(new_cookie_key, user_auth, callback) {
+	db.run_smart("UPDATE cookie_key_json SET session_data = ", function(err, rows) {
+
+	});
+}
+
 function save_new_cookie_id_to_browser_b(res, new_cookie_key) {
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
 	console.log("save_new_cookie_id_to_browser() ran!");
