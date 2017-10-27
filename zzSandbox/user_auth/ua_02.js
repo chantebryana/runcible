@@ -30,6 +30,10 @@ function stuff(/*arg?*/) {
 			});
 		});
 	} else { // if there's already an inauthenticated browser session
+		// CE instead of passing actual cookie key via query string, I could just look it up again here real quick. Like this: 
+		// var browser_cookie_key = req.cookies;
+		// CE Just like what I did in check_browser_cookie. Is there any method that's prefered over the other? I'd need to send a query string either way; except instead of 'null' or 'abc123' (option A), I'd be sending over 'false' or 'true' (option B), with an extra step later to pull up the actual cookie key if I get to that particular branch. Option A doesn't require an extra step, but my two query cycle values don't match up: 'null' isn't the opposite of 'abc123', for instance. Does that matter? Whereas option B does have a minor extra step, it doesn't seem like it would take any time at all (not interfacing w/ db, just real quick w/ browser), and the two query string options would cooridnate better (false is the opposite of true). 
+
 		//user_auth_true(browser_cookie, function (/*arg?*/) {
 		user_auth_true(req.query.key, function(/*arg?*/)) {
 			callback(/*arg?*/);
@@ -48,17 +52,37 @@ function check_browser_cookie(req, res, callback){
 	var browser_cookie_key = req.cookies;
 	db.run_smart("SELECT session_data FROM browser_session WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
 		if (rows.length == 0) {
-			//res.redirect("/login?key=null&user_auth=false");
-			res.redirect("/login?key=null"); // don't need to pass user_auth b/c it'll automatically be false if I'm redirecting to login page!
+			res.redirect("/login?key=null");
 		} else {
 			var parsed_session_data = JSON.parse(rows[0].session_data);
 			// if unauthorized browser session
 			if (parsed_session_data.user_auth == false) {
-				//res.redirect("/login?key=\"" + rows[0].cookie_key + "\"&user_auth=false");
-				res.redirect("/login?key=\"" + rows[0].cookie_key + "\"");// don't need to pass user_auth b/c it'll automatically be false if I'm redirecting to login page!
+				res.redirect("/login?key=\"" + rows[0].cookie_key + "\"");
 			} else { // if fully authorized browser session; ie, if parsed_session_data.user_auth == true
 				// proceed to page as normal!
 			}
 		}
 	});
 }
+
+
+// CE rewriting check_browser_cookie() so that I can test it out in node (make sure it works ok)
+// (CE don't copy and paste this whole chunk of code to node terminal: just the lines you're interested in)
+//function check_browser_cookie() {
+	//var browser_cookie_key = { cookie_key: 'abc123' };
+	var browser_cookie_key = {};
+	//var rows_from_db = [{session_data:'{"user_auth":"false"}'}];
+	//var rows_from_db = [{session_data:'{"user_auth":"true"}'}];
+	//var rows_from_db = undefined;
+	var rows_from_db = []; // passes
+	if (rows_from_db.length == 0) { // passes
+		console.log("Zilch, nada: no browser session, no user_auth. Login, guy!");
+	} else { 
+		var parsed_session_data = JSON.parse(rows_from_db[0].session_data); // passes
+		if (parsed_session_data.user_auth == 'false') { // passes
+			console.log("unauthorized browser session! Still gotta login.");
+		} else { // passes
+			console.log("fully authorized browser session: plow forward!!");
+		}
+	}
+//}
