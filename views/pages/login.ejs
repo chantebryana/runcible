@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<% include ../partials/metadata_template %>
+<main>
+	<div class="jumbotron">
+	<h1>Login!</h1>
+	<p>Login or stay out!</p>
+	<form action ='/loginpost' method='post'>
+		Username: 
+		<input type='text' name='username' placeholder='username' autofocus><br>
+		Password: 
+		<input type='text' name='password' placeholder='password'><br>
+		<br>
+		<input type='submit' value='Submit'>
+	</form>
+</main>
+<% include ../partials/footer_template %>
