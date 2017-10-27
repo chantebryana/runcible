@@ -7,6 +7,25 @@ router.get('/', function(req, res) {
 	cookie_var = req.cookies
 	// print onto terminal the server variable: 
 	console.log("cookie_var: ", cookie_var);
+
+//
+//
+//if (cookie_var == {}) {
+db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_var.cookie_key + "\"", function(err, rows) {
+	if (rows.length == 0) {
+		console.log("Your search was fruitless!");
+	} else {
+		var parsed_session_data = JSON.parse(rows[0].session_data);
+		if (parsed_session_data.user_auth == 'false') {
+			console.log("Unauthorized browser session! Still gotta login.");
+		} else {
+			console.log("Fully authorized. Make yourself at home.");
+		}
+	};
+
+//
+//
+
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
 	// get the following cycle id's via callbacks: first, last, previous, next
@@ -67,4 +86,9 @@ router.get('/', function(req, res) {
 			});
 		});
 	});
+//
+//
+});
+//
+//
 });
