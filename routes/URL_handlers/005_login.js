@@ -8,7 +8,8 @@ router.get('/login', function(req, res) {
 	console.log("005_login.js: key: ", req.query.key);
 	res.render('pages/login.ejs', {
 		title: 'Login',
-		key_to_renderer: req.query.key,
+		//key_to_renderer: req.query.key,
+		key_to_renderer: "abc123",
 		is_logged_in_to_renderer: is_logged_in
 	});
 });
