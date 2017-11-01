@@ -9,7 +9,7 @@ router.post('/loginpost', function(req, res) {
 	db.run_smart("SELECT * FROM user_acct WHERE username = \"" + req.body["username"] + "\" AND password = \"" + req.body["password"] + "\"", function (err, rows) {
 		if (rows.length == 0) {
 			//console.log("FILE: login_post CURRENT BRANCH: if(rows.length==0)");
-			return res.redirect("/login");
+			return res.redirect("/login?user_auth=false");
 		} else {
 			// for now I'll just presume that I don't have a unauthorized browser session: no nested if/else
 			console.log("FILE: login_post CURRENT BRANCH: else //(if login credentials successfully queried db table)");

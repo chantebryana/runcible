@@ -3,8 +3,11 @@
 <main>
 	<div class="jumbotron">
 	<h1>Login!</h1>
-	<p>Is the User already logged in? <%=is_logged_in_to_renderer%></p>
-	<p>Login or stay out!</p>
+	<% if (is_logged_in_to_renderer == "false") { %>
+		<p>Login Attempt Failed. Try Again!</p>
+	<% } else { %>
+		<p>Login or stay out!</p>
+	<% }; %>
 	<form action ='/loginpost' method='post'>
 		Username: 
 		<input type='text' name='username' placeholder='username' autofocus><br>
