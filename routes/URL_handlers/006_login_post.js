@@ -7,18 +7,17 @@ router.post('/loginpost', function(req, res) {
 	cookie_var = req.cookies;
 	console.log(cookie_var.cookie_key);
 	db.run_smart("SELECT * FROM user_acct WHERE username = \"" + req.body["username"] + "\" AND password = \"" + req.body["password"] + "\"", function (err, rows) {
-		var user_auth;
 		if (rows.length == 0) {
-			user_auth = false;
+			console.log("FILE: login_post CURRENT BRANCH: if(rows.length==0)");
 		} else {
-			user_auth = true;
-		};
-		res.redirect('/login?user_auth=' + user_auth);
+			// for now I'll just presume that I don't have a unauthorized browser session: no nested if/else
+			console.log("FILE: login_post CURRENT BRANCH: else //(if login credentials successfully queried db table)");
+		}
 	});
 });
 
+/*
 // CE: playing with pseudocode on how to make various workflow conditions more robust
-
 if rows.length == 0 
 	res.redirect to login page // later make an unauthorized session data log, but for now just redirect
 else 
@@ -27,3 +26,16 @@ else
 		save it to db, browser
 	set user_auth to true
 	res.redirect to desired cycle of home page
+*/
+
+/*
+//old code from within db.run_smart()
+
+		var user_auth;
+		if (rows.length == 0) {
+			user_auth = false;
+		} else {
+			user_auth = true;
+		};
+		res.redirect('/login?user_auth=' + user_auth);
+*/
