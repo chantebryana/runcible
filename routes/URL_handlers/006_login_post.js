@@ -1,3 +1,23 @@
+function make_id() {
+	var text = "";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	for (var i = 0; i < 6; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	};
+	return text;
+}
+
+function set_new_cookie_id_to_browser(res, new_cookie_key) {
+	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
+}
+/*
+function insert_new_id_to_db_table(new_cookie_key, callback) {
+	db.run_smart("", function (err, rows) {
+
+	});
+}
+*/
+
 //router.post_pg_load('/loginpost', function(req, res, pg_load) {
 router.post('/loginpost', function(req, res) {
 	//console.log('Total Page Loads After Posting Login Form Page: ', pg_load);
@@ -12,7 +32,12 @@ router.post('/loginpost', function(req, res) {
 			return res.redirect("/login?user_auth=false");
 		} else {
 			// for now I'll just presume that I don't have a unauthorized browser session: no nested if/else
-			console.log("FILE: login_post CURRENT BRANCH: else //(if login credentials successfully queried db table)");
+			//console.log("FILE: login_post CURRENT BRANCH: else //(if login credentials successfully queried db table)");
+			var cookie_key = make_id();
+			set_new_cookie_id_to_browser(res, cookie_key);
+			console.log("FILE: login_post BRANCH: else STATEMENT: ", req.cookies.cookie_key);
+			// CE: Bummer, this is what I got: FILE: login_post BRANCH: else STATEMENT:  undefined
+
 		}
 	});
 });
