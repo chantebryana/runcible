@@ -7,7 +7,7 @@ function make_id() {
 	return text;
 }
 
-function set_new_cookie_id_to_browser(res, new_cookie_key) {
+function save_new_cookie_id_to_browser(res, new_cookie_key){
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
 }
 /*
@@ -34,10 +34,9 @@ router.post('/loginpost', function(req, res) {
 			// for now I'll just presume that I don't have a unauthorized browser session: no nested if/else
 			//console.log("FILE: login_post CURRENT BRANCH: else //(if login credentials successfully queried db table)");
 			var cookie_key = make_id();
-			set_new_cookie_id_to_browser(res, cookie_key);
+			//console.log("FILE: login_post BRANCH: else COOKIE_KEY: ", cookie_key); // CE: returns expected 6-char alpha-numeric value
+			save_new_cookie_id_to_browser(res, cookie_key);
 			console.log("FILE: login_post BRANCH: else STATEMENT: ", req.cookies.cookie_key);
-			// CE: Bummer, this is what I got: FILE: login_post BRANCH: else STATEMENT:  undefined
-
 		}
 	});
 });
