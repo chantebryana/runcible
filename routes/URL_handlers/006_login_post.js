@@ -33,9 +33,10 @@ router.post('/loginpost', function(req, res) {
 		} else {
 			// for now I'll just presume that I don't have a unauthorized browser session: no nested if/else
 			//console.log("FILE: login_post CURRENT BRANCH: else //(if login credentials successfully queried db table)");
-			var cookie_key = make_id();
+			var new_cookie_key = make_id();
 			//console.log("FILE: login_post BRANCH: else COOKIE_KEY: ", cookie_key); // CE: returns expected 6-char alpha-numeric value
-			save_new_cookie_id_to_browser(res, cookie_key);
+			//save_new_cookie_id_to_browser(res, cookie_key);
+			res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
 			console.log("FILE: login_post BRANCH: else STATEMENT: ", req.cookies.cookie_key);
 		}
 	});
