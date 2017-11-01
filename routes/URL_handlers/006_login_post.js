@@ -17,4 +17,13 @@ router.post('/loginpost', function(req, res) {
 	});
 });
 
+// CE: playing with pseudocode on how to make various workflow conditions more robust
 
+if rows.length == 0 
+	res.redirect to login page // later make an unauthorized session data log, but for now just redirect
+else 
+	if no cookie_var // how to check for that condition?
+		make one
+		save it to db, browser
+	set user_auth to true
+	res.redirect to desired cycle of home page
