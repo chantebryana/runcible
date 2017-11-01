@@ -13,15 +13,11 @@ router.post('/loginpost', function(req, res) {
 		};
 		// CE: this req.query.key outputs the following query string after being redirected back to the login page: 
 		// http://localhost:3000/login?key=undefined&user_auth=true
-		//res.redirect('/login?key=' + req.query.key + '&user_auth=' + user_auth);
-		res.redirect('/login?key=' + req.body["key"] + '&user_auth=' + user_auth);
+		res.redirect('/login?key=' + req.query.key + '&user_auth=' + user_auth);
+		//res.redirect('/login?key=' + req.body["key"] + '&user_auth=' + user_auth);
 		//res.redirect('logged_in?user_auth=' + user_auth);
 		// i could pass data forward w/ res.redirect and a query string that passes user_auth variable.
 	});
 });
 
-// before formpost:
-// http://localhost:3000/login?key=null
 
-// after formpost:
-// http://localhost:3000/login?key=undefined&user_auth=true

@@ -5,6 +5,7 @@ router.get('/login', function(req, res) {
 	if (req.query.user_auth) {
 		is_logged_in = req.query.user_auth;
 	}
+	console.log("005_login.js: key: ", req.query.key);
 	res.render('pages/login.ejs', {
 		title: 'Login',
 		key_to_renderer: req.query.key,
