@@ -31,11 +31,6 @@ router.post('/loginpost', function(req, res) {
 				save_new_cookie_id_to_browser(res, new_cookie_key);
 				res.redirect('/');
 			});
-			//db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_cookie_key + "\", '{\"user_auth\": \"true\"}')", function(err, rows) {
-
-				//res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); 
-				//res.redirect('/');
-			//});
 		}
 	});
 });
