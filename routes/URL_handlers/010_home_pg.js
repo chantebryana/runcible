@@ -17,15 +17,17 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 		//return res.redirect("/login?key=null");
 		//return res.redirect("/login?key=false");
 		//return res.redirect("/login?key=" + cookie_var.cookie_key);
-		return res.redirect("/login"); // JE: w/o 'return', anonymous function continues along as normal after this 'if' statement resolves (ie, it runs through line 20 and then jumps to line 35 and keeps going till the end). This isn't behavior that I want, which is why I've got the 'return' statement. ALSO, I get a 'header' error (without the 'return' statement) because -- as part of the as-normal code, the res.render at the end of this file gets run, which causes double-confusion to the brains and stuff. This is why I need the 'return' statement to behave as expected within the code as it's currently written. If I don't want the 'return' statement, one quick alternative would be to include the block of code below within the 'else' statement on line 25.
+		return res.redirect("/login");
 	} else {
+		/*
 		var parsed_session_data = JSON.parse(rows[0].session_data);
 		if (parsed_session_data.user_auth == 'false') {
 			console.log("Unauthorized browser session! Still gotta login.");
 		} else {
 			console.log("Fully authorized. Make yourself at home.");
 		}
-	}
+		*/
+	//}
 
 //
 //
@@ -93,6 +95,7 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 	});
 //
 //
+}
 });
 //
 //

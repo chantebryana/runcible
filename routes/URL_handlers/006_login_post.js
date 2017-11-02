@@ -36,9 +36,12 @@ router.post('/loginpost', function(req, res) {
 			var new_cookie_key = make_id();
 			//console.log("FILE: login_post BRANCH: else COOKIE_KEY: ", cookie_key); // CE: returns expected 6-char alpha-numeric value
 			//save_new_cookie_id_to_browser(res, cookie_key);
-			res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); // JE: in order for anything with the 'res' to apply to the web browser, the 'res' has to be sent back to the web browser in a 'render' event of some kind. (redirect, res.render on test, res.render on file, etc)
-			console.log("FILE: login_post BRANCH: else STATEMENT: ", req.cookies.cookie_key);
-			res.redirect('/login');
+
+			db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_cookie_key + "\", '{\"user_auth\": \"true\"}')", function(err, rows) {
+
+				res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); // JE: in order for anything with the 'res' to apply to the web browser, the 'res' has to be sent back to the web browser in a 'render' event of some kind. (redirect, res.render on test, res.render on file, etc)
+				res.redirect('/');
+			});
 		}
 	});
 });
