@@ -50,7 +50,7 @@ router.get('/logged_in', function(req, res) {
 		is_logged_in = req.query.user_auth;
 	}
 	create_and_save_session_data(res, is_logged_in, function(new_cookie_key) {
-		callback(new_cookie_key);
+		callback(new_cookie_key); // JE: instead of callback, put 'res.render' lines within this anonymous function, or something. I took the inner layers of the original 'check_browser_cookie()' without properly separating out its pieces. Ie, line 2 of cookie_pg_load_helpers.js has the outer function call (w/ a callback argument passed), and then has the inner layer, which I tried to crudely splice in here, with loads of errors.
 	});
 
 	res.render('pages/logged_in.ejs', {
