@@ -1,21 +1,4 @@
-function make_id() {
-	var text = "";
-	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-	for (var i = 0; i < 6; i++) {
-		text += possible.charAt(Math.floor(Math.random() * possible.length));
-	};
-	return text;
-}
-
-function insert_new_id_to_db_table(new_cookie_key, callback) {
-	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_cookie_key + "\", '{\"user_auth\": \"true\"}')", function(err, rows) {
-		callback();
-	});
-}
-
-function save_new_cookie_id_to_browser(res, new_cookie_key){
-	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key));
-}
+// moved helper functions to routes/helper_func/020_user_auth_func.js
 
 //router.post_pg_load('/loginpost', function(req, res, pg_load) {
 router.post('/loginpost', function(req, res) {
