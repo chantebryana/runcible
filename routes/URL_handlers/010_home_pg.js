@@ -13,12 +13,12 @@ router.get('/', function(req, res) {
 
 db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_var.cookie_key + "\"", function(err, rows) {
 	if (rows.length == 0) {
-		//console.log("Your search was fruitless!");
-		//return res.redirect("/login?key=null");
-		//return res.redirect("/login?key=false");
-		//return res.redirect("/login?key=" + cookie_var.cookie_key);
 		return res.redirect("/login");
 	} else {
+		var parsed_session_data = JSON.parse(rows[0].session_data);
+		if (parsed_session_data.user_auth == 'false') {
+			return res.redirect("/login");
+		} else {
 		/*
 		var parsed_session_data = JSON.parse(rows[0].session_data);
 		if (parsed_session_data.user_auth == 'false') {
@@ -95,6 +95,7 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 	});
 //
 //
+}
 }
 });
 //
