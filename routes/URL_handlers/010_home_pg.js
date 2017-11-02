@@ -19,15 +19,6 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 		if (parsed_session_data.user_auth == 'false') {
 			return res.redirect("/login");
 		} else {
-		/*
-		var parsed_session_data = JSON.parse(rows[0].session_data);
-		if (parsed_session_data.user_auth == 'false') {
-			console.log("Unauthorized browser session! Still gotta login.");
-		} else {
-			console.log("Fully authorized. Make yourself at home.");
-		}
-		*/
-	//}
 
 //
 //
