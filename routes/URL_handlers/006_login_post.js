@@ -14,7 +14,8 @@ router.post('/loginpost', function(req, res) {
 					// create and save one (unauthorized)
 					new_cookie_key = make_id();
 					insert_new_id_to_db_table(new_cookie_key, function () {
-						save_new_cookie_id_to_browser(new_cookie_key);
+						//save_new_cookie_id_to_browser(new_cookie_key);
+						res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); //CE: writing this line manually instead of calling it via save_new_cookie_id_to_browser() didn't throw an error. Huh.
 						return res.redirect("/login?user_auth=false");
 					});
 				} else { // if an unauthorized cookie key already exists in the browser and the db table
@@ -30,13 +31,6 @@ router.post('/loginpost', function(req, res) {
 					new_cookie_key = make_id();
 					insert_new_id_to_db_table(new_cookie_key, function () {
 						//save_new_cookie_id_to_browser(new_cookie_key); // CE UPSET HERE: no browser cookie saved, but successful login
-/*
-	terminal error message from line 32 
-TypeError: res.setHeader is not a function
-    at save_new_cookie_id_to_browser (/home/ruby/Projects/runcible/routes/helper_func/020_user_auth_funcs.js:19:6)
-    at /home/ruby/Projects/runcible/routes/URL_handlers/006_login_post.js:32:7
-... 
-*/
 						res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); //CE: writing this line manually instead of calling it via save_new_cookie_id_to_browser() didn't throw an error. Huh.
 						authorize_db_session_data(new_cookie_key, function () {
 							return res.redirect("/");
