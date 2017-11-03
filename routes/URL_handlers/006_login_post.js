@@ -4,14 +4,10 @@ router.post('/loginpost', function(req, res) {
 	cookie_var = req.cookies; // {cookie_key:"abc123"} or {}
 	db.run_smart("SELECT * FROM user_acct WHERE username = \"" + req.body["username"] + "\" AND password = \"" + req.body["password"] + "\"", function(err, rows_ua) {
 		db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_var.cookie_key + "\"", function(err, rows_ckj) {
-			//parsed_session_data = JSON.parse(rows_ckj[0].session_data); // {user_auth:"false"} or {} 
 			if (rows_ua.length == 0) {
-				// CE: create and save to db and browser cache unauthorized browser cookie key
-				// CE: but what if I aleady have an unauthorized browser cookie key saved? I suppose I would require a second-nested if/else
 				//if (!cookie_var.cookie_key) { // if there's no cookie key
 				if (rows_ckj.length == 0) { // if there's no db entry based on cooke_var.cookie_key
 					console.log("1a");
-					// create and save one (unauthorized)
 					new_cookie_key = make_id();
 					insert_new_id_to_db_table(new_cookie_key, function () {
 						//save_new_cookie_id_to_browser(new_cookie_key);
@@ -26,8 +22,6 @@ router.post('/loginpost', function(req, res) {
 				//if (!cookie_var.cookie_key) { // if there's no cookie key
 				if (rows_ckj.length == 0) { // if there's no db entry based on cooke_var.cookie_key
 					console.log("2a");
-					// create and save one
-					// authorize it
 					new_cookie_key = make_id();
 					insert_new_id_to_db_table(new_cookie_key, function () {
 						//save_new_cookie_id_to_browser(new_cookie_key); // CE UPSET HERE: no browser cookie saved, but successful login
@@ -37,7 +31,6 @@ router.post('/loginpost', function(req, res) {
 						});
 					})
 				} else { // there's already an unauthorized browser cookie key
-					// authorize it
 					console.log("2b");
 					authorize_db_session_data(cookie_var.cookie_key, function () {
 						return res.redirect("/");
