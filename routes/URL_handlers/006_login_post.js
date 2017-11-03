@@ -52,7 +52,7 @@ router.post('/loginpost', function(req, res) {
 				console.log("1a");
 				new_cookie_key = make_id();
 				insert_new_id_to_db_table(new_cookie_key, function () {
-					//save_new_cookie_id_to_browser(new_cookie_key);
+					//save_new_cookie_id_to_browser(new_cookie_key); // JE: fix: save_new_cookie_id_to_browser(res, new_cookie_key);
 					res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); //CE: writing this line manually instead of calling it via save_new_cookie_id_to_browser() didn't throw an error. Huh.
 					return res.redirect("/login?user_auth=false");
 				});
@@ -65,7 +65,7 @@ router.post('/loginpost', function(req, res) {
 				console.log("2a");
 				new_cookie_key = make_id();
 				insert_new_id_to_db_table(new_cookie_key, function () {
-					//save_new_cookie_id_to_browser(new_cookie_key); // CE UPSET HERE: no browser cookie saved, but successful login
+					//save_new_cookie_id_to_browser(new_cookie_key); // CE UPSET HERE: no browser cookie saved, but successful login // JE: fix: save_new_cookie_id_to_browser(res, new_cookie_key);
 					res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); //CE: writing this line manually instead of calling it via save_new_cookie_id_to_browser() didn't throw an error. Huh.
 					authorize_db_session_data(new_cookie_key, function () {
 						return res.redirect("/");
