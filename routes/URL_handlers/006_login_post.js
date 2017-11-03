@@ -1,5 +1,6 @@
 // moved helper functions to routes/helper_func/020_user_auth_func.js
-
+/*
+// db-query-based workflow:
 router.post('/loginpost', function(req, res) {
 	cookie_var = req.cookies; // {cookie_key:"abc123"} or {}
 	db.run_smart("SELECT * FROM user_acct WHERE username = \"" + req.body["username"] + "\" AND password = \"" + req.body["password"] + "\"", function(err, rows_ua) {
@@ -38,5 +39,44 @@ router.post('/loginpost', function(req, res) {
 				}
 			}
 		});
+	});
+});
+*/
+
+// cookie-based workflow:
+router.post('/loginpost', function(req, res) {
+	cookie_var = req.cookies; // {cookie_key:"abc123", is_auth:"false"} or {} 
+	db.run_smart ("SELECT * FROM user_acct WHERE username = \"" + req.body["username"] + "\" AND password = \"" + req.body["password"] + "\"", function(err, rows_ua) {
+		if (rows_ua.length == 0) { // if login failed
+			if (!cookie_var.cookie_key) { // if there's no cookie
+				console.log("1a");
+				new_cookie_key = make_id();
+				insert_new_id_to_db_table(new_cookie_key, function () {
+					//save_new_cookie_id_to_browser(new_cookie_key);
+					res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); //CE: writing this line manually instead of calling it via save_new_cookie_id_to_browser() didn't throw an error. Huh.
+					return res.redirect("/login?user_auth=false");
+				});
+			} else { // if there's an unauthorized cookie, ie, if cookie_var.is_auth == 'false'
+				console.log("1b");
+				return res.redirect("/login?user_auth=false");
+			}
+		} else { // if login successful
+			if (!cookie_var.cookie_key) { // if there's no cookie
+				console.log("2a");
+				new_cookie_key = make_id();
+				insert_new_id_to_db_table(new_cookie_key, function () {
+					//save_new_cookie_id_to_browser(new_cookie_key); // CE UPSET HERE: no browser cookie saved, but successful login
+					res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_cookie_key)); //CE: writing this line manually instead of calling it via save_new_cookie_id_to_browser() didn't throw an error. Huh.
+					authorize_db_session_data(new_cookie_key, function () {
+						return res.redirect("/");
+					});
+				})
+			} else { // if there's an unauthorized cookie, ie, if cookie_var.is_auth == 'false'
+				console.log("2b");
+				authorize_db_session_data(cookie_var.cookie_key, function () {
+					return res.redirect("/");
+				});
+			}
+		}
 	});
 });
