@@ -19,9 +19,11 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 		if (parsed_session_data.user_auth == 'false') {
 			// CE/JE: here I could set a cookie (instead of passing forward query string) OR I could just set the unauthorized browser cookie key HERE and have it set already. --> uh, no I can't authorize the key here, because I haven't passed the login test. So I'd have to set a cookie instead.
 			res.setHeader('Set-Cookie', cookie.serialize('is_auth', 'false'));
+			console.log("home_pg is_auth = false");
 			return res.redirect("/login");
 		} else {
 			res.setHeader('Set-Cookie', cookie.serialize('is_auth', 'true'));
+			console.log("home_pg is_auth = true");
 //
 //
 
