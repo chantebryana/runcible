@@ -13,32 +13,10 @@ make_id = function make_id() {
 insert_new_key_to_db = function insert_new_key_to_db(new_key, callback) {
 	var sesh_false_obj = {user_auth:"false"};
 	var sesh_false_string = JSON.stringify(sesh_false_obj);
-	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_key + "\", " + sesh_false_string +  ")", function(err, rows) {
+	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_key + "\", '" + sesh_false_string +  "')", function(err, rows) { // JE: replace escaped double quotes with literal single quotes (for now): this accounts for the unescaped double quotes within the JSON.stringify-ied variable
 		callback(sesh_false_obj);
 	});
 }
-
-/*
-Let's make a note. I commented-out the preamble section of `home_pg.js`. I updated the `get` wrappers and their respective helper functions, making sure that the `session_data`-style variables were all the same format (already parsed-out, but stringified if being injected into a sqlite query). I cranked up the web server and refreshed localhost:3000/ and there was no error! I then cleared the cookies (localhost:3000/clearcookie), after which the web page froze and the terminal reported this error: 
-
-```
-{ Error: SQLITE_ERROR: near "user_auth": syntax error
-    at Error (native) errno: 1, code: 'SQLITE_ERROR' }
-```
-
-I want to emphasize that my new code didn't crash right away if there was already a functioning cookie. That suggests that it's stable enough to pass forward already authorized variables: cool! There are still kinks to iron out if I have to explore any of the branches (ie, if my session isn't authorized), which, granted, encapsulates lots of workflow possibilities. But It's pretty rad that my new code didn't automatically explode everything like I was expecting. ;-)
-
-Re my sqlite error: I'm going to play around with quotes. But if that doesn't work then I'm not sure what to do about it -- it's a remarkably unspecific error!
-
-OK, so I updated my sqlite query to include a closing parenthases (need this to work). This update provided the same sqlite error message, so I tried removing the escaped quotes around the `session_data_string`-style variable. This gave me a different error: 
-
-```
-{ Error: SQLITE_ERROR: unrecognized token: "{"
-    at Error (native) errno: 1, code: 'SQLITE_ERROR' }
-```
-
-While I still don't really know what's going on with these sqlite errors, I have some reason to believe that the error revolves around the `INSERT` query that I've been focusing on. It suggests that I'm looking at the right portion of code! I'm still confused, but it is likely an educated confused. ;-)
-*/
 
 save_new_key_to_browser = function save_new_key_to_browser(res, new_key){
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_key));
