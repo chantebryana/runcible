@@ -46,7 +46,8 @@ router.post('/loginpost', function(req, res) {
 // cookie-based workflow:
 router.post('/loginpost', function(req, res) {
 	cookie_var = req.cookies; // {cookie_key:"abc123", is_auth:"false"} or {} 
-	db.run_smart ("SELECT * FROM user_acct WHERE username = \"" + req.body["username"] + "\" AND password = \"" + req.body["password"] + "\"", function(err, rows_ua) {
+	//db.run_smart ("SELECT * FROM user_acct WHERE username = \"" + req.body["username"] + "\" AND password = \"" + req.body["password"] + "\"", function(err, rows_ua) {
+db.run_smart ("SELECT * FROM user_acct WHERE username = ? AND password = ?", req.body["username"], req.body["password"], function(err, rows_ua) {
 		if (rows_ua.length == 0) { // if login failed
 			if (!cookie_var.cookie_key) { // if there's no cookie
 				console.log("1a");

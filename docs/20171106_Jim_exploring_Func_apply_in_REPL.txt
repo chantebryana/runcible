@@ -1,0 +1,24 @@
+>function showArgs(){
+... for(var i=0; i<arguments.length; i++){
+..... console.log(arguments[i]);
+..... }}
+undefined
+> showArgs(1,2,3,4);
+1
+2
+3
+4
+>function passArgs(){
+... showArgs.apply(this, arguments)
+... }
+undefined
+> passArgs(1,2,3)
+1
+2
+3
+> showArgs.apply(null, ["some","arguments","to","show"])
+some
+arguments
+to
+show
+
