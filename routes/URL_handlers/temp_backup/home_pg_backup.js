@@ -1,8 +1,6 @@
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 //router.get_pg_load('/', function(req, res, pg_load) {
-//router.get('/', function(req, res) {
-router.get_with_auth('/', function(req, res, session_data) {
-/*
+router.get('/', function(req, res) {
 	// print onto terminal browser's cache of cookies: 
 	console.log("Cookies from browser: ", req.cookies);
 	// store broswer's cache of cookies onto server variable: 
@@ -28,7 +26,7 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 			console.log("home_pg is_auth = true");
 //
 //
-*/
+
 
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
@@ -92,11 +90,9 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 	});
 //
 //
-/*
 }
 }
 });
-*/
 //
 //
 });
