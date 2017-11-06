@@ -4,10 +4,11 @@
 find_or_start_session = function find_or_start_session(req, res, url_handler_callback) {
 	browser_cookie = req.cookies;
 	if (!browser_cookie.cookie_key) { // if there is no browser cookie
-		// make and save one
+		// make and save an unauthorized one
+		
 	} else { // if there is a browser cookie
 		// check it against the database
-		if () { // if it's invalid, make and save a new one
+		if () { // if it's invalid, make and save a new unauthorized one (?) -- ask Jim maybe
 
 		} 
 	}
