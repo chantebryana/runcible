@@ -1,14 +1,40 @@
 // first crack at assembling function set for get_with_session
 // (refer to `docs/20171103 Jim wrapper notes.js` for more info
 
+make_id = function make_id() {
+	var text = "";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	for (var i = 0; i < 6; i++) {
+		text += possible.charAt(Math.floor(Math.random() * possible.length));
+	};
+	return text;
+}
+
+insert_new_key_to_db = function insert_new_key_to_db(new_key, callback) {
+	var session_false = '{"user_auth":"false"}'
+	//db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_key + "\", '{\"user_auth\": \"false\"}')", function(err, rows) {
+	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_key + "\", \"" + session_false +  "\"", function(err, rows) {
+		callback(session_false);
+	});
+}
+
+save_new_key_to_browser = function save_new_key_to_browser(res, new_key){
+	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_key));
+}
+
+//
+//
+//
+//
 find_or_start_session = function find_or_start_session(req, res, session_callback) {
 	browser_cookie = req.cookies;
 	if (!browser_cookie.cookie_key) { // if there is no `browser_cookie`
 		// make and save an unauthorized one
 		var new_key = make_id();
-		insert_new_key_to_db(new_key, function () {
+		insert_new_key_to_db(new_key, function(session_false) {
 			save_new_key_to_browser(res, new_key);
-			session_callback('{"user_auth":"false"}'); // CE: instead of passing a string, I could add an extra layer in `insert_new_key_to_db` where I also do a `select` query and return/pass-forward the `session_data` variable.
+			//session_callback('{"user_auth":"false"}'); // CE: instead of passing a string, I could add an extra layer in `insert_new_key_to_db` where I also do a `select` query and return/pass-forward the `session_data` variable.
+			session_callback(session_false);
 		});
 	} else { // if there is a browser cookie
 		// check it against the database
@@ -17,7 +43,8 @@ find_or_start_session = function find_or_start_session(req, res, session_callbac
 				var new_key = make_id();
 				insert_new_key_to_db(new_key, function () {
 					save_new_key_to_browser(res, new_key);
-					session_callback('{"user_auth":"false"}'); // CE: instead of passing a string, I could add an extra layer in `insert_new_key_to_db` where I also do a `select` query and return/pass-forward the `session_data` variable.
+					//session_callback('{"user_auth":"false"}'); // CE: instead of passing a string, I could add an extra layer in `insert_new_key_to_db` where I also do a `select` query and return/pass-forward the `session_data` variable.
+					session_callback(session_false);
 				});
 			} else { // if the `browser_cookie` matches a record in the db table
 				session_callback(rows[0].session_data);
