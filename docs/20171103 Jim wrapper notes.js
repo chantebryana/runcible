@@ -10,7 +10,7 @@ router.get_with_session = function get_with_session(URL, url_handler_callback) {
 	});
 }
 
-//checks for cookie (req.cookies). if there's a cookie, check w/ db to see if it matches. if there's no match, then create a new one and save it to db and browser. if there's no cookie at all, then skip the db-check step and jump right to creating a new one and savint it to db and browser. get_with_session will be called anywhere 'get' would have been called (each URL handler file). but get_with_session only needs to be saved once (as a helper function file).
+//checks for cookie (req.cookies). if there's a cookie, check w/ db to see if it matches. if there's no match, then create a new one and save it to db and browser. if there's no cookie at all, then skip the db-check step and jump right to creating a new one and saving it to db and browser. get_with_session will be called anywhere 'get' would have been called (each URL handler file). but get_with_session only needs to be saved once (as a helper function file).
 router.get_with_session = function get_with_session(URL, url_handler_callback) {
 	this.get(URL, function (req, res) {
 		find_or_start_session(req, res, function(session_data) { // maybe one or two db queries will run wrapped up in line 14. argument 'session_data' is the splooge that squirts out of the db queries and that gets passed forward below.
