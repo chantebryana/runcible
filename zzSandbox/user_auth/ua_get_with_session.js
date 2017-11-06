@@ -3,11 +3,12 @@
 
 find_or_start_session = function find_or_start_session(req, res, url_handler_callback) {
 	browser_cookie = req.cookies;
-	if (!browser_cookie.cookie_key) { // if there is no browser cookie
+	if (!browser_cookie.cookie_key) { // if there is no `browser_cookie`
 		// make and save an unauthorized one
 		var new_key = make_id();
 		insert_new_key_to_db(new_key, function () {
 			save_new_key_to_browser(res, new_key);
+			url_handler_callback('{"user_auth":"false"}'); // CE: instead of passing a string, I could add an extra layer in `insert_new_key_to_db` where I also do a `select` query and return/pass-forward the `session_data` variable.
 		});
 	} else { // if there is a browser cookie
 		// check it against the database
@@ -16,12 +17,13 @@ find_or_start_session = function find_or_start_session(req, res, url_handler_cal
 				var new_key = make_id();
 				insert_new_key_to_db(new_key, function () {
 					save_new_key_to_browser(res, new_key);
+					url_handler_callback('{"user_auth":"false"}'); // CE: instead of passing a string, I could add an extra layer in `insert_new_key_to_db` where I also do a `select` query and return/pass-forward the `session_data` variable.
 				});
+			} else { // if the `browser_cookie` matches a record in the db table
+				url_handler_callback(rows[0].session_data);
 			}
 		}); 
 	}
-	// somewhere pass forward session_data via callback. here? what about asynchronous function in one of the if branches?
-	url_handler_callback(req, res, rows[0].session_data);
 };
 
 
