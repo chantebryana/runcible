@@ -41,7 +41,7 @@ find_or_start_session = function find_or_start_session(req, res, session_callbac
 		db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie.cookie_key + "\"", function(err, rows) {
 			if (rows.length == 0) { // if it's invalid, make and save a new unauthorized one (?) -- ask Jim maybe
 				var new_key = make_id();
-				insert_new_key_to_db(new_key, function () {
+				insert_new_key_to_db(new_key, function (session_false) {
 					save_new_key_to_browser(res, new_key);
 					//session_callback('{"user_auth":"false"}'); // CE: instead of passing a string, I could add an extra layer in `insert_new_key_to_db` where I also do a `select` query and return/pass-forward the `session_data` variable.
 					session_callback(session_false);
