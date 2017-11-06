@@ -40,7 +40,7 @@ find_or_start_session = function find_or_start_session(req, res, session_callbac
 		db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie.cookie_key + "\"", function(err, rows) {
 			if (rows.length == 0) { // if it's invalid, make and save a new unauthorized one (?) -- ask Jim maybe
 				var new_key = make_id();
-				insert_new_key_to_db(new_key, function (sesh_false_obj) {
+				insert_new_key_to_db(new_key, function(sesh_false_obj) {
 					save_new_key_to_browser(res, new_key);
 					session_callback(sesh_false_obj);
 				});
