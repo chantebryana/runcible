@@ -1,5 +1,6 @@
 //router.post_pg_load('/deletepost', function(req, res, pg_load) {
-router.post('/deletepost', function(req, res) {
+//router.post('/deletepost', function(req, res) {
+router.post_with_auth('/deletepost', function(req, res, session_data) {
 	//console.log('Total Page Loads After Posting Update Entry Form Page: ', pg_load);
 	var query = "";
 	db.all(query="DELETE FROM time_temp WHERE id=" + req.body["id_home"], function(err, rows) {

@@ -1,5 +1,6 @@
 //router.post_pg_load('/formpost', function(req, res, pg_load) {
-router.post('/formpost', function(req, res) {
+//router.post('/formpost', function(req, res) {
+router.post_with_auth('/formpost', function(req, res, session_data) {
 	//console.log('Total Page Loads After Posting New Entry Form Page: ', pg_load);
 	console.log("cycle name: ");
 	console.log(req.body["name"]);
