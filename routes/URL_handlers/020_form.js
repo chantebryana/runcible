@@ -1,5 +1,6 @@
 //router.get_pg_load('/form', function(req, res, pg_load) {
-router.get('/form', function(req, res) {
+//router.get('/form', function(req, res) {
+router.get_with_auth('/form', function(req, res, session_data) {
 	//console.log('Total Page Loads After Loading New Entry Form Page: ', pg_load);
 	var current_cycle_id = req.query.cycle;
 	get_first_and_last_cycle_id(function(first_cycle_id, last_cycle_id){
