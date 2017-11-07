@@ -13,7 +13,8 @@ make_id = function make_id() {
 insert_new_key_to_db = function insert_new_key_to_db(new_key, callback) {
 	var sesh_false_obj = {user_auth:"false"};
 	var sesh_false_string = JSON.stringify(sesh_false_obj);
-	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_key + "\", '" + sesh_false_string +  "')", function(err, rows) { // JE: replace escaped double quotes with literal single quotes (for now): this accounts for the unescaped double quotes within the JSON.stringify-ied variable
+	//db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(\"" + new_key + "\", '" + sesh_false_string +  "')", function(err, rows) { // JE: replace escaped double quotes with literal single quotes (for now): this accounts for the unescaped double quotes within the JSON.stringify-ied variable
+	db.run_smart("INSERT INTO cookie_key_json (cookie_key, session_data) VALUES(?, ?)", new_key, sesh_false_string, function(err, rows) {
 		callback(sesh_false_obj);
 	});
 }
