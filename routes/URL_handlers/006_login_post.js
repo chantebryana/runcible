@@ -8,7 +8,7 @@ db.run_smart ("SELECT * FROM user_acct WHERE username = ? AND password = ?", req
 			return res.redirect("/login?user_auth=false");
 		} else { // if login successful
 			browser_cookie = req.cookies;
-			authorize_db_session_data(browser_cookie.cookie_key, function () {
+			authorize_db_session_data(browser_cookie.cookie_key, session_data, function (session_data) {
 				return res.redirect("/");
 			});
 		}
