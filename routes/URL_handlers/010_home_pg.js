@@ -1,35 +1,5 @@
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
-//router.get_pg_load('/', function(req, res, pg_load) {
-//router.get('/', function(req, res) {
 router.get_with_auth('/', function(req, res, session_data) {
-/*
-	// print onto terminal browser's cache of cookies: 
-	console.log("Cookies from browser: ", req.cookies);
-	// store broswer's cache of cookies onto server variable: 
-	cookie_var = req.cookies
-	// print onto terminal the server variable: 
-	console.log("cookie_var: ", cookie_var);
-
-//
-//
-
-db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + cookie_var.cookie_key + "\"", function(err, rows) {
-	if (rows.length == 0) {
-		return res.redirect("/login");
-	} else {
-		var parsed_session_data = JSON.parse(rows[0].session_data);
-		if (parsed_session_data.user_auth == 'false') {
-			// CE/JE: here I could set a cookie (instead of passing forward query string) OR I could just set the unauthorized browser cookie key HERE and have it set already. --> uh, no I can't authorize the key here, because I haven't passed the login test. So I'd have to set a cookie instead.
-			res.setHeader('Set-Cookie', cookie.serialize('is_auth', 'false'));
-			console.log("home_pg is_auth = false");
-			return res.redirect("/login");
-		} else {
-			res.setHeader('Set-Cookie', cookie.serialize('is_auth', 'true'));
-			console.log("home_pg is_auth = true");
-//
-//
-*/
-
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
 	// get the following cycle id's via callbacks: first, last, previous, next
@@ -90,13 +60,4 @@ db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + 
 			});
 		});
 	});
-//
-//
-/*
-}
-}
-});
-*/
-//
-//
 });
