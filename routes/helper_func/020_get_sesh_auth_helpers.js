@@ -1,4 +1,4 @@
-// helper functions for `get_with_session`, a `get` wrapper
+// helper functions for wrappers `get_with_session` and `post_with_session`:
 
 // make and return a 6-character case-sensitive-alpha-numeric string (new cookie key): 
 make_id = function make_id() {
@@ -55,5 +55,22 @@ find_or_start_session = function find_or_start_session(req, res, session_callbac
 				session_callback(session_parsed);
 			}
 		}); 
+	}
+};
+
+//
+//
+//
+//
+// helper functions for wrappers `get_with_auth` and `post_with_auth`:
+
+// redirects to login page if session_data isn't authorized, else it passes namespace arguments (res, req, session_data) forward:
+stay_or_redirect = function stay_or_redirect(res, session_data, callback) {
+	if (session_data.user_auth != 'true') {
+		console.log("stay_or_redirect() -> unauthorized session data");
+		return res.redirect("/login");
+	} else {
+		console.log("stay_or_redirect() -> authorized session data");
+		callback();
 	}
 };
