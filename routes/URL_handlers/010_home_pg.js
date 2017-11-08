@@ -3,20 +3,25 @@ router.get_with_auth('/', function(req, res, session_data) {
 
 //
 //
+	increment_pg_load(session_data, function(this_session) {
+
+
+/*
 	// create separate variable to store session_data changes:
 	//var this_session = session_data;
 	var this_session = new Object; // gotta point to new memory
-	// manually (for now) copy over each value of object:
+	// manually (for now) copy over each value of session_data object:
 	this_session.user_auth = session_data.user_auth;
 	this_session.pg_load = session_data.pg_load;
 	// increment pg_load session data:
-	if (!this_session.pg_load) { // if pg_load object doesn't exist, create it and set it to 1:
+	if (!this_session.pg_load) { // if pg_load key doesn't exist, create it and set its value to 1:
 		this_session.pg_load = 1;
-	} else { // if pg_load object already exists, increment it by 1:
+	} else { // if pg_load key already exists, increment its value by 1:
 		this_session.pg_load += 1;
 	}
 	console.log("beginning: this_session.user_auth: ", this_session.user_auth);
 	console.log("beginning: this_session.pg_load: ", this_session.pg_load);
+*/
 //
 //
 
@@ -118,4 +123,9 @@ router.get_with_auth('/', function(req, res, session_data) {
 			});
 		});
 	});
+//
+//
+	});
+//
+//
 });
