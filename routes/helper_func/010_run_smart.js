@@ -3,7 +3,6 @@
 db.run_smart = function run_smart(){
   callback = arguments[arguments.length-1];
   arguments[arguments.length-1] = function(err,rows){
-		console.log("JIMBO: alternate db callback");
 //  this.all(query_string, function(err, rows){
     if(err) {
       console.log(err);
