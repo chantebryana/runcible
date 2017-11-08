@@ -7,7 +7,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 	//var this_session = session_data;
 	var this_session = new Object; // gotta point to new memory
 	// manually (for now) copy over each value of object:
-	this_session.cookie_key = session_data.cookie_key;
+	this_session.user_auth = session_data.user_auth;
 	this_session.pg_load = session_data.pg_load;
 	// increment pg_load session data:
 	if (!this_session.pg_load) { // if pg_load object doesn't exist, create it and set it to 1:
@@ -15,6 +15,8 @@ router.get_with_auth('/', function(req, res, session_data) {
 	} else { // if pg_load object already exists, increment it by 1:
 		this_session.pg_load += 1;
 	}
+	console.log("beginning: this_session.user_auth: ", this_session.user_auth);
+	console.log("beginning: this_session.pg_load: ", this_session.pg_load);
 //
 //
 
@@ -80,11 +82,13 @@ router.get_with_auth('/', function(req, res, session_data) {
 					if (this_session != session_data) {
 						var browser_key = req.cookies;
 						var session_string = JSON.stringify(this_session);
-						db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key, function (err, rows) {
+						console.log("end, if branch: browser_key.cookie_key: " + browser_key.cookie_key + "; session_string: " + session_string);
+						db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key.cookie_key, function (err, rows) {
 							// CE: how to manage res.render for if/else branches??
 						res.render('pages', render_contents);
 						});
 					} else {
+						console.log("end, else branch");
 						res.render('pages', render_contents);
 					}
 //
