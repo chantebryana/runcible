@@ -14,6 +14,7 @@ increment_pg_load = function increment_pg_load(session_data, pg_session_callback
 	}
 };
 
+/*
 // CE: (failed) attempt to wrap if/else res.render branches at the end of home_pg.js into its own black box. got error messages and doesn't work. Jim provided some feedback (in notes of home_pg.js) to give me stuff to latch onto while I move forward.
 res.render_pg_load = function render_pg_load(view, locals, req, pg_session, session_data) {
 	if (pg_session != session_data) {
@@ -26,24 +27,6 @@ res.render_pg_load = function render_pg_load(view, locals, req, pg_session, sess
 		this.render(view, locals);
 	}
 }
-
-/*
-terminal error message when attempting to run above black box: 
-
-/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:17
-res.render_pg_load = function render_pg_load(view, locals, req, pg_session, session_data) {
-^
-
-ReferenceError: res is not defined
-    at Object.<anonymous> (/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:17:1)
-    at Module._compile (module.js:570:32)
-    at Object.Module._extensions..js (module.js:579:10)
-    at Module.load (module.js:487:32)
-    at tryModuleLoad (module.js:446:12)
-    at Function.Module._load (module.js:438:3)
-    at Module.require (module.js:497:17)
-    at require (internal/module.js:20:19)
-    at Object.<anonymous> (/home/ruby/projects/runcible/routes/index.js:36:3)
-    at Module._compile (module.js:570:32)
-
 */
+
+
