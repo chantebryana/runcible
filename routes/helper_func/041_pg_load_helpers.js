@@ -50,6 +50,7 @@ final_render_step = function() {
 	});
 };
 
+/*
 // pseudocode framework for workflow black box structure Jim mentioned yesterday (rignt now it lives on line 74 of home_pg.js)
 func_name = function func_name (stuff, stuff, callback) {
 	if () {
@@ -65,3 +66,33 @@ func_name = function func_name (stuff, stuff, callback) {
 func_name(stuff, stuff, function() {
 	final_render_step();
 });
+*/
+// attempt at actual session_save code: 
+save_session_data = function save_session_data(session_data, pg_session, req.cookies, save_callback) {
+	if (pg_session != session_data) {
+		var browser_key = req.cookies;
+		var session_string = JSON.stringify(this_session);
+		db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key.cookie_key, function (err, rows) {
+			save_callback(pg_session);
+		});
+	} else {
+			save_callback(pg_session);
+	}
+};
+
+/*
+CE: first attempt to run this code. Received the following terminal error re `req.cookies` argument: 
+
+/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:71
+save_session_data = function save_session_data(session_data, pg_session, req.cookies, save_callback) {
+                                                                            ^
+
+SyntaxError: Unexpected token .
+
+*/
+/*
+// attempt at actual implementation of session_save: 
+save_session_data(session_data, pg_session, req.cookies, function(this_session) {
+	final_render_step();
+});
+*/
