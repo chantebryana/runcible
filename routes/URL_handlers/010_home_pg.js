@@ -48,6 +48,10 @@ router.get_with_auth('/', function(req, res, session_data) {
 //
 //
 
+					save_session_data(session_data, this_session, req.cookies, function() {
+						final_render_step();
+					});
+/*
 					var render_contents = {
 						title: 'Home', 
 						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
@@ -88,7 +92,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 						//res.render('pages', render_contents);
 						final_render_step();
 					}
-
+*/
 //
 //
 /*

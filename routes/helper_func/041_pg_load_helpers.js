@@ -68,10 +68,10 @@ func_name(stuff, stuff, function() {
 });
 */
 // attempt at actual session_save code: 
-save_session_data = function save_session_data(session_data, pg_session, req, save_callback) {
+save_session_data = function save_session_data(session_data, pg_session, browser_cookie, save_callback) {
 	if (pg_session != session_data) {
-		var browser_key = req.cookies;
-		var session_string = JSON.stringify(this_session);
+		var browser_key = browser_cookie;
+		var session_string = JSON.stringify(pg_session);
 		db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key.cookie_key, function (err, rows) {
 			save_callback(pg_session);
 		});
@@ -85,4 +85,53 @@ save_session_data = function save_session_data(session_data, pg_session, req, sa
 save_session_data(session_data, pg_session, req.cookies, function(this_session) {
 	final_render_step();
 });
+*/
+
+/*
+ok, the earlier commit must have been failing silently: a few changes created bunches of errors!
+CE: some terminal errors
+
+ruby@ubuntu:~/projects/runcible$ node routes/index.js 
+010_run_smart.js
+020_get_sesh_auth_helpers.js
+030_get_post_with_session.js
+031_get_post_with_auth.js
+040_login_post_helper.js
+041_pg_load_helpers.js
+050_id_date_range_helpers.js
+060_x-y_axis_helpers.js
+index.js listening on port 3000!
+find_or_start_session() is running!
+foss() -> if there is a browser_key and if it does match db
+stay_or_redirect() -> authorized session data
+/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:74
+		var session_string = JSON.stringify(this_session);
+		                                    ^
+
+ReferenceError: this_session is not defined
+    at save_session_data (/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:74:39)
+    at Statement.<anonymous> (/home/ruby/projects/runcible/routes/URL_handlers/010_home_pg.js:51:6)
+ruby@ubuntu:~/projects/runcible$ node routes/index.js 
+010_run_smart.js
+020_get_sesh_auth_helpers.js
+030_get_post_with_session.js
+031_get_post_with_auth.js
+040_login_post_helper.js
+041_pg_load_helpers.js
+050_id_date_range_helpers.js
+060_x-y_axis_helpers.js
+index.js listening on port 3000!
+find_or_start_session() is running!
+foss() -> if there is a browser_key and if it does match db
+stay_or_redirect() -> authorized session data
+/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:33
+	res.render('pages', {
+	^
+
+ReferenceError: res is not defined
+    at final_render_step (/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:33:2)
+    at /home/ruby/projects/runcible/routes/URL_handlers/010_home_pg.js:52:7
+    at /home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:76:4
+    at Statement.arguments.(anonymous function) (/home/ruby/projects/runcible/routes/helper_func/010_run_smart.js:10:6)
+
 */
