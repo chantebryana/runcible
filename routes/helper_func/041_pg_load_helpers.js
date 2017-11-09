@@ -68,7 +68,7 @@ func_name(stuff, stuff, function() {
 });
 */
 // attempt at actual session_save code: 
-save_session_data = function save_session_data(session_data, pg_session, req.cookies, save_callback) {
+save_session_data = function save_session_data(session_data, pg_session, req, save_callback) {
 	if (pg_session != session_data) {
 		var browser_key = req.cookies;
 		var session_string = JSON.stringify(this_session);
@@ -80,16 +80,6 @@ save_session_data = function save_session_data(session_data, pg_session, req.coo
 	}
 };
 
-/*
-CE: first attempt to run this code. Received the following terminal error re `req.cookies` argument: 
-
-/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:71
-save_session_data = function save_session_data(session_data, pg_session, req.cookies, save_callback) {
-                                                                            ^
-
-SyntaxError: Unexpected token .
-
-*/
 /*
 // attempt at actual implementation of session_save: 
 save_session_data(session_data, pg_session, req.cookies, function(this_session) {
