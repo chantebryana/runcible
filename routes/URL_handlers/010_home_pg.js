@@ -69,6 +69,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 
 					//res.render_pg_load('pages', render_contents, req, this_session, session_data);
 					// JE: this is a replacement for the double-redundant `res.render`s in the if/else branches below: `final_render_step = function() {res.render('pages', render_contents)};`
+					final_render_step = function() {res.render('pages', render_contents);};
 
 // lines 76 thru 87 as `save_session_data(final_render_step);` ---or--- `save_session_data(function(){res.render('pages', render_contents)});`. arguments to pass through s_s_d(): session_data, this_session, req.cookies, callback 
 
@@ -79,11 +80,13 @@ router.get_with_auth('/', function(req, res, session_data) {
 						console.log("end, if branch: browser_key.cookie_key: " + browser_key.cookie_key + "; session_string: " + session_string);
 						db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key.cookie_key, function (err, rows) {
 							// CE: how to manage res.render for if/else branches??
-							res.render('pages', render_contents);
+							//res.render('pages', render_contents);
+							final_render_step();
 						});
 					} else {
 						console.log("end, else branch");
-						res.render('pages', render_contents);
+						//res.render('pages', render_contents);
+						final_render_step();
 					}
 
 //
