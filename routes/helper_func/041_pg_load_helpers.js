@@ -28,7 +28,7 @@ res.render_pg_load = function render_pg_load(view, locals, req, pg_session, sess
 	}
 }
 */
-
+/*
 final_render_step = function() {
 	res.render('pages', {
 		title: 'Home', 
@@ -49,7 +49,7 @@ final_render_step = function() {
 		}
 	});
 };
-
+*/
 /*
 // pseudocode framework for workflow black box structure Jim mentioned yesterday (rignt now it lives on line 74 of home_pg.js)
 func_name = function func_name (stuff, stuff, callback) {
@@ -68,15 +68,15 @@ func_name(stuff, stuff, function() {
 });
 */
 // attempt at actual session_save code: 
-save_session_data = function save_session_data(session_data, pg_session, res, browser_cookie, save_callback) {
+save_session_data = function save_session_data(session_data, pg_session, res, browser_key, save_callback) {
 	if (pg_session != session_data) {
 		var browser_key = browser_cookie;
 		var session_string = JSON.stringify(pg_session);
 		db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key.cookie_key, function (err, rows) {
-			save_callback(pg_session);
+			save_callback();
 		});
 	} else {
-			save_callback(pg_session);
+			save_callback();
 	}
 };
 

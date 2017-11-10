@@ -77,6 +77,11 @@ router.get_with_auth('/', function(req, res, session_data) {
 
 // lines 76 thru 87 as `save_session_data(final_render_step);` ---or--- `save_session_data(function(){res.render('pages', render_contents)});`. arguments to pass through s_s_d(): session_data, this_session, req.cookies, callback 
 
+					save_session_data(session_data, this_session, res, req.cookie, function() {
+						final_render_step();
+					});
+
+/*
 					// if local session data doesn't match database's session_data, then stringify to JSON object and run an UPDATE query
 					if (this_session != session_data) {
 						var browser_key = req.cookies;
@@ -92,7 +97,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 						//res.render('pages', render_contents);
 						final_render_step();
 					}
-
+*/
 //
 //
 /*
