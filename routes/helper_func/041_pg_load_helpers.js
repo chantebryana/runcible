@@ -87,15 +87,10 @@ save_session_data(session_data, pg_session, req.cookies, function(this_session) 
 });
 */
 
-/*
-another error: 
-
-/home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:76
-			save_callback(pg_session);
-			^
-
-TypeError: save_callback is not a function
-    at /home/ruby/projects/runcible/routes/helper_func/041_pg_load_helpers.js:76:4
-    at Statement.arguments.(anonymous function) (/home/ruby/projects/runcible/routes/helper_func/010_run_smart.js:10:6)
-
-*/
+//
+//
+//
+//
+//
+//
+//save_session_data(session_data, this_session, req.cookies, final_render_step);
