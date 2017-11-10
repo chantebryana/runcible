@@ -79,7 +79,21 @@ save_session_data = function save_session_data(session_data, pg_session, res, br
 			save_callback();
 	}
 };
+/*
+JIMBO'S NODE OBJECT OBSERVATIONS: 
 
+> a = {one: 2, three: 4}
+{ one: 2, three: 4 }
+> b = {one: 2, three: 4}
+{ one: 2, three: 4 }
+> a == b
+false
+> JSON.stringify(a) == JSON.stringify(b)
+true
+> JSON.stringify(a)
+'{"one":2,"three":4}'
+
+*/
 /*
 // attempt at actual implementation of session_save: 
 save_session_data(session_data, pg_session, req.cookies, function(this_session) {
