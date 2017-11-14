@@ -47,14 +47,9 @@ router.get_with_auth('/', function(req, res, session_data) {
 
 //
 //
-/*
-					save_session_data(session_data, this_session, res, req.cookies, function() {
-						final_render_step();
-					});
-*/
+
 					var render_contents = {
 						title: 'Home', 
-						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
 						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
 						// render beginning and end dates of currently displayed cycle to index.ejs:
 						begin_date_to_renderer: begin_date,
@@ -71,33 +66,12 @@ router.get_with_auth('/', function(req, res, session_data) {
 						}
 					};
 
-					//res.render_pg_load('pages', render_contents, req, this_session, session_data);
-					// JE: this is a replacement for the double-redundant `res.render`s in the if/else branches below: `final_render_step = function() {res.render('pages', render_contents)};`
 					final_render_step = function() {res.render('pages', render_contents);};
-
-// lines 76 thru 87 as `save_session_data(final_render_step);` ---or--- `save_session_data(function(){res.render('pages', render_contents)});`. arguments to pass through s_s_d(): session_data, this_session, req.cookies, callback 
 
 					save_session_data(session_data, this_session, res, req.cookie, function() {
 						final_render_step();
 					});
 
-/*
-					// if local session data doesn't match database's session_data, then stringify to JSON object and run an UPDATE query
-					if (this_session != session_data) {
-						var browser_key = req.cookies;
-						var session_string = JSON.stringify(this_session);
-						console.log("end, if branch: browser_key.cookie_key: " + browser_key.cookie_key + "; session_string: " + session_string);
-						db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key.cookie_key, function (err, rows) {
-							// CE: how to manage res.render for if/else branches??
-							//res.render('pages', render_contents);
-							final_render_step();
-						});
-					} else {
-						console.log("end, else branch");
-						//res.render('pages', render_contents);
-						final_render_step();
-					}
-*/
 //
 //
 /*
