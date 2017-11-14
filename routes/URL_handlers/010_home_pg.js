@@ -57,6 +57,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 						y_temp_f_to_renderer: y_temp_f, 
 						x_label_values_to_renderer: x_label_values,
 						//pg_load_to_renderer: pg_load,
+						session_to_renderer: session_data,
 						cycle_id_to_renderer: {
 							prev: previous_cycle_id, 
 							curr: current_cycle_id, 
