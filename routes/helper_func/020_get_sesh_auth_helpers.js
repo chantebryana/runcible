@@ -27,8 +27,34 @@ save_new_key_to_browser = function save_new_key_to_browser(res, new_key){
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_key));
 }
 
+//
+//
+add_session_handling_to_res_obj = function add_session_handling_to_res_obj(res) {
+	res.render_with_session = function render_with_session(view, locals, session_data, browser_key) {
+		save_session_data(session_data, this, browser_key, function() {
+			//this.render(view, locals);
+			res.render(view, locals);
+		});
+	};
+};
+//
+//
+
+
 // Somehow make sure that there's a cookie key that matches between the browser and the database table. Create one if it needs to be created. Either way, pass the session_data forward via callbacks. 
 find_or_start_session = function find_or_start_session(req, res, session_callback) {
+	add_session_handling_to_res_obj(res);
+/*
+//
+//
+	res.render_with_session = function render_with_session(view, locals, session_data, browser_key) {
+	save_session_data(session_data, this, browser_key, function() {
+		this.render(view, locals);
+	});
+};
+//
+//
+*/
 	console.log("find_or_start_session() is running!");
 	browser_cookie = req.cookies;
 	if (!browser_cookie.cookie_key) { // if there is no `browser_cookie`

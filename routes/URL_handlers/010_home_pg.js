@@ -58,12 +58,14 @@ router.get_with_auth('/', function(req, res, session_data) {
 							last: last_cycle_id
 						}
 					};
-
+/*
 					final_render_step = function() {res.render('pages', render_contents);};
 
 					save_session_data(session_data, res, req.cookie, function() {
 						final_render_step();
 					});
+*/
+					res.render_with_session('pages', render_contents, session_data, req.cookie);
 
 //
 //
