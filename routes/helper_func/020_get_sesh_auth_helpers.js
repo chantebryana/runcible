@@ -58,6 +58,17 @@ find_or_start_session = function find_or_start_session(req, res, session_callbac
 	}
 };
 
+//increments page load count by 1:
+increment_pg_load = function increment_pg_load(session_data, increment_callback) {
+	if (!session_data.pg_load) { // if pg_load key doesn't exist, create it and set its value to 1. call `increment_callback` to move things forward w/ asynchronous flow (no need to pass updated `session_data` b/c that pointer value automatically gets updated)
+		session_data.pg_load = 1;
+		increment_callback();
+	} else {	// if pg_load key already exists, increment its value by 1 and call `increment_callback` to move things along
+		session_data.pg_load += 1;
+		increment_callback();
+	}
+};
+
 //
 //
 //

@@ -3,7 +3,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 
 //
 //
-	increment_pg_load(session_data, function() {
+	//increment_pg_load(session_data, function() {
 
 //
 //
@@ -101,7 +101,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 	});
 //
 //
-	});
+//	});
 //
 //
 });
