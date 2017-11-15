@@ -1,13 +1,6 @@
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get_with_auth('/', function(req, res, session_data) {
 
-//
-//
-	//increment_pg_load(session_data, function() {
-
-//
-//
-
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
 	// get the following cycle id's via callbacks: first, last, previous, next
@@ -99,9 +92,4 @@ router.get_with_auth('/', function(req, res, session_data) {
 			});
 		});
 	});
-//
-//
-//	});
-//
-//
 });
