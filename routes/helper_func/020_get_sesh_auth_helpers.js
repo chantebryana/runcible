@@ -59,6 +59,7 @@ add_session_redirect_to_res_obj = function add_session_redirect_to_res_obj(res) 
 
 // Somehow make sure that there's a cookie key that matches between the browser and the database table. Create one if it needs to be created. Either way, pass the session_data forward via callbacks. 
 find_or_start_session = function find_or_start_session(req, res, session_callback) {
+	// these next two functions enable me to use `res.redirect_with_session` or `res.render_with_session` within URL handler functions:
 	add_session_handling_to_res_obj(res);
 	add_session_redirect_to_res_obj(res);
 	//console.log("find_or_start_session() is running!");
