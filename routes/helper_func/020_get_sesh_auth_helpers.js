@@ -27,9 +27,6 @@ save_new_key_to_browser = function save_new_key_to_browser(res, new_key){
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', new_key));
 }
 
-//
-//
-
 // saves any changes to `session_data` back to db at end of URL handler's workflow. will be called as part of `res.render` or `res.redirect`. empty `save_callback` just allows workflow to move forward as part of asynchronous flow.
 save_session = function save_session(session_data, res, browser_key, save_callback) {
 	var browser_key = browser_cookie;
@@ -49,25 +46,10 @@ add_session_handling_to_res_obj = function add_session_handling_to_res_obj(res) 
 		});
 	};
 };
-//
-//
-
 
 // Somehow make sure that there's a cookie key that matches between the browser and the database table. Create one if it needs to be created. Either way, pass the session_data forward via callbacks. 
 find_or_start_session = function find_or_start_session(req, res, session_callback) {
 	add_session_handling_to_res_obj(res);
-/*
-//
-//
-// this function as written below throws error: "`res` is not defined". This error is fixed by creating `add_session_handling_to_res_obj` (declared above)
-	res.render_with_session = function render_with_session(view, locals, session_data, browser_key) {
-	save_session(session_data, this, browser_key, function() {
-		this.render(view, locals);
-	});
-};
-//
-//
-*/
 	console.log("find_or_start_session() is running!");
 	browser_cookie = req.cookies;
 	if (!browser_cookie.cookie_key) { // if there is no `browser_cookie`
