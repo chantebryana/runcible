@@ -31,8 +31,8 @@ save_new_key_to_browser = function save_new_key_to_browser(res, new_key){
 //
 add_session_handling_to_res_obj = function add_session_handling_to_res_obj(res) {
 	res.render_with_session = function render_with_session(view, locals, session_data, browser_key) {
-		//save_session_data(session_data, this, browser_key, function() {
-		save_session_data(session_data, res, browser_key, function() {
+		//save_session(session_data, this, browser_key, function() {
+		save_session(session_data, res, browser_key, function() {
 			//this.render(view, locals);
 			res.render(view, locals);
 		});
@@ -49,7 +49,7 @@ find_or_start_session = function find_or_start_session(req, res, session_callbac
 //
 //
 	res.render_with_session = function render_with_session(view, locals, session_data, browser_key) {
-	save_session_data(session_data, this, browser_key, function() {
+	save_session(session_data, this, browser_key, function() {
 		this.render(view, locals);
 	});
 };
