@@ -38,7 +38,7 @@ save_session = function save_session(session_data, res, browser_key, save_callba
 
 //add session handling functionality to the `res` object. this function is needed to make `res.render_with_session` work within URL handlers. `ashtro` will be called within `find_or_start_session` below.
 add_session_handling_to_res_obj = function add_session_handling_to_res_obj(res) {
-	res.render_with_session = function render_with_session(view, locals, session_data, browser_key) {
+	res.render_with_session = function render_with_session(session_data, browser_key, view, locals) {
 		//save_session(session_data, this, browser_key, function() {
 		save_session(session_data, res, browser_key, function() {
 			//this.render(view, locals);

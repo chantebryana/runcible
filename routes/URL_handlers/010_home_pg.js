@@ -38,11 +38,10 @@ router.get_with_auth('/', function(req, res, session_data) {
 					var x_time_taken = logged_time_taken(a_match, rows_from_db);
 					var x_label_values = populate_x_axis_labels(full_date_range, x_time_taken);
 
-//
-//
-
-					var render_contents = {
+					// `render_with_session` performs `render` tasks, and also saves updated `session_data` to db:
+					res.render_with_session(session_data, req.cookie, 'pages', {
 						title: 'Home', 
+						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
 						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
 						// render beginning and end dates of currently displayed cycle to index.ejs:
 						begin_date_to_renderer: begin_date,
@@ -57,33 +56,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 							first: first_cycle_id, 
 							last: last_cycle_id
 						}
-					};
-					// `render_with_session` performs `render` tasks, and also saves updated `session_data` to db:
-					res.render_with_session('pages', render_contents, session_data, req.cookie);
-
-//
-//
-/*
-					// res.render sends various variables to index.ejs and its dependent pages:
-					res.render('pages', {
-						title: 'Home', 
-						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
-						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
-						// render beginning and end dates of currently displayed cycle to index.ejs:
-						begin_date_to_renderer: begin_date,
-						end_date_to_renderer: end_date,
-						y_temp_f_to_renderer: y_temp_f, 
-						x_label_values_to_renderer: x_label_values,
-						//pg_load_to_renderer: pg_load,
-						cycle_id_to_renderer: {
-							prev: previous_cycle_id, 
-							curr: current_cycle_id, 
-							next: next_cycle_id, 
-							first: first_cycle_id, 
-							last: last_cycle_id
-						}
 					});
-*/
 				});
 			});
 		});
