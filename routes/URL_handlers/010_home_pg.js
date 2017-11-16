@@ -39,8 +39,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 					var x_label_values = populate_x_axis_labels(full_date_range, x_time_taken);
 
 					// `render_with_session` performs `render` tasks, and also saves updated `session_data` to db:
-					res.render_with_session(session_data, req.cookie, 'pages', {
-						title: 'Home', 
+					res.render_with_session(session_data, req.cookie, 'pages', {title: 'Home', 
 						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
 						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
 						// render beginning and end dates of currently displayed cycle to index.ejs:
