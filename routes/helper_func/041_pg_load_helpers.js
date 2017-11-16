@@ -1,4 +1,4 @@
-
+/*
 // saves any changes to `session_data` back to db at end of URL handler's workflow. will be called as part of `res.render` or `res.redirect`. empty `save_callback` just allows workflow to move forward as part of asynchronous flow.
 save_session = function save_session(session_data, res, browser_key, save_callback) {
 	var browser_key = browser_cookie;
@@ -7,7 +7,7 @@ save_session = function save_session(session_data, res, browser_key, save_callba
 		save_callback();
 		});
 };
-
+*/
 //
 //
 //
