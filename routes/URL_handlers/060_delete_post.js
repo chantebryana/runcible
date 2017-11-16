@@ -7,6 +7,7 @@ router.post_with_auth('/deletepost', function(req, res, session_data) {
 		console.log("attempted to delete with ((" + query + "))");
 		//res.redirect('/');
 		// redirect to the cycle of the row I just deleted (not defaulting to most recent cycle): 
-		res.redirect('/?cycle=' + req.body["cycle_id"]);
+		//res.redirect('/?cycle=' + req.body["cycle_id"]);
+		res.redirect_with_session(session_data, req.cookie, '/?cycle=' + req.body["cycle_id"]);
 	});
 });

@@ -31,6 +31,7 @@ save_new_key_to_browser = function save_new_key_to_browser(res, new_key){
 save_session = function save_session(session_data, res, browser_key, save_callback) {
 	var browser_key = browser_cookie;
 	var session_string = JSON.stringify(session_data);
+	console.log("pg_load: ", session_data.pg_load);
 	db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key.cookie_key, function (err, rows) {
 		save_callback();
 		});
@@ -47,9 +48,19 @@ add_session_handling_to_res_obj = function add_session_handling_to_res_obj(res) 
 	};
 };
 
+//add session redirect functionality to the `res` object, similar to the one above. 
+add_session_redirect_to_res_obj = function add_session_redirect_to_res_obj(res) {
+	res.redirect_with_session = function redirect_with_session (session_data, browser_key, path) {
+		save_session(session_data, res, browser_key, function () {
+			res.redirect(path);
+		});
+	};
+};
+
 // Somehow make sure that there's a cookie key that matches between the browser and the database table. Create one if it needs to be created. Either way, pass the session_data forward via callbacks. 
 find_or_start_session = function find_or_start_session(req, res, session_callback) {
 	add_session_handling_to_res_obj(res);
+	add_session_redirect_to_res_obj(res);
 	//console.log("find_or_start_session() is running!");
 	browser_cookie = req.cookies;
 	if (!browser_cookie.cookie_key) { // if there is no `browser_cookie`

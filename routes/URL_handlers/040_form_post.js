@@ -30,7 +30,8 @@ console.log(err);console.log("<<<<>>>>"); // JE: shows the 'contents' of object 
 		db.all("INSERT INTO time_temp (date, time_taken, temp_f, cycle_id) VALUES( \"" + req.body["date"] + "\", \"" + req.body["time_taken"] + "\", \"" + req.body["temp_f"] + "\", \"" + req.body["cycle_id"] + "\")", function(err, rows_from_time_temp) {
 			// after conducting this brain work, redirect to home page: 
 			// redirect to the cycle of the row I just created (not defaulting to most recent cycle): 
-			res.redirect('/?cycle=' + req.body["cycle_id"]);
+			//res.redirect('/?cycle=' + req.body["cycle_id"]);
+			res.redirect_with_session(session_data, req.cookie, '/?cycle=' + req.body["cycle_id"]);
 		});
 	}
 });
