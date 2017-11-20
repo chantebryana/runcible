@@ -9,7 +9,8 @@ db.run_smart ("SELECT * FROM user_acct WHERE username = ? AND password = ?", req
 		} else { // if login successful
 			browser_cookie = req.cookies;
 			authorize_db_session_data(browser_cookie.cookie_key, session_data, function () {
-				return res.redirect("/");
+				//return res.redirect("/");
+				return res.redirect_with_session(session_data, req.cookie, "/");
 			});
 		}
 	});
