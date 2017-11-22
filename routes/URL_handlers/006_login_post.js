@@ -2,17 +2,19 @@
 
 router.post_with_session('/loginpost', function(req, res, session_data) {
 	//CE PUT ENCRYPTION HERE
-	// source: https://nodejs.org/api/crypto.html#crypto_class_hash
+	// sources: https://nodejs.org/api/crypto.html#crypto_class_hash
+	// http://lollyrock.com/articles/nodejs-sha512/
 	crypto = require("crypto");
 	hash = crypto.createHash("sha256");
 	hash.on("readable", function() {
 		data = hash.read();
 		if (data) {
 			console.log(data.toString("hex"));
-			// returns fb0f65bad4dc6f57274d18f5296dd44c5709f29dfed319d8b42ffd760360aa00
+			// returns b193d7700a33a8fa3ed2ebb0c5de344fcba26ecf5c51e433d7d1ac5fbfb7ffec
+
 		}
 	});
-	hash.write("mysecretpassword\n");
+	hash.write(req.body["password"]);
 	hash.end();
 	db.run_smart ("SELECT * FROM user_acct WHERE username = ? AND password = ?", req.body["username"], req.body["password"], function(err, rows) {
 		if (rows.length == 0) { // if login failed
