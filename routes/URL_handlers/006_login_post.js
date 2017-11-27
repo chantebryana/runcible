@@ -1,24 +1,9 @@
 // moved helper functions to routes/helper_func/020_user_auth_func.js
 
-//CE: put this function in another file????
-function sha256Sum(data, callback){
-	const crypto = require("crypto");
-	const hash = crypto.createHash("sha256");
-	hash.on("readable", function() {
-		const data = hash.read();
-		if (data) {
-			var hex_hash = data.toString("hex");
-			callback(hex_hash);
-		}
-	});
-	hash.write(data);
-	hash.end();
-};
-
 router.post_with_session('/loginpost', function(req, res, session_data) {
 	//CE PUT ENCRYPTION HERE
 	sha256Sum(req.body["password"], function(hex_hash) {
-	console.log(hex_hash);
+		console.log(hex_hash);
 		db.run_smart ("SELECT * FROM user_acct WHERE username = ? AND password = ?", req.body["username"], hex_hash, function(err, rows) {
 			if (rows.length == 0) { // if login failed
 				return res.redirect("/login?user_auth=false");
