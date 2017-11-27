@@ -10,7 +10,7 @@ hash.on('readable', () => {
   const data = hash.read();
   if (data) {
     console.log(data.toString('hex'));
-		// prints some hex string, which I then copy from node and then paste into the password field (for the newly generated user) in the relevant sqlite table.
+		// after `hash.end()`, prints some hex string, which I then copy from node and then paste into the password field (for the newly generated user) in the relevant sqlite table.
   }
 });
 
@@ -51,9 +51,11 @@ hash.on('readable', () => {
   if (data) {
     console.log(data.toString('hex'));
 		// prints some hex string, which I then copy from node and then paste into the password field (for the newly generated user) in the relevant sqlite table.
+		// after `hash.end()`, prints something like:  7be789b230356245b2d499f780011479184f8cb00d3887aca3ac6c720627963c
   }
 });
 
 hash.write(hash_pass);
 hash.end();
 console.log('user password + salt: ' + hash_pass);
+// prints something like: 'user password + salt: password43a03f2b5d'
