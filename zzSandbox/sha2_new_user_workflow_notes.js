@@ -28,7 +28,7 @@ const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 
 //var user_pass = /*'password string'*/
-var user_pass = 'password';
+var user_pass = 'hashword';
 
 var genRandomString = function(length){
 	return crypto.randomBytes(Math.ceil(length/2))
