@@ -9,6 +9,12 @@ authorize_db_session_data = function authorize_db_session_data(cookie_key, sessi
 	});
 };
 
+lookupName = function lookupName(name, callback) {
+	db.run_smart("SELECT salt FROM user_acct WHERE username = ?", name, function(err, rows) {
+		callback(rows[0].salt);
+	});
+};
+
 sha256Sum = function sha256Sum(data, callback){
 	const crypto = require("crypto");
 	const hash = crypto.createHash("sha256");
@@ -22,3 +28,6 @@ sha256Sum = function sha256Sum(data, callback){
 	hash.write(data);
 	hash.end();
 };
+
+
+
