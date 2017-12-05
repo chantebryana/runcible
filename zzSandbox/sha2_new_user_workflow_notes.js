@@ -31,11 +31,11 @@ const hash = crypto.createHash('sha256');
 var user_pass = 'hashword';
 
 var genRandomString = function(length){
-	return crypto
+	return crypto.
 	// 3 object-member-lookups run on `crypto` (the previous object); the order matters. can't return `crypto` without the object-member-lookups:
-	.randomBytes(Math.ceil(length/2))
-	.toString('hex') 	// convert to hexadecimal format 
-	.slice(0,length);	// return required number of characters 
+		randomBytes(Math.ceil(length/2)).
+		toString('hex'). 	// convert to hexadecimal format 
+		slice(0,length);	// return required number of characters 
 };
 
 /*
