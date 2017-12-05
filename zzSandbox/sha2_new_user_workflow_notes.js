@@ -31,9 +31,11 @@ const hash = crypto.createHash('sha256');
 var user_pass = 'hashword';
 
 var genRandomString = function(length){
-	// 3 object-member-lookups run on `crypto` (the previous object); the order matters. can't return `crypto` without the object-member-lookups:
-	return crypto.randomBytes(Math.ceil(length/2)).toString('hex').slice(0,length);	
-	// return required number of characters 
+	// this is all effectively one line of code, just broken up into easy-to-read(?) line breaks. 3 object-member-lookups run on `crypto` (the previous object); the order matters. can't return `crypto` without the object-member-lookups:
+	return crypto.
+		randomBytes(Math.ceil(length/2)).
+		toString('hex'). 	// convert to hexadecimal format 
+		slice(0,length);	// return required number of characters 
 };
 
 /*
