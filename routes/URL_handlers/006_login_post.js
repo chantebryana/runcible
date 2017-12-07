@@ -4,9 +4,9 @@ router.post_with_session('/loginpost', function(req, res, session_data) {
 	//CE PUT ENCRYPTION HERE
 
 	// db access for salt!
-	findNameGetSalt(req.body.username, function(salt) {
-
-	var hash_pass = req.body['password'] + salt;
+	//findNameGetSalt(req.body.username, function(salt) {
+	salty(req.body, function(hash_pass) {
+	//var hash_pass = req.body['password'] + salt;
 
 
 //	sha256Sum(req.body["password"], function(hex_hash) {

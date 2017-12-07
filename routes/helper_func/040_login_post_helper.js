@@ -8,11 +8,20 @@ authorize_db_session_data = function authorize_db_session_data(cookie_key, sessi
 		callback();
 	});
 };
-
+/*
 //look up username in `user_acct` db table; pass associated `salt` variable forward via callback: 
 findNameGetSalt = function findNameGetSalt(name, callback) {
 	db.run_smart("SELECT salt FROM user_acct WHERE username = ?", name, function(err, rows) {
 		callback(rows[0].salt);
+	});
+};
+*/
+
+// `body` includes user-entered username and password from login page. this function looks up username in `user_acct` db table and returns associated `salt` to `rows` variable; it then assigns variable `hash_pass` to user-entered password plus the `salt` looked up by db query. Passes `hash_pass` forward via callback, which will be used more in `sha256Sum`:
+salty = function salty(body, callback) {
+	db.run_smart("SELECT salt FROM user_acct WHERE username = ?", body.username, function(err, rows) {
+		var hash_pass = body.password + rows[0].salt;
+		callback(hash_pass);
 	});
 };
 
