@@ -12,10 +12,10 @@ authorize_db_session_data = function authorize_db_session_data(cookie_key, sessi
 // `body` includes user-entered username and password from login page. this function looks up username in `user_acct` db table and returns associated `salt` to `rows` variable; it then assigns variable `hash_pass` to user-entered password plus the `salt` looked up by db query. Passes `hash_pass` forward via callback, which will be used more in `sha256Sum`:
 salty = function salty(body, callback) {
 	db.run_smart("SELECT salt FROM user_acct WHERE username = ?", body.username, function(err, rows) {
-		if (rows.length > 0) { // if db query works as expected, ie, if length is greater than 0
+		if (rows.length > 0) { // if db query works as expected, ie, if rows contains some data and its length is greater than 0, then fill `hash_pass` with the user-entered password plus the salt we just queried
 			var hash_pass = body.password + rows[0].salt;
 			callback(hash_pass);
-		} else { // if `body.username` is blank/doesn't match db values, and `rows` is empty (fill `hash_pass` with dummy values that won't break future functions)
+		} else { // if `body.username` is blank/doesn't match db values, and `rows` is empty, then fill `hash_pass` with dummy values that won't break future functions
 			var hash_pass = body.password;
 			callback(hash_pass);
 		}
