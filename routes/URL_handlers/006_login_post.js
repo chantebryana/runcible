@@ -1,17 +1,10 @@
 // moved helper functions to routes/helper_func/020_user_auth_func.js
 
 router.post_with_session('/loginpost', function(req, res, session_data) {
-	//CE PUT ENCRYPTION HERE
-
-	// db access for salt!
-	//findNameGetSalt(req.body.username, function(salt) {
-	salty(req.body, function(hash_pass) {
-	//var hash_pass = req.body['password'] + salt;
-
-
-//	sha256Sum(req.body["password"], function(hex_hash) {
-		sha256Sum(hash_pass, function(hex_hash) {
+	// encrypt user-entered password with salt: 
+	passwordCheck(req.body, function(hex_hash) {
 		console.log(hex_hash);
+		// db lookup to see if encrypted password matches db entry: 
 		db.run_smart ("SELECT * FROM user_acct WHERE username = ? AND password = ?", req.body["username"], hex_hash, function(err, rows) {
 			if (rows.length == 0) { // if login failed
 				return res.redirect("/login?user_auth=false");
@@ -23,7 +16,6 @@ router.post_with_session('/loginpost', function(req, res, session_data) {
 				});
 			}
 		});
-	});
 	});
 });
 

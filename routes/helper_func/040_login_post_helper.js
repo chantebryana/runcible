@@ -32,5 +32,13 @@ sha256Sum = function sha256Sum(data, callback){
 	hash.end();
 };
 
-
+// combine salt with sha-256 encryption to create a single, wrapped up box with a single clean and sleek and fully-functioning function to use in `login_post`: 
+//take user-entered username and password (`body`), combine it with the salt (db lookup), encrypt salted password, and pass forward via callback: 
+passwordCheck = function passwordCheck(body, callback) {
+	salty(body, function(hash_pass) {
+		sha256Sum(hash_pass, function(hex_hash) {
+			callback(hex_hash);
+		});
+	});
+};
 
