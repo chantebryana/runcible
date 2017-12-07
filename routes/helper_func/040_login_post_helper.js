@@ -9,12 +9,14 @@ authorize_db_session_data = function authorize_db_session_data(cookie_key, sessi
 	});
 };
 
-lookupName = function lookupName(name, callback) {
+//look up username in `user_acct` db table; pass associated `salt` variable forward via callback: 
+findNameGetSalt = function findNameGetSalt(name, callback) {
 	db.run_smart("SELECT salt FROM user_acct WHERE username = ?", name, function(err, rows) {
 		callback(rows[0].salt);
 	});
 };
 
+// take password entered by user in login page and convert it over to a sha-256 hexidecimal hash. Will later be combined with the salt to match with the encrypted password stored in `user_acct` db table: 
 sha256Sum = function sha256Sum(data, callback){
 	const crypto = require("crypto");
 	const hash = crypto.createHash("sha256");
