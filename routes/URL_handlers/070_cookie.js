@@ -1,4 +1,5 @@
-router.get('/cookie', function(req,res){
+//router.get('/cookie', function(req,res){
+router.get_with_auth('/cookie', function(req,res, session_data){
 	// sets the initial cookie by hand for testing purposes: 
 	res.setHeader('Set-Cookie', cookie.serialize('cookie_key', 'aaa111'));
 	// save browser's cookie to browser_cookie_key via req.cookies:

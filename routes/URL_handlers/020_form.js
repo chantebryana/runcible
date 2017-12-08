@@ -22,7 +22,8 @@ router.get_with_auth('/form', function(req, res, session_data) {
 					for (i = 0; i < cycle_value_from_db.length; i++) {
 						cycle_id_array[i] = cycle_value_from_db[i].id;
 					};
-					res.render('pages/form.ejs', {title: 'Form', 
+					//res.render('pages/form.ejs', {title: 'Form', 
+					res.render_with_session(session_data, req.cookie, 'pages/form.ejs', {title: 'Form',
 						//cycle_names_to_renderer: cycle_names_from_db, 
 						// pg_load_to_renderer: pg_load,
 						cycle_id_array_to_renderer: cycle_id_array,

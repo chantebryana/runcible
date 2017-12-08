@@ -4,6 +4,7 @@ router.get_with_auth('/form_update', function(req, res, session_data) {
 	//console.log('Total Page Loads After Loading Update Entry Form Page: ', pg_load);
 	db.all(query='SELECT * FROM time_temp WHERE id = ' + req.query.id, function(err, rows_from_db) { 
 		console.log("attempted to query database with __" + query + "__");
-		res.render('pages/form_update.ejs', {title: 'Form Update', row_to_renderer: rows_from_db[0]});
+		//res.render('pages/form_update.ejs', {title: 'Form Update', row_to_renderer: rows_from_db[0]});
+		res.render_with_session(session_data, req.cookie, 'pages/form_update.ejs', {title: 'Form Update', row_to_renderer: rows_from_db[0]});
 	});
 });

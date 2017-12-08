@@ -1,13 +1,6 @@
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
 router.get_with_auth('/', function(req, res, session_data) {
 
-//
-//
-	increment_pg_load(session_data, function() {
-
-//
-//
-
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
 	// get the following cycle id's via callbacks: first, last, previous, next
@@ -45,11 +38,9 @@ router.get_with_auth('/', function(req, res, session_data) {
 					var x_time_taken = logged_time_taken(a_match, rows_from_db);
 					var x_label_values = populate_x_axis_labels(full_date_range, x_time_taken);
 
-//
-//
-
-					var render_contents = {
-						title: 'Home', 
+					// `render_with_session` performs `render` tasks, and also saves updated `session_data` to db:
+					res.render_with_session(session_data, req.cookie, 'pages', {title: 'Home', 
+						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
 						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
 						// render beginning and end dates of currently displayed cycle to index.ejs:
 						begin_date_to_renderer: begin_date,
@@ -64,44 +55,9 @@ router.get_with_auth('/', function(req, res, session_data) {
 							first: first_cycle_id, 
 							last: last_cycle_id
 						}
-					};
-
-					final_render_step = function() {res.render('pages', render_contents);};
-
-					save_session_data(session_data, res, req.cookie, function() {
-						final_render_step();
 					});
-
-//
-//
-/*
-					// res.render sends various variables to index.ejs and its dependent pages:
-					res.render('pages', {
-						title: 'Home', 
-						// rough hack: attempt to prevent homepage from breaking when there's a new cycle that has no child entries: if the 0-th element of rows_from_db exists, link rows_to_renderer to rows_from_db, otherwise, link rows_to_renderer to empty array object:
-						rows_to_renderer: rows_from_db[0] ? rows_from_db : [{}], 
-						// render beginning and end dates of currently displayed cycle to index.ejs:
-						begin_date_to_renderer: begin_date,
-						end_date_to_renderer: end_date,
-						y_temp_f_to_renderer: y_temp_f, 
-						x_label_values_to_renderer: x_label_values,
-						//pg_load_to_renderer: pg_load,
-						cycle_id_to_renderer: {
-							prev: previous_cycle_id, 
-							curr: current_cycle_id, 
-							next: next_cycle_id, 
-							first: first_cycle_id, 
-							last: last_cycle_id
-						}
-					});
-*/
 				});
 			});
 		});
 	});
-//
-//
-	});
-//
-//
 });

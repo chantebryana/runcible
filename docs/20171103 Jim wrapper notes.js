@@ -61,3 +61,62 @@ function verify_and_stay_or_redirect_to_login(res, session_data, callback) { // 
 
 // for now, make an explicit function call before res.render so that i can see the incremental changes before hiding everything behind the scenes
 // make a global function that will take a cookie session key and session data object and save it back to db with update. as it's more sophisticated -- first move only performing the update if the session data has actually changed. (find a way to remember what it was or record changes when they happen --> pry by remembering the JSON that came out of the db; compare it to the new JSON that we're putting in the db; if they're the same (if a == b), then no need to run query. That requires saving JSON somewhere, which is at least one more step more complicated than taking sd and saving it back. 
+
+/*
+--------------------------------------------
+*/
+// 2017-11-15 Added Notes re `render` wrapper (w/ Jim)
+
+
+save_session_data = function save_session_data(session_data, res, browser_key, save_callback) {
+	var browser_key = browser_cookie;
+	var session_string = JSON.stringify(session_data);
+	db.run_smart("UPDATE cookie_key_json SET session_data = ? WHERE cookie_key = ?", session_string, browser_key.cookie_key, function (err, rows) {
+		save_callback();
+		});
+};
+
+//
+//
+//
+//
+
+//JE: no need for `save_callback` passed as argument to `render_with_session`: `res` already knows how to make an anonymous function w/o a special argument
+res.render_with_session = function render_with_session(view, locals, session_data, res, browser_key) {
+	save_session_data(session_data, res, browser_key, function() {
+		this.render(view, locals);
+	});
+};
+
+
+//JE: how to make the API of `render_with_session` the same as `render`? Exploring and explaining that. One pro tip: no need to pass `res` as argument: it's already in the namespace (that's why `this` works)
+res.render_with_session = function render_with_session(view, locals, session_data, browser_key) {
+	save_session_data(session_data, this, browser_key, function() {
+		this.render(view, locals);
+	});
+};
+//JE: i could hide `session_data` and `browser_key` in `res` and `req`, respectively. I could do this within `get/post_with_session` wrappers, within `find_or_start_session` function. I'd do it by saving `sd` and `bk` as key/value pairs within the respective `res` and `req` objects. Then, within `render_with_session` (or just `render`), I could call `this.session_data` or `req.browser_cookie` or some junk like that. This sneaky hiding would mean I wouldn't have to change my API at all.
+// (a future work flow project could be to clean up the API of all of the wrappers I've created)
+
+
+
+
+//CE: does this wrapper work just like res.render()?
+res.render_with_session = function render_with_session(view, locals, render_callback) {
+	this.render(view, locals, function() {
+		render_callback();
+	});
+};
+
+//
+//
+//
+//
+//CE: attempting to include `save_session_data` in this wrapper: does it work?
+res.render_with_session = function render_with_session(view, locals, render_callback) {
+	this.render(view, locals, function() {
+		save_session_data(session_data, res, browser_key, function() {
+			render_callback();
+		});
+	});
+};
