@@ -6,7 +6,7 @@ router.get_with_auth('/cookie', function(req,res, session_data){
 	var browser_cookie_key = req.cookies;
 	console.log("browser_cookie_key: ", browser_cookie_key);
 	// access db table to verify whether browser_cookie_key.cookie_key matches any entries:
-	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = \"" + browser_cookie_key.cookie_key + "\"", function(err, rows) {
+	db.run_smart("SELECT session_data FROM cookie_key_json WHERE cookie_key = ?", browser_cookie_key.cookie_key, function(err, rows) {
 		console.log("rows: ", rows);
 		// if cookie doesn't match any db table entries, for now, print to console a message saying so:
 		if (rows.length == 0) {

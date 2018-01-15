@@ -12,7 +12,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 				which_cycle_id = current_cycle_id;
 			};
 			// db query to look up the data for the current cycle, based on the values returned on the previous steps: 
-			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\', strftime(\'%Y-%m-%d %H:%M:%S\', date) as \'datetime\' FROM time_temp WHERE cycle_id = "' + which_cycle_id + '" ORDER BY date', function(err, rows_from_db) { 
+			db.all('SELECT *, strftime(\'%m/%d\', date) as \'month_day\', strftime(\'%Y-%m-%d %H:%M:%S\', date) as \'datetime\' FROM time_temp WHERE cycle_id = ? ORDER BY date', which_cycle_id, function(err, rows_from_db) { 
 				// variables for query below with conditions so that the query doesn't break if next_cycle_id is undefined (ie, if the page is displaying the final cycle and there is no next cycle created yet): 
 				var id_search_var = 0;
 				if (next_cycle_id) {
@@ -21,7 +21,7 @@ router.get_with_auth('/', function(req, res, session_data) {
 					id_search_var = which_cycle_id; // simply assigning id_search_var to something that I know won't be undefined and break the query below
 				};
 				// db query to get beginning and end date/datetimes from cycles table (used for proper layout of chart):
-				db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'end_date\', strftime(\'%Y-%m-%d %H:%M:%S\', begin_date) as \'begin_datetime\', strftime(\'%Y-%m-%d %H:%M:%S\', begin_date, \'-1 day\') as \'end_datetime\' FROM cycles WHERE id = ' + which_cycle_id + ' or id = ' + id_search_var + ' ORDER BY begin_date', function(err, dates_from_db){
+				db.all('SELECT begin_date, date(begin_date, \'-1 day\') as \'end_date\', strftime(\'%Y-%m-%d %H:%M:%S\', begin_date) as \'begin_datetime\', strftime(\'%Y-%m-%d %H:%M:%S\', begin_date, \'-1 day\') as \'end_datetime\' FROM cycles WHERE id = ? or id = ? ORDER BY begin_date', which_cycle_id, id_search_var, function(err, dates_from_db){
 					// use results of db query to assign the beginning and end dates to a variable, to be used in the functions in the next section. All of this is to properly populate the labels and data for the chart: 
 					if (next_cycle_id) {
 						var begin_date = dates_from_db[0].begin_date;
