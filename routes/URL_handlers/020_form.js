@@ -11,7 +11,8 @@ router.get_with_auth('/form', function(req, res, session_data) {
 				which_cycle_id = req.query.current_cycle;
 			}
 			var query = "";
-			db.all (query='SELECT id FROM cycles WHERE id = ' + which_cycle_id, function(err, current_cycle) {
+			//db.all (query='SELECT id FROM cycles WHERE id = ' + which_cycle_id, function(err, current_cycle) {
+			db.all (query='SELECT id FROM cycles WHERE id = ?', which_cycle_id, function(err, current_cycle) {
 				console.log('attempted to query db with __ ' + query + ' __');
 				console.log(current_cycle);
 				// 2 temporary lines: 
