@@ -5,7 +5,7 @@ To install Moon, clone the code found in this repository. Make sure to use npm t
 
 Moon data is organized in the following folders: 
 - docs: notes related to development
-- public: 
+- public: templates for CSS, favicon, etc
 - routes: routing hub for the node.js server
 - views: home of EJS and page files
 - zzSandbox: side explorations, which can effectively be ignored unless you want to explore the history of development
