@@ -28,7 +28,8 @@ const crypto = require('crypto');
 const hash = crypto.createHash('sha256');
 
 //var user_pass = /*'password string'*/
-var user_pass = 'hashword';
+//var user_pass = 'hashword';
+var user_pass = '';
 
 var genRandomString = function(length){
 	// this is all effectively one line of code, just broken up into easy-to-read(?) line breaks. 3 object-member-lookups run on `crypto` (the previous object); the order matters. can't return `crypto` without the object-member-lookups:
