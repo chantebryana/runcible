@@ -6,13 +6,14 @@ Welcome to runcible, home of the Moon web app! Moon allows users to enter, edit,
 
 ## PREREQUISITES
 
-Moon requires a working Node.js development platform. Moon was developed using Node.js version 6.11.4 [**CE and deployed on 8.x.x], npm version 3.5.2, and SQLite version 3.19.3. 
+Moon requires a working Node.js development platform. Moon was developed using Node.js version 6.11.4 (and deployed on 9.3.0), npm version 3.5.2 (and deployed on 5.5.1), and SQLite version 3.19.3 (and deployed on 3.11.0). 
 
 To set up needed infrastructure from a blank-slate Ubuntu machine, run the following commands: 
 
 ```
+sudo apt-get update
 sudo apt-get install curl
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo apt-get install sqlite3 libsqlite3-dev
 sudo apt-get install git
@@ -48,8 +49,10 @@ Through an historical accident of file structure, this is how to start the proje
 node routes/index.js
 ```
 
+Close down the app by typing `Ctrl + C`
+
 ## EXPLORE THE APP
-On the same machine, open a web browser and navigate to
+On the same machine, while the app is running, open a web browser and navigate to
 
 ```
 https://localhost:3000
