@@ -47,9 +47,14 @@
 	// that is resolving to our chart container element. The Second parameter
 	// is the actual data object.
 	new Chartist.Line('.ct-chart_temp', data, options);
+
+// on-click event
+// inserting code directly from https://github.com/gionkunz/chartist-js/issues/571. Must be written after the chart gets rendered (line 49 above).
+// this is client-side on-click event. To view the event, open Firefox> menu> web developer> web console. Then click on the points of the graph and check out the beautiful events getting triggered on the web console. 
+// (To view the event triggering in my Ubuntu terminal, I'd have to move the on-event code over to the server-side, in much the same way I've done with form info. I could also use tools like AJAX or Web Sockets.)
 	$(document)
-.on('click', '.ct-point', function(event) {
-    console.log('point was clicked ');
-    console.log(event);
-});
+	.on('click', '.ct-point', function(event) {
+		  console.log('point was clicked ');
+		  console.log(event);
+	});
 </script>
