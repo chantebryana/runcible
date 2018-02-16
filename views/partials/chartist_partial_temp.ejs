@@ -54,7 +54,8 @@
 // (To view the event triggering in my Ubuntu terminal, I'd have to move the on-event code over to the server-side, in much the same way I've done with form info. I could also use tools like AJAX or Web Sockets.)
 	$(document)
 	.on('click', '.ct-point', function(event) {
-		  console.log('point was clicked ');
-		  console.log(event);
+		window.confirm("point was clicked");
+		console.log('point was clicked ');
+		console.log(event);
 	});
 </script>
