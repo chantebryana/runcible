@@ -53,7 +53,8 @@
 // this is client-side on-click event. To view the event, open Firefox> menu> web developer> web console. Then click on the points of the graph and check out the beautiful events getting triggered on the web console. 
 // (To view the event triggering in my Ubuntu terminal, I'd have to move the on-event code over to the server-side, in much the same way I've done with form info. I could also use tools like AJAX or Web Sockets.)
 	$(document)
-	.on('click', '.ct-point', function(event) {
+	//.on('click', '.ct-point', function(event) {
+	.on('click', function(event) {
 		if (confirm("point was clicked")) {
 			console.log('point was clicked ');
 			console.log(event);
