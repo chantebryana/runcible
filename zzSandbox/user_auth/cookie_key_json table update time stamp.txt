@@ -1,0 +1,21 @@
+20180618 CE update cookie_key_json table to include a time stamp column whenever a new entry is created. This column automatically fills itself, so none of the queries need to be updated.
+
+ALTER TABLE cookie_key_json RENAME TO cookie_key_temp2;
+
+
+CREATE TABLE cookie_key_json (
+  id integer PRIMARY KEY,
+  cookie_key text,
+  session_data text, 
+  entry_created DATETIME DEFAULT (DATETIME('NOW', 'LOCALTIME'))
+);
+
+
+
+
+INSERT INTO cookie_key_json (cookie_key, session_data) 
+  SELECT cookie_key, session_data
+  FROM cookie_key_temp2;
+
+
+DROP TABLE cookie_key_temp2;
