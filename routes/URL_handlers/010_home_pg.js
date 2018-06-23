@@ -1,5 +1,5 @@
 // access and route info for index.ejs to render home page of app.  includes functions that helps determine which cycle chart to show on the page (more deets below and in comments for supporting functions):
-router.get_with_auth('/', function(req, res, session_data) {
+router.get_with_auth('/home', function(req, res, session_data) {
 
 	// get current cycle from data in query string passed through URL from index.ejs:
 	var current_cycle_id = req.query.cycle;
