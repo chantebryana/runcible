@@ -6,6 +6,6 @@ router.post_with_auth('/form_post_update', function(req, res, session_data) {
 		console.log("attempted to update with ((" + query + "))");
 		// redirect to the cycle of the row I just updated (not defaulting to most recent cycle): 
 		//res.redirect('/?cycle=' + req.body["cycle_id"]);
-		res.redirect_with_session(session_data, req.cookie, '/?cycle=' + req.body["cycle_id"]);
+		res.redirect_with_session(session_data, req.cookie, '/home?cycle=' + req.body["cycle_id"]);
 	});
 });

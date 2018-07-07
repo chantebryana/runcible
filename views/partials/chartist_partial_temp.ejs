@@ -11,6 +11,7 @@
 // http://gionkunz.github.io/chartist-js/api-documentation.html#chartistevent-function-addeventhandler
 // https://github.com/gionkunz/chartist-js/issues/458
 
+
 // JE: axis[last].x += 20000 (add 20 seconds to last element of axis.x to see if that'll add one day to chart x-axis labels --> CE: tried this 2017-08-24 11:25: didn't twerk
 
 	var data = {
@@ -46,4 +47,18 @@
 	// that is resolving to our chart container element. The Second parameter
 	// is the actual data object.
 	new Chartist.Line('.ct-chart_temp', data, options);
+
+// on-click event
+// inserting code directly from https://github.com/gionkunz/chartist-js/issues/571. Must be written after the chart gets rendered (line 49 above).
+// this is client-side on-click event. To view the event, open Firefox> menu> web developer> web console. Then click on the points of the graph and check out the beautiful events getting triggered on the web console. 
+// (To view the event triggering in my Ubuntu terminal, I'd have to move the on-event code over to the server-side, in much the same way I've done with form info. I could also use tools like AJAX or Web Sockets.)
+	$(document)
+	.on('click', '.ct-point', function(event) {
+		if (confirm("point was clicked")) {
+			console.log('point was clicked ');
+			console.log(event);
+		} else {
+			console.log('cancelled event');
+		}
+	});
 </script>

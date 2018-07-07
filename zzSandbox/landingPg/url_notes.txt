@@ -1,0 +1,15 @@
+https://moon.jsnydr.com
+https://moon.jsnydr.com/home
+https://moon.jsnydr.com/demo/tarento
+
+
+https://moon.jsnydr.com/form
+											 /login
+
+
+change routes (from, say, form to home page) so that it routes to `/home` not to `/`
+
+==
+
+index.html lives in `public` folder of runcible
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset="utf-8">
+		<title>Moon Landing</title>
+		<style>
+			header{
+				padding: 20px 0;
+				text-align: center;
+				color: white;
+				font-family: Tahoma, Geneva, sans-serif;
+			}
+			#title{
+				width:270px;
+				margin: auto;
+				background-color: black;
+				opacity: .9;
+			}
+			body {
+				background-image: url("/images/Nasa_moon_apollo11_crop.jpg");
+				background-size: 100%;
+				font-family: Tahoma, Geneva, sans-serif;
+			}
+			#box{
+				width:100%;
+				background-color: black;
+				opacity: .9;
+				float: left;
+			}
+			#parent_div_1, #parent_div_2{
+				width:48%;
+				border:1px;
+				padding:5px;
+				float:left;
+				color:white;
+			}
+			.child_div_1{
+				float:left;
+			}
+			footer{
+				text-align: center;
+				height: 75px;
+				width: 100%;
+				float:left;
+				font-family: Tahoma, Geneva, sans-serif;
+			}
+		</style>
+
+	</head>
+	<body>
+		<header>
+			<div id='title'>
+				<h1>Moon Landing</h1>
+			</div>
+		</header>
+		<div id='box'>
+		<div id='parent_div_1'>
+			<div 
+				class ='child_div_1'>
+				<p><strong>Project: <a href="./home">Runcible</a></strong></p>
+				<p><i>Tracks daily health data</i></p>
+				<a href="./home">
+					<img src="/images/RuncibleChartThumb.jpg"
+						alt="Time and Temperature Chart">
+				</a>
+				<ul>
+					<li>Practice backend web app design
+					<li>Implement with Express framework for Node.js, with charts in Chartist.js
+					<li>Store data in SQLite
+				</ul>
+			</div>
+		</div>
+
+		<div id='parent_div_2'>
+			<div 
+				class ='child_div_1'>
+				<p><strong>Project: <a href="./demo/tarento">Tarento</a></strong></p>
+				<p><i>Displays insurance carriers state-by-state</i></p>
+				<a href="./demo/tarento">
+					<img src="/images/TarentoMapThumb.jpg"
+						alt="Blue Map of USA: Insurance Carriers by State">
+				</a>
+				<ul>
+					<li>Develop in a purely web view (no backend)
+					<li>Store data within json files
+					<li>Satisfy third-party contract to help large insurance software company review data
+				</ul>
+			</div>
+		</div>
+		</div>
+	<footer>
+	 <p class="text-left text-muted">© Copyright 2018 Moon by C. Earthwell</p>
+	</footer>
+	</body>
+</html>
